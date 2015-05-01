@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937B91AF3F6E900399A21 /* AppDelegate.swift */; };
+		3C2937BC1AF3F6E900399A21 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937BB1AF3F6E900399A21 /* ViewController.swift */; };
+		3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937BD1AF3F6E900399A21 /* Main.storyboard */; };
+		3C2937C11AF3F6E900399A21 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937C01AF3F6E900399A21 /* Images.xcassets */; };
+		3C2937C41AF3F6E900399A21 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937C21AF3F6E900399A21 /* LaunchScreen.xib */; };
+		3C2937D01AF3F6E900399A21 /* LoyaltyOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3C2937CA1AF3F6E900399A21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C2937AC1AF3F6E900399A21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C2937B31AF3F6E900399A21;
+			remoteInfo = LoyaltyOne;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoyaltyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C2937B81AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C2937B91AF3F6E900399A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3C2937BB1AF3F6E900399A21 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3C2937BE1AF3F6E900399A21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3C2937C01AF3F6E900399A21 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3C2937C31AF3F6E900399A21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoyaltyOneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C2937CE1AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyOneTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3C2937B11AF3F6E900399A21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C2937C61AF3F6E900399A21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3C2937AB1AF3F6E900399A21 = {
+			isa = PBXGroup;
+			children = (
+				3C2937B61AF3F6E900399A21 /* LoyaltyOne */,
+				3C2937CC1AF3F6E900399A21 /* LoyaltyOneTests */,
+				3C2937B51AF3F6E900399A21 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3C2937B51AF3F6E900399A21 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */,
+				3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3C2937B61AF3F6E900399A21 /* LoyaltyOne */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937B91AF3F6E900399A21 /* AppDelegate.swift */,
+				3C2937BB1AF3F6E900399A21 /* ViewController.swift */,
+				3C2937BD1AF3F6E900399A21 /* Main.storyboard */,
+				3C2937C01AF3F6E900399A21 /* Images.xcassets */,
+				3C2937C21AF3F6E900399A21 /* LaunchScreen.xib */,
+				3C2937B71AF3F6E900399A21 /* Supporting Files */,
+			);
+			path = LoyaltyOne;
+			sourceTree = "<group>";
+		};
+		3C2937B71AF3F6E900399A21 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937B81AF3F6E900399A21 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3C2937CC1AF3F6E900399A21 /* LoyaltyOneTests */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */,
+				3C2937CD1AF3F6E900399A21 /* Supporting Files */,
+			);
+			path = LoyaltyOneTests;
+			sourceTree = "<group>";
+		};
+		3C2937CD1AF3F6E900399A21 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937CE1AF3F6E900399A21 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3C2937B31AF3F6E900399A21 /* LoyaltyOne */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOne" */;
+			buildPhases = (
+				3C2937B01AF3F6E900399A21 /* Sources */,
+				3C2937B11AF3F6E900399A21 /* Frameworks */,
+				3C2937B21AF3F6E900399A21 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LoyaltyOne;
+			productName = LoyaltyOne;
+			productReference = 3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3C2937C81AF3F6E900399A21 /* LoyaltyOneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOneTests" */;
+			buildPhases = (
+				3C2937C51AF3F6E900399A21 /* Sources */,
+				3C2937C61AF3F6E900399A21 /* Frameworks */,
+				3C2937C71AF3F6E900399A21 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3C2937CB1AF3F6E900399A21 /* PBXTargetDependency */,
+			);
+			name = LoyaltyOneTests;
+			productName = LoyaltyOneTests;
+			productReference = 3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3C2937AC1AF3F6E900399A21 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Jorge Valbuena";
+				TargetAttributes = {
+					3C2937B31AF3F6E900399A21 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					3C2937C81AF3F6E900399A21 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 3C2937B31AF3F6E900399A21;
+					};
+				};
+			};
+			buildConfigurationList = 3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "LoyaltyOne" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3C2937AB1AF3F6E900399A21;
+			productRefGroup = 3C2937B51AF3F6E900399A21 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3C2937B31AF3F6E900399A21 /* LoyaltyOne */,
+				3C2937C81AF3F6E900399A21 /* LoyaltyOneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3C2937B21AF3F6E900399A21 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */,
+				3C2937C41AF3F6E900399A21 /* LaunchScreen.xib in Resources */,
+				3C2937C11AF3F6E900399A21 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C2937C71AF3F6E900399A21 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3C2937B01AF3F6E900399A21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C2937BC1AF3F6E900399A21 /* ViewController.swift in Sources */,
+				3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C2937C51AF3F6E900399A21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C2937D01AF3F6E900399A21 /* LoyaltyOneTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3C2937CB1AF3F6E900399A21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3C2937B31AF3F6E900399A21 /* LoyaltyOne */;
+			targetProxy = 3C2937CA1AF3F6E900399A21 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3C2937BD1AF3F6E900399A21 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C2937BE1AF3F6E900399A21 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3C2937C21AF3F6E900399A21 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C2937C31AF3F6E900399A21 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3C2937D11AF3F6E900399A21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3C2937D21AF3F6E900399A21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3C2937D41AF3F6E900399A21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = LoyaltyOne/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3C2937D51AF3F6E900399A21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = LoyaltyOne/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3C2937D71AF3F6E900399A21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LoyaltyOneTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoyaltyOne.app/LoyaltyOne";
+			};
+			name = Debug;
+		};
+		3C2937D81AF3F6E900399A21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LoyaltyOneTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoyaltyOne.app/LoyaltyOne";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "LoyaltyOne" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C2937D11AF3F6E900399A21 /* Debug */,
+				3C2937D21AF3F6E900399A21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOne" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C2937D41AF3F6E900399A21 /* Debug */,
+				3C2937D51AF3F6E900399A21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C2937D71AF3F6E900399A21 /* Debug */,
+				3C2937D81AF3F6E900399A21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3C2937AC1AF3F6E900399A21 /* Project object */;
+}
