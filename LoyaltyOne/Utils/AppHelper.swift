@@ -104,12 +104,13 @@ class AppHelper: NSObject {
     func displayFontFamilies() {
         
         for family in UIFont.familyNames() {
-            
-            println("\(family)")
-            
+            // prints the family font
+            println("Family :\(family)")
             for name in UIFont.fontNamesForFamilyName(family as! String) {
-                println("\(name)")
+                // prints the family name
+                println("\t\(name)")
             }
+            println()
         }
     }
 

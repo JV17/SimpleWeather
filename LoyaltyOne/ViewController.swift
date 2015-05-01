@@ -8,27 +8,64 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
     //MARK:
     //MARK: Properties
 
     let appHelper = AppHelper()
     let screenSize = UIScreen.mainScreen().bounds
+    var numRows: Int = 1
+    let rowHeight: CGFloat = 50.0
     
     //MARK:
     //MARK: Lazy loading
 
     lazy var blurredView: UIView = {
         var tmpView: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+        
         return tmpView
     }()
     
     lazy var timeLabel: UILabel = {
         var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.screenSize.width, 42))
+        
         return tmpLabel
     }()
+    
+    lazy var textField: UITextField = {
+        var tmpTextField: UITextField = UITextField(frame: CGRectMake(15, CGRectGetMaxY(self.timeLabel.frame)+15, self.screenSize.width-30, 52))
 
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        leftPaddingView.backgroundColor = UIColor.clearColor()
+        
+        tmpTextField.leftView = leftPaddingView
+        tmpTextField.delegate = self
+        tmpTextField.font = UIFont(name: "Lato-Light", size: 22)
+        tmpTextField.leftViewMode = .Always
+        tmpTextField.textColor = UIColor.whiteColor()
+        tmpTextField.placeholder = NSLocalizedString("Enter your city", comment: "")
+        tmpTextField.returnKeyType = .Done
+        tmpTextField.clearButtonMode = .Never
+        tmpTextField.tintColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+        
+        return tmpTextField
+    }()
+    
+    lazy var tableView: UITableView = {
+        var tmpTableView: UITableView = UITableView(frame: CGRectMake(15, CGRectGetMaxY(self.textField.frame), self.screenSize.width-30, self.rowHeight), style: UITableViewStyle.Plain)
+        tmpTableView.backgroundColor = .clearColor()
+        tmpTableView.separatorStyle = .SingleLine
+        tmpTableView.bounces = true
+        tmpTableView.scrollEnabled = true
+        tmpTableView.delegate = self
+        tmpTableView.dataSource = self
+        tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tableViewCell")
+    
+        return tmpTableView
+    }()
+
+    
     //MARK:
     //MARK: Initializers
 
@@ -37,15 +74,12 @@ class ViewController: UIViewController {
         
         // setup controller
         self.commonInit()
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
-        
     }
-
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
@@ -55,21 +89,121 @@ class ViewController: UIViewController {
         // setting up the blurred background image
         self.setupBackgroundImage()
         
-        appHelper.displayFontFamilies()
-        
-        timeLabel.font = UIFont(name: "AppleSDGothicNeo-Thin", size: 52)
-        timeLabel.backgroundColor = UIColor.yellowColor()
-        timeLabel.textColor = UIColor.blackColor()
-        timeLabel.textAlignment = NSTextAlignment.Center
-        timeLabel.text = self.getCurrentTime()
+        self.timeLabel.font = UIFont(name: "Lato-Light", size: 52)
+        self.timeLabel.backgroundColor = UIColor.clearColor()
+        self.timeLabel.textColor = appHelper.colorWithHexString("F7F7F7")
+        self.timeLabel.textAlignment = NSTextAlignment.Center
+        self.timeLabel.text = self.getCurrentTime()
         
         self.view.addSubview(self.timeLabel)
+        
+        self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.4)
+        self.view.addSubview(self.textField)
     }
     
+    
+    //MARK:
+    //MARK: TableView delegate and datasource
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // cell code
+        
+        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("tableViewCell") as! UITableViewCell
+        
+        cell.backgroundColor = UIColor.clearColor()
+        cell.contentView.backgroundColor = UIColor.clearColor()
+        cell.selectionStyle = .None;
+        
+        cell.textLabel?.font = UIFont(name: "Lato-Light", size: 20)
+        cell.textLabel?.textColor = appHelper.colorWithHexString("F7F7F7")
+        cell.textLabel?.text = "Toronto"
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // selected row code
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        // dismiss keyboard and table view
+        self.textField.resignFirstResponder()
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // number of rows
+        return self.numRows
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        // row height
+        return self.rowHeight
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        // header for tableview
+        return UIView.new()
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // height for header
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        // footer for tableview
+        return UIView.new()
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // height for footer
+        return 0
+    }
+    
+    // MARK:
+    // MARK: UITextFieldDelegate
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        // dismissing keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        // perform search & add table view
+        self.showTableViewAnimated()
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        // dismiss table view
+        if((self.tableView.window) != nil) {
+            self.dismissTableViewAnimated()
+        }
+    }
     
     
     //MARK:
     //MARK: Controller helper functions
+    
+    func dismissTableViewAnimated() {
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+            self.tableView.alpha = 0.0
+        }, completion: { finished in
+            self.tableView.removeFromSuperview()
+        })
+    }
+    
+    func showTableViewAnimated() {
+        
+        if((self.tableView.window) == nil) {
+            self.view.addSubview(self.tableView)
+        }
+
+        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+            self.tableView.alpha = 1.0
+            }, completion: { finished in
+        })
+    }
     
     func setupBackgroundImage() {
        
