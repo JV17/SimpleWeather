@@ -19,6 +19,9 @@
 		3C2937F31AF4079B00399A21 /* background2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937EF1AF4079B00399A21 /* background2.jpg */; };
 		3C2937F41AF4079B00399A21 /* background3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937F01AF4079B00399A21 /* background3.jpg */; };
 		3C2937F51AF4079B00399A21 /* background4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937F11AF4079B00399A21 /* background4.jpg */; };
+		3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */; };
+		3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FE1AF4197000399A21 /* Lato-Light.otf */; };
+		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,9 @@
 		3C2937EF1AF4079B00399A21 /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background2.jpg; path = Images/background2.jpg; sourceTree = "<group>"; };
 		3C2937F01AF4079B00399A21 /* background3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background3.jpg; path = Images/background3.jpg; sourceTree = "<group>"; };
 		3C2937F11AF4079B00399A21 /* background4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background4.jpg; path = Images/background4.jpg; sourceTree = "<group>"; };
+		3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Hairline.otf"; path = "Fonts/Lato-Hairline.otf"; sourceTree = "<group>"; };
+		3C2937FE1AF4197000399A21 /* Lato-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.otf"; path = "Fonts/Lato-Light.otf"; sourceTree = "<group>"; };
+		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 		3C2937B71AF3F6E900399A21 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3C2937FC1AF4196400399A21 /* Fonts */,
 				3C2937B81AF3F6E900399A21 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -144,6 +151,16 @@
 				3C2937F11AF4079B00399A21 /* background4.jpg */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		3C2937FC1AF4196400399A21 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */,
+				3C2937FE1AF4197000399A21 /* Lato-Light.otf */,
+				3C2937FF1AF4197000399A21 /* Lato-Regular.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,8 +243,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */,
 				3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */,
+				3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */,
 				3C2937C41AF3F6E900399A21 /* LaunchScreen.xib in Resources */,
+				3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */,
 				3C2937F51AF4079B00399A21 /* background4.jpg in Resources */,
 				3C2937DA1AF4008A00399A21 /* Podfile in Resources */,
 				3C2937F21AF4079B00399A21 /* background1.jpg in Resources */,
