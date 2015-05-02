@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     let screenSize = UIScreen.mainScreen().bounds
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
+    var cities = Array<String>()
     
     //MARK:
     //MARK: Lazy loading
@@ -60,6 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         tmpTableView.scrollEnabled = true
         tmpTableView.delegate = self
         tmpTableView.dataSource = self
+        tmpTableView.alpha = 0.0 // this is for animations purposes
         tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tableViewCell")
     
         return tmpTableView
@@ -72,6 +74,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // getting canadian cities/provinces
+        self.getCanadianCities()
+        
         // setup controller
         self.commonInit()
     }
@@ -82,6 +87,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+    
+    func getCanadianCities() {
+        
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+    
+            let path = NSBundle.mainBundle().pathForResource("canadian_cities_ provinces", ofType: "txt")
+            
+            if let content = String(contentsOfFile:path!, encoding: NSUTF8StringEncoding, error: nil) {
+    
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.cities = content.componentsSeparatedByString("\n")
+                }
+                
+            }
+        }
     }
     
     func commonInit() {
@@ -162,6 +184,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     // MARK:
     // MARK: UITextFieldDelegate
     
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        // implement auto complete logic
+        
+        return true
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         // dismissing keyboard
         textField.resignFirstResponder()
@@ -230,5 +259,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         return formatter.stringFromDate(date)
     }
     
+    func setCities() {
+        self.cities = ["Toronto, Ontario", "Montreal, Quebec", "Vancouver, British Columbia", "Calgary, Alberta",
+            "Edmonton, Alberta", "Ottawa, Ontario", "Quebec City, Quebec", "Winnipeg, Manitoba", "Hamilton, Ontario",
+            "Kitchener, Ontario", "London, Ontario", "Victoria, British Columbia", "St. Catharines–Niagara, Ontario",
+            "Halifax, Nova Scotia", "Oshawa, Ontario", "Windsor, Ontario", "Saskatoon, Saskatchewan", "Regina, Saskatchewan",
+            "Barrie, Ontario", ""]
+    }
 }
 

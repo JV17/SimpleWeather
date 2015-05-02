@@ -22,6 +22,7 @@
 		3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */; };
 		3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FE1AF4197000399A21 /* Lato-Light.otf */; };
 		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
+		3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Hairline.otf"; path = "Fonts/Lato-Hairline.otf"; sourceTree = "<group>"; };
 		3C2937FE1AF4197000399A21 /* Lato-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.otf"; path = "Fonts/Lato-Light.otf"; sourceTree = "<group>"; };
 		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
+		3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "canadian_cities_ provinces.txt"; path = "Resources/canadian_cities_ provinces.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		3C2937B71AF3F6E900399A21 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3C9442E81AF44920000B9429 /* Resources */,
 				3C2937FC1AF4196400399A21 /* Fonts */,
 				3C2937B81AF3F6E900399A21 /* Info.plist */,
 			);
@@ -161,6 +164,14 @@
 				3C2937FF1AF4197000399A21 /* Lato-Regular.otf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		3C9442E81AF44920000B9429 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +265,7 @@
 				3C2937F31AF4079B00399A21 /* background2.jpg in Resources */,
 				3C2937C11AF3F6E900399A21 /* Images.xcassets in Resources */,
 				3C2937F41AF4079B00399A21 /* background3.jpg in Resources */,
+				3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
