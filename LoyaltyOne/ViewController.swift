@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: Properties
 
     let appHelper = AppHelper()
+    let weatherHelper = WeatherHelper()
     var cities = Array<String>()
     var autoCompleteCities = Array<String>()
 
@@ -84,26 +85,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.weatherHelper.requestWeatherFromAPIUrl("")
+        
         // setup controller
         self.commonInit()
         
-        var request = HTTPTask()
-        request.GET("http://api.openweathermap.org/data/2.5/weather?q=Osaka,jp", parameters: nil, success: {(response: HTTPResponse) in
-            if let data = response.responseObject as? NSData {
-                
-                let json = JSON(data: data)
-                println("json: \(json)\n\n")
-            
-                let weather = json["weather"]
-                
-                println("weather.main: \(weather)\n\n")
-                
-                let str = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("response: \(str)") //prints the HTML of the page
-            }
-            },failure: {(error: NSError, response: HTTPResponse?) in
-                println("error: \(error)")
-        })
+        let weather = self.weatherHelper.getWeatherMain()
+        
     }
 
     override func didReceiveMemoryWarning() {
