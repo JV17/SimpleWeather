@@ -14,11 +14,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: Properties
 
     let appHelper = AppHelper()
+    var cities = Array<String>()
+    var autoCompleteCities = Array<String>()
+
     let screenSize = UIScreen.mainScreen().bounds
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
-    var cities = Array<String>()
-    var autoCompleteCities = Array<String>()
     
     //MARK:
     //MARK: Lazy loading
@@ -63,6 +64,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         tmpTableView.delegate = self
         tmpTableView.dataSource = self
         tmpTableView.alpha = 0.0 // this is for animations purposes
+        tmpTableView.tableHeaderView = UIView(frame: CGRectZero)
+        tmpTableView.tableFooterView = UIView(frame: CGRectZero)
         tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tableViewCell")
     
         return tmpTableView
@@ -129,14 +132,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     //MARK: TableView delegate and datasource
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // cell code
-        
+
+        // table view cell setup
         var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("tableViewCell") as! UITableViewCell
         
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
-        cell.selectionStyle = .None;
-        
         cell.textLabel?.font = UIFont(name: "Lato-Light", size: 20)
         cell.textLabel?.textColor = appHelper.colorWithHexString("F7F7F7")
         
@@ -150,6 +151,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // selected row code
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        self.textField.text = self.autoCompleteCities[indexPath.row]
         
         // dismiss keyboard and table view
         self.textField.resignFirstResponder()
@@ -165,25 +168,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         return self.rowHeight
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // header for tableview
-        return UIView.new()
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // height for header
-        return 0
-    }
-    
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        // footer for tableview
-        return UIView.new()
-    }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        // height for footer
-        return 0
-    }
     
     // MARK:
     // MARK: UITextFieldDelegate & search helper
@@ -240,7 +224,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func dismissTableViewAnimated() {
         
-        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+        UIView.animateWithDuration(0.4, delay: 0.2, options: .CurveEaseOut, animations: {
             self.tableView.alpha = 0.0
         }, completion: { finished in
             self.tableView.removeFromSuperview()
