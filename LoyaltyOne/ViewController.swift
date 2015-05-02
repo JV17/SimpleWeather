@@ -268,12 +268,4 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         return formatter.stringFromDate(date)
     }
     
-    func setCities() {
-        self.cities = ["Toronto, Ontario", "Montreal, Quebec", "Vancouver, British Columbia", "Calgary, Alberta",
-            "Edmonton, Alberta", "Ottawa, Ontario", "Quebec City, Quebec", "Winnipeg, Manitoba", "Hamilton, Ontario",
-            "Kitchener, Ontario", "London, Ontario", "Victoria, British Columbia", "St. Catharines–Niagara, Ontario",
-            "Halifax, Nova Scotia", "Oshawa, Ontario", "Windsor, Ontario", "Saskatoon, Saskatchewan", "Regina, Saskatchewan",
-            "Barrie, Ontario", ""]
-    }
 }
-
