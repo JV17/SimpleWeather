@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
     var cities = Array<String>()
+    var autoCompleteCities = Array<String>()
     
     //MARK:
     //MARK: Lazy loading
@@ -54,7 +55,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }()
     
     lazy var tableView: UITableView = {
-        var tmpTableView: UITableView = UITableView(frame: CGRectMake(15, CGRectGetMaxY(self.textField.frame), self.screenSize.width-30, self.rowHeight), style: UITableViewStyle.Plain)
+        var tmpTableView: UITableView = UITableView(frame: CGRectMake(15, CGRectGetMaxY(self.textField.frame), self.screenSize.width-30, 150), style: UITableViewStyle.Plain)
         tmpTableView.backgroundColor = .clearColor()
         tmpTableView.separatorStyle = .SingleLine
         tmpTableView.bounces = true
@@ -138,7 +139,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         cell.textLabel?.font = UIFont(name: "Lato-Light", size: 20)
         cell.textLabel?.textColor = appHelper.colorWithHexString("F7F7F7")
-        cell.textLabel?.text = "Toronto"
+        
+        if(self.autoCompleteCities.count > 0) {
+            cell.textLabel?.text = self.autoCompleteCities[indexPath.row]
+        }
         
         return cell
     }
@@ -153,7 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // number of rows
-        return self.numRows
+        return self.autoCompleteCities.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -182,13 +186,34 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     // MARK:
-    // MARK: UITextFieldDelegate
+    // MARK: UITextFieldDelegate & search helper
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        // implement auto complete logic
+        // auto complete logic
+        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        self.searchAutocompleteEntriesWithSubstring(subString)
         
         return true
+    }
+    
+    func searchAutocompleteEntriesWithSubstring(subString: String) {
+        // cleaning any previous cities
+        self.autoCompleteCities.removeAll(keepCapacity: true)
+        
+        // loops over all the cities
+        for city in self.cities {
+            
+            // create range to check
+            let range: NSRange = (city as NSString).rangeOfString(subString)
+            
+            // if contains the the subString then add the city
+            if(range.location == 0) {
+                self.autoCompleteCities.append(city)
+            }
+        }
+        
+        self.tableView.reloadData()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
