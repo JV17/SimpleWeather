@@ -56,7 +56,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }()
     
     lazy var tableView: UITableView = {
-        var tmpTableView: UITableView = UITableView(frame: CGRectMake(15, CGRectGetMaxY(self.textField.frame), self.screenSize.width-30, 150), style: UITableViewStyle.Plain)
+        var tmpTableView: UITableView = UITableView(frame: CGRectMake(15, CGRectGetMaxY(self.textField.frame), self.screenSize.width-30, 250), style: UITableViewStyle.Plain)
         tmpTableView.backgroundColor = .clearColor()
         tmpTableView.separatorStyle = .SingleLine
         tmpTableView.bounces = true
@@ -78,19 +78,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // getting canadian cities/provinces
-        self.getCanadianCities()
-        
         // setup controller
         self.commonInit()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
     }
     
     func getCanadianCities() {
@@ -112,6 +105,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     
     func commonInit() {
         
+        // getting canadian cities/provinces
+        self.getCanadianCities()
+        
         // setting up the blurred background image
         self.setupBackgroundImage()
         
@@ -125,8 +121,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.4)
         self.view.addSubview(self.textField)
+        
+        // post notifications
+        self.postNotifications()
     }
     
+    func postNotifications() {
+        // keyboard notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+    }
     
     //MARK:
     //MARK: TableView delegate and datasource
@@ -201,8 +204,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
         // dismissing keyboard
         textField.resignFirstResponder()
+        
+        // if there is only 1 city left in our auto complete array then auto selected
+        if(self.autoCompleteCities.count == 1) {
+            textField.text = self.autoCompleteCities[0]
+        }
+        
         return true
     }
     
@@ -266,6 +276,21 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         formatter.timeStyle = .ShortStyle
         
         return formatter.stringFromDate(date)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            
+            let oldCGPoint = self.tableView.frame.origin
+            let oldCGSize = self.tableView.frame.size
+            let newHeight: CGFloat = self.screenSize.height-oldCGPoint.y-keyboardSize.height-4
+            self.tableView.frame = CGRectMake(oldCGPoint.x, oldCGPoint.y, oldCGSize.width, newHeight)
+            
+            // removing notification since we won't need to update the table view anymore
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
+        }
     }
     
 }

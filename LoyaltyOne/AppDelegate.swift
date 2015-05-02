@@ -16,8 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        self.window?.backgroundColor = UIColor(patternImage: UIImage(named: "background1")!)
+        application.statusBarHidden = true
         
         return true
     }
