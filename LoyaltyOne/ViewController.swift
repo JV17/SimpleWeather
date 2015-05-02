@@ -29,9 +29,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         
         return tmpView
     }()
+
+    lazy var cityLabel: UILabel = {
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 5, self.screenSize.width, 22))
+        
+        return tmpLabel
+    }()
     
     lazy var timeLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.screenSize.width, 42))
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.screenSize.width, 16))
         
         return tmpLabel
     }()
@@ -111,13 +117,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         // setting up the blurred background image
         self.setupBackgroundImage()
         
-        self.timeLabel.font = UIFont(name: "Lato-Light", size: 52)
-        self.timeLabel.backgroundColor = UIColor.clearColor()
-        self.timeLabel.textColor = appHelper.colorWithHexString("F7F7F7")
-        self.timeLabel.textAlignment = NSTextAlignment.Center
-        self.timeLabel.text = self.getCurrentTime()
-        
-        self.view.addSubview(self.timeLabel)
+        // setting up current city and time labels
+        self.setCityTimeLabels()
         
         self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.4)
         self.view.addSubview(self.textField)
@@ -251,6 +252,26 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             self.tableView.alpha = 1.0
             }, completion: { finished in
         })
+    }
+    
+    func setCityTimeLabels() {
+        // setting city label
+        self.cityLabel.font = UIFont(name: "Lato-Light", size: 22)
+        self.cityLabel.backgroundColor = UIColor.clearColor()
+        self.cityLabel.textColor = appHelper.colorWithHexString("F7F7F7")
+        self.cityLabel.textAlignment = NSTextAlignment.Center
+        self.cityLabel.text = "Toronto"
+        
+        self.view.addSubview(self.cityLabel)
+        
+        // setting time label
+        self.timeLabel.font = UIFont(name: "Lato-Light", size: 16)
+        self.timeLabel.backgroundColor = UIColor.clearColor()
+        self.timeLabel.textColor = appHelper.colorWithHexString("F7F7F7")
+        self.timeLabel.textAlignment = NSTextAlignment.Center
+        self.timeLabel.text = self.getCurrentTime()
+        
+        self.view.addSubview(self.timeLabel)
     }
     
     func setupBackgroundImage() {
