@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  LoyaltyOne
 //
 //  Created by Jorge Valbuena on 2015-05-01.
@@ -8,22 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController, WeatherDataSource {
+class MainViewController: UIViewController, WeatherDataSource {
 
     //MARK:
     //MARK: Properties
 
     let appHelper = AppHelper()
-    let weatherHelper = WeatherHelper()
-    let screenSize = UIScreen.mainScreen().bounds
-    
-    
+    let weatherHelper = WeatherManager()
+
     //MARK:
     //MARK: Lazy loading
 
     lazy var autocompleteView: AutoCompleteSearchView = {
-        var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, CGRectGetMaxY(self.timeLabel.frame)+30, self.screenSize.width-30, 250))
+        var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, CGRectGetMaxY(self.timeLabel.frame)+30, self.appHelper.screenSize.width-30, 250))
 
+        return tmpView
+    }()
+    
+    lazy var weatherView: WeatherView = {
+        var tmpView: WeatherView = WeatherView(frame: CGRectMake(0, CGRectGetHeight(self.view.frame)-Constants.WeatherView.height, self.appHelper.screenSize.width-30, Constants.WeatherView.height))
+        
         return tmpView
     }()
     
@@ -34,14 +38,22 @@ class ViewController: UIViewController, WeatherDataSource {
     }()
     
     lazy var cityLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 5, self.screenSize.width, 22))
-        
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 5, self.appHelper.screenSize.width, 22))
+        tmpLabel.font = UIFont(name: "Lato-Light", size: 22)
+        tmpLabel.backgroundColor = UIColor.clearColor()
+        tmpLabel.textColor = self.appHelper.colorWithHexString("F7F7F7")
+        tmpLabel.textAlignment = NSTextAlignment.Center
+
         return tmpLabel
     }()
     
     lazy var timeLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.screenSize.width, 16))
-        
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.appHelper.screenSize.width, 16))
+        tmpLabel.font = UIFont(name: "Lato-Light", size: 16)
+        tmpLabel.backgroundColor = UIColor.clearColor()
+        tmpLabel.textColor = self.appHelper.colorWithHexString("F7F7F7")
+        tmpLabel.textAlignment = NSTextAlignment.Center
+
         return tmpLabel
     }()
     
@@ -75,6 +87,7 @@ class ViewController: UIViewController, WeatherDataSource {
         
         self.view.addSubview(self.autocompleteView)
         
+        self.view.addSubview(self.weatherView)
     }
     
 
@@ -82,29 +95,20 @@ class ViewController: UIViewController, WeatherDataSource {
     //MARK: Controller helper functions
     
     func setCityTimeLabels() {
+
         // setting city label
-        self.cityLabel.font = UIFont(name: "Lato-Light", size: 22)
-        self.cityLabel.backgroundColor = UIColor.clearColor()
-        self.cityLabel.textColor = appHelper.colorWithHexString("F7F7F7")
-        self.cityLabel.textAlignment = NSTextAlignment.Center
         self.cityLabel.text = "Toronto"
-        
         self.view.addSubview(self.cityLabel)
         
         // setting time label
-        self.timeLabel.font = UIFont(name: "Lato-Light", size: 16)
-        self.timeLabel.backgroundColor = UIColor.clearColor()
-        self.timeLabel.textColor = appHelper.colorWithHexString("F7F7F7")
-        self.timeLabel.textAlignment = NSTextAlignment.Center
         self.timeLabel.text = self.getCurrentTime()
-        
         self.view.addSubview(self.timeLabel)
     }
     
     func setupBackgroundImage() {
        
         // we need to check if we have a correct image size to use as our background image
-        let bgImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: "background1")!, newSize: self.screenSize.size)
+        let bgImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: "background1")!, newSize: self.appHelper.screenSize.size)
         
         self.view.backgroundColor = UIColor(patternImage: bgImage)
         
@@ -130,12 +134,12 @@ class ViewController: UIViewController, WeatherDataSource {
     //MARK:
     //MARK: Weather Helper delegate
     
-    func weatherRequestFinishedWithJSON(weatherHelper: WeatherHelper, weatherJSON: JSON) {
+    func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON) {
         // let weather = self.weatherHelper.getWeatherMain()
         println("\n\ndelegate: \(weatherJSON)")
     }
     
-    func weatherRequestFinishedWithError(weatherHelper: WeatherHelper, error: NSError) {
+    func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError) {
         // error handling
     }
     

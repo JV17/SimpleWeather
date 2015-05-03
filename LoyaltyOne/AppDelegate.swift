@@ -16,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        // setting root controller
+        var rootView: MainViewController = MainViewController()
+        
+        if let window = self.window {
+            window.rootViewController = rootView
+        }
+        
+        // hiding status bar
         application.statusBarHidden = true
         
         return true

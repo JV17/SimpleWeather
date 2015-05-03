@@ -17,7 +17,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     var cities = Array<String>()
     var autoCompleteCities = Array<String>()
     
-    let screenSize = UIScreen.mainScreen().bounds
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
     
@@ -224,7 +223,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             // calculating new frame for table view
             let oldCGPoint = self.tableView.frame.origin
             let oldCGSize = self.tableView.frame.size
-            let newHeight: CGFloat = self.screenSize.height-self.frame.origin.y-self.textField.frame.height-keyboardSize.height-4
+            let newHeight: CGFloat = self.appHelper.screenSize.height-self.frame.origin.y-self.textField.frame.height-keyboardSize.height-4
  
             // setting the new height for table view
             self.tableView.frame = CGRectMake(oldCGPoint.x, oldCGPoint.y, oldCGSize.width, newHeight)

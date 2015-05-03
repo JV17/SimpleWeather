@@ -1,5 +1,5 @@
 //
-//  WeatherHelper.swift
+//  WeatherManager.swift
 //  LoyaltyOne
 //
 //  Created by Jorge Valbuena on 2015-05-02.
@@ -10,13 +10,13 @@ import UIKit
 
 protocol WeatherDataSource {
     // this function allows us to know when we get data from our API call
-    func weatherRequestFinishedWithJSON(weatherHelper: WeatherHelper, weatherJSON: JSON)
+    func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON)
     
     // this function allows us to get notify if an error occurred while doing the API call
-    func weatherRequestFinishedWithError(weatherHelper: WeatherHelper, error: NSError)
+    func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError)
 }
 
-class WeatherHelper: NSObject {
+class WeatherManager: NSObject {
     
     // url call for cities by country name
     // "http://ws.geonames.org/searchJSON?country=usa&maxRows=1000&username=jvdev"

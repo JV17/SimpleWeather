@@ -10,7 +10,9 @@ import UIKit
 
 class AppHelper: NSObject {
     
+    let screenSize = UIScreen.mainScreen().bounds
     
+
     func applyBlurToView(view: UIView, withBlurEffectStyle:UIBlurEffectStyle) {
 
         //only apply the blur if the user hasn't disabled transparency effects
