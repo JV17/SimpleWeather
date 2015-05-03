@@ -8,6 +8,14 @@
 
 import UIKit
 
+protocol AutoCompleteDelegate {
+    
+    // tells when the use has selected a new city from the autocomplete search view
+    func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String)
+
+}
+
+
 class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
     //MARK:
@@ -16,6 +24,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     let appHelper = AppHelper()
     var cities = Array<String>()
     var autoCompleteCities = Array<String>()
+    var delegate: AutoCompleteDelegate?
     
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
@@ -112,6 +121,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         self.textField.text = self.autoCompleteCities[indexPath.row]
+        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.removeProvinceFromCityName(self.autoCompleteCities[indexPath.row]))
         
         // dismiss keyboard and table view
         self.textField.resignFirstResponder()
@@ -169,6 +179,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // if there is only 1 city left in our auto complete array then auto selected
         if(self.autoCompleteCities.count == 1) {
             textField.text = self.autoCompleteCities[0]
+            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.removeProvinceFromCityName(self.autoCompleteCities[0]))
         }
         
         return true
@@ -242,6 +253,19 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     //MARK:
     //MARK: View helper functions
+    
+    func removeProvinceFromCityName(cityName: String) -> String {
+        
+        if(!cityName.isEmpty) {
+            let cityArr = split(cityName) {$0 == ","}
+
+            if(cityArr.count > 0) {
+                return cityArr[0] as String
+            }
+        }
+        
+        return ""
+    }
     
     func getCanadianCities() {
         

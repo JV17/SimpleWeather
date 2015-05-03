@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, WeatherDataSource {
+class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDelegate {
 
     //MARK:
     //MARK: Properties
@@ -21,7 +21,8 @@ class MainViewController: UIViewController, WeatherDataSource {
 
     lazy var autocompleteView: AutoCompleteSearchView = {
         var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, CGRectGetMaxY(self.timeLabel.frame)+30, self.appHelper.screenSize.width-30, 250))
-
+        tmpView.delegate = self
+        
         return tmpView
     }()
     
@@ -77,7 +78,7 @@ class MainViewController: UIViewController, WeatherDataSource {
         
         // making service call
         self.weatherManager.delegate = self
-        self.weatherManager.requestWeatherFromAPIUrl("")
+        self.weatherManager.requestWeatherForCity("Toronto")
         
         // setting up the blurred background image
         self.setupBackgroundImage()
@@ -156,6 +157,17 @@ class MainViewController: UIViewController, WeatherDataSource {
     
     func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError) {
         // error handling
+    }
+
+    
+    //MARK:
+    //MARK: Autocomplete Search View delegate
+    
+    func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String) {
+        // make a new service call with the new city
+        if(!selectedCity.isEmpty) {
+            self.weatherManager.requestWeatherForCity(selectedCity)
+        }
     }
     
 }

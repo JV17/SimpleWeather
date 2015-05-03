@@ -27,7 +27,7 @@ class WeatherManager: NSObject {
     // url call for open weather map
     // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     
-    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q=Miami"
+    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q="
     var json: JSON?
     var delegate: WeatherDataSource?
     
@@ -35,13 +35,16 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Request Weather
     
-    func requestWeatherFromAPIUrl(urlRequest: String) {
+    func requestWeatherForCity(city: String) {
         
-        var url = urlRequest
+        var url = String()
         var request = HTTPTask()
         
-        if(url.isEmpty) {
-            url = self.defaultURL
+        if(city.isEmpty) {
+            url = self.defaultURL+"Toronto"
+        }
+        else {
+            url = self.defaultURL+city
         }
         
         request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
@@ -69,7 +72,7 @@ class WeatherManager: NSObject {
         
         // we need to check if we have weather data
         if((self.json?.isEmpty) == nil) {
-            self.requestWeatherFromAPIUrl("")
+            self.requestWeatherForCity("")
         }
         
         var dictionary = Dictionary<String, String>()
@@ -94,7 +97,7 @@ class WeatherManager: NSObject {
         
         // we need to check if we have weather data
         if((self.json?.isEmpty) == nil) {
-            self.requestWeatherFromAPIUrl("")
+            self.requestWeatherForCity("")
         }
         
         var dictionary = Dictionary<String, String>()
