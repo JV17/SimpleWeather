@@ -28,6 +28,7 @@
 		3CEC026A1AF6C3F600CC5ADD /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC02691AF6C3F600CC5ADD /* WeatherManager.swift */; };
 		3CEC026D1AF6C40000CC5ADD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026B1AF6C40000CC5ADD /* Constants.swift */; };
 		3CEC026E1AF6C40000CC5ADD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026C1AF6C40000CC5ADD /* Extensions.swift */; };
+		3CEC02701AF6C44F00CC5ADD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026F1AF6C44F00CC5ADD /* LocationManager.swift */; };
 		3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */; };
 		3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */; };
 		3CF7C38F1AF5578400AD0F6E /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38B1AF5578400AD0F6E /* HTTPTask.swift */; };
@@ -72,6 +73,7 @@
 		3CEC02691AF6C3F600CC5ADD /* WeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherManager.swift; path = Managers/WeatherManager.swift; sourceTree = "<group>"; };
 		3CEC026B1AF6C40000CC5ADD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Utils/Constants.swift; sourceTree = "<group>"; };
 		3CEC026C1AF6C40000CC5ADD /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Utils/Extensions.swift; sourceTree = "<group>"; };
+		3CEC026F1AF6C44F00CC5ADD /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Managers/LocationManager.swift; sourceTree = "<group>"; };
 		3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPRequestSerializer.swift; path = SwiftHTTP/HTTPRequestSerializer.swift; sourceTree = "<group>"; };
 		3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPResponseSerializer.swift; path = SwiftHTTP/HTTPResponseSerializer.swift; sourceTree = "<group>"; };
 		3CF7C38B1AF5578400AD0F6E /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPTask.swift; path = SwiftHTTP/HTTPTask.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				3CEC02691AF6C3F600CC5ADD /* WeatherManager.swift */,
+				3CEC026F1AF6C44F00CC5ADD /* LocationManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				3C2937EA1AF4077C00399A21 /* AppHelper.swift in Sources */,
 				3CEC026E1AF6C40000CC5ADD /* Extensions.swift in Sources */,
 				3CF7C3981AF5A9C800AD0F6E /* AutoCompleteSearchView.swift in Sources */,
+				3CEC02701AF6C44F00CC5ADD /* LocationManager.swift in Sources */,
 				3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */,
 				3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */,
 				3CEC026D1AF6C40000CC5ADD /* Constants.swift in Sources */,

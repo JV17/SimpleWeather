@@ -7,16 +7,15 @@
 //
 
 import UIKit
-import CoreLocation
 
-class MainViewController: UIViewController, CLLocationManagerDelegate, WeatherDataSource, AutoCompleteDelegate {
+class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDelegate, LocationManagerDelegate {
 
     //MARK:
     //MARK: Properties
 
-    let locationManager = CLLocationManager()
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
+    let locationManager = LocationManager()
 
     //MARK:
     //MARK: Lazy loading
@@ -78,8 +77,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, WeatherDa
     
     func commonInit() {
         
-        // request location to user
-        self.requestLocation()
+        self.locationManager.delegate = self
+        self.locationManager.requestLocation()
         
         // making service call
         self.weatherManager.delegate = self
@@ -99,18 +98,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, WeatherDa
 
     //MARK:
     //MARK: Controller helper functions
-    
-    func requestLocation() {
-        // ask for location
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if(CLLocationManager.locationServicesEnabled()) {
-            self.locationManager.delegate = self
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            self.locationManager.startUpdatingLocation()
-        }
-    }
     
     func setCityTimeLabels() {
 
@@ -152,43 +139,15 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, WeatherDa
     //MARK:
     //MARK: Location Manager delegate
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
-        var locValue:CLLocationCoordinate2D = manager.location.coordinate
-        println("locations = \(locValue.latitude) \(locValue.longitude)")
-        
-        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: { (placemarks, error) -> Void in
-
-            if(error != nil) {
-                println("Error:" + error.localizedDescription)
-            }
-            
-            if(placemarks.count > 0) {
-                let pm = placemarks[0] as! CLPlacemark
-                self.displayLocationInfo(pm)
-            }
-            else {
-                println("Error with data")
-            }
-        })
-
-    }
-    
-    func displayLocationInfo(placemark: CLPlacemark) {
-        
-        // stop updating location
-        self.locationManager.stopUpdatingLocation()
+    func locationFinishedUpdatingWithCity(cityName: String, postalCode: String, state: String, country: String, countryCode: String) {
+        // get user location
         
         // print location info
-        println(placemark.locality)
-        println(placemark.postalCode)
-        println(placemark.administrativeArea)
-        println(placemark.country)
-        
-    }
-    
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("Error: " + error.localizedDescription)
+        println("\(cityName)")
+        println("\(postalCode)")
+        println("\(state)")
+        println("\(country)")
+        println("\(countryCode)")
     }
     
     
