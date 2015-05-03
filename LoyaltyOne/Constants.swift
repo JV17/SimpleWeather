@@ -47,13 +47,3 @@ struct Constants {
     
     
 }
-
-extension String {
-    
-    var capitalizeFirst:String {
-        var result = self
-        result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).capitalizedString)
-        return result
-    }
-    
-}

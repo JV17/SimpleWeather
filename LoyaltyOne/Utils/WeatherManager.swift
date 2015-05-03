@@ -27,7 +27,7 @@ class WeatherManager: NSObject {
     // url call for open weather map
     // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     
-    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
+    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q=Miami"
     var json: JSON?
     var delegate: WeatherDataSource?
     
@@ -121,12 +121,19 @@ class WeatherManager: NSObject {
         return dictionary
     }
     
-    func tempToCelcius(tempKelvin: NSNumber) -> NSNumber {
-        return (tempKelvin.floatValue - 273.15)
+    func tempToCelcius(tempKelvin: NSNumber) -> String {
+        return self.numberFormatterWithNumber((tempKelvin.floatValue - 273.15))
     }
     
-    func tempToFahrenheit(tempKelvin: NSNumber) -> NSNumber {
-        return ((tempKelvin.floatValue * 9/5) - 459.67)
+    func tempToFahrenheit(tempKelvin: NSNumber) -> String {
+        return self.numberFormatterWithNumber(((tempKelvin.floatValue * 9/5) - 459.67))
+    }
+    
+    func numberFormatterWithNumber(number: NSNumber) -> String {
+        let formatter = NSNumberFormatter()
+        formatter.positiveFormat = "0.#"
+        
+        return formatter.stringFromNumber(number)!
     }
 
 }
