@@ -148,16 +148,18 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // loops over all the cities
         for city in self.cities {
             
-            // create range to check
-            let range: NSRange = (city as NSString).rangeOfString(subString)
-            
             // if contains the the subString then add the city
-            if(range.location == 0) {
+            if(self.containsKeyword(city, keyword: subString)) {
                 self.autoCompleteCities.append(city)
             }
         }
         
         self.tableView.reloadData()
+    }
+    
+    func containsKeyword(text: NSString, keyword: String) -> Bool
+    {
+        return text.rangeOfString(keyword, options:NSStringCompareOptions.CaseInsensitiveSearch).location != NSNotFound
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

@@ -44,7 +44,7 @@ class ViewController: UIViewController, WeatherDataSource {
         
         return tmpLabel
     }()
-
+    
     
     //MARK:
     //MARK: Initializers

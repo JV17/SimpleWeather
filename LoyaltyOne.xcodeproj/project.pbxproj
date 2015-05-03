@@ -22,6 +22,7 @@
 		3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */; };
 		3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FE1AF4197000399A21 /* Lato-Light.otf */; };
 		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
+		3C7030BF1AF671A00075E648 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7030BE1AF671A00075E648 /* WeatherView.swift */; };
 		3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */; };
 		3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */; };
 		3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */; };
@@ -62,6 +63,7 @@
 		3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Hairline.otf"; path = "Fonts/Lato-Hairline.otf"; sourceTree = "<group>"; };
 		3C2937FE1AF4197000399A21 /* Lato-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.otf"; path = "Fonts/Lato-Light.otf"; sourceTree = "<group>"; };
 		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
+		3C7030BE1AF671A00075E648 /* WeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherView.swift; path = Views/WeatherView.swift; sourceTree = "<group>"; };
 		3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "canadian_cities_ provinces.txt"; path = "Resources/canadian_cities_ provinces.txt"; sourceTree = "<group>"; };
 		3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPRequestSerializer.swift; path = SwiftHTTP/HTTPRequestSerializer.swift; sourceTree = "<group>"; };
 		3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPResponseSerializer.swift; path = SwiftHTTP/HTTPResponseSerializer.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */,
+				3C7030BE1AF671A00075E648 /* WeatherView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C7030BF1AF671A00075E648 /* WeatherView.swift in Sources */,
 				3CF7C38F1AF5578400AD0F6E /* HTTPTask.swift in Sources */,
 				3C2937BC1AF3F6E900399A21 /* ViewController.swift in Sources */,
 				3CF7C3901AF5578400AD0F6E /* HTTPUpload.swift in Sources */,
