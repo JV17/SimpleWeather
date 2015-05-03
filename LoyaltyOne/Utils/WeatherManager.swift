@@ -54,8 +54,7 @@ class WeatherManager: NSObject {
                 
                 // we need to avoid delays from our download task
                 dispatch_async(dispatch_get_main_queue()) {
-                    // telling the delegate we have received data from our API call
-                    self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
+                    self.checkForValidWeatherData()
                 }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
@@ -68,6 +67,24 @@ class WeatherManager: NSObject {
         })
     }
     
+    func checkForValidWeatherData() {
+
+        // we need to check if we have weather data
+        if((self.json?.isEmpty) == nil) {
+            self.requestWeatherForCity("")
+        }
+        
+        if ((self.json!["message"].string) != nil) {
+            // error handling
+            let errorMessage = self.json!["message"].stringValue
+            println("\(errorMessage)")
+        }
+        else {
+            // telling the delegate we have received data from our API call
+            self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
+        }
+    }
+    
     func getWeatherCondition() -> Dictionary<String, String> {
         
         // we need to check if we have weather data
@@ -77,11 +94,11 @@ class WeatherManager: NSObject {
         
         var dictionary = Dictionary<String, String>()
         
-        if let weatherDic = self.json?["weather"] {
-            dictionary = ["id": weatherDic["id"].stringValue,
-                          "main": weatherDic["main"].stringValue,
-                          "icon": weatherDic["icon"].stringValue,
-                          "description": weatherDic["description"].stringValue]
+        if ((self.json!["weather"].string) != nil) {
+            dictionary = ["id": self.json!["id"].stringValue,
+                          "main": self.json!["main"].stringValue,
+                          "icon": self.json!["icon"].stringValue,
+                          "description": self.json!["description"].stringValue]
         }
         else {
             dictionary = ["id": "n/a",
@@ -102,14 +119,14 @@ class WeatherManager: NSObject {
         
         var dictionary = Dictionary<String, String>()
         
-        if let weatherDic = self.json?["main"] {
-            dictionary = ["humidity": weatherDic["humidity"].stringValue,
-                          "temp_min": weatherDic["temp_min"].stringValue,
-                          "temp_max": weatherDic["temp_max"].stringValue,
-                          "temp": weatherDic["temp"].stringValue,
-                          "pressure": weatherDic["pressure"].stringValue,
-                          "sea_level": weatherDic["sea_level"].stringValue,
-                          "grnd_level": weatherDic["grnd_level"].stringValue]
+        if ((self.json!["main"].string) != nil) {
+            dictionary = ["humidity": self.json!["humidity"].stringValue,
+                          "temp_min": self.json!["temp_min"].stringValue,
+                          "temp_max": self.json!["temp_max"].stringValue,
+                          "temp": self.json!["temp"].stringValue,
+                          "pressure": self.json!["pressure"].stringValue,
+                          "sea_level": self.json!["sea_level"].stringValue,
+                          "grnd_level": self.json!["grnd_level"].stringValue]
         }
         else {
             dictionary = ["humidity": "n/a",
