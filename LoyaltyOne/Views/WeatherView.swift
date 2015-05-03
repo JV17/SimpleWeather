@@ -102,7 +102,40 @@ class WeatherView: UIView {
         self.addSubview(self.currentTempLabel)
     }
     
-    func updateConditionLabel(string: String) {
+    
+    //MARK:
+    //MARK: Weather View animations
+    
+    func updateWeatherLabelsAnimated(condition: String, maxTemp: String, lowTemp: String, currentTemp: String) {
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+
+            // animations
+            self.conditionLabel.alpha = 0.0
+            self.maxTempLabel.alpha = 0.0
+            self.lowTempLabel.alpha = 0.0
+            self.currentTempLabel.alpha = 0.0
+            
+            }, completion: { finished in
+                
+                // after completion
+                self.conditionLabel.text = condition
+                self.maxTempLabel.text = maxTemp
+                self.lowTempLabel.text = lowTemp
+                self.currentTempLabel.text = currentTemp
+                
+                UIView.animateWithDuration(3.0, delay: 0.0, options: .CurveEaseOut, animations: {
+                    
+                    // animations
+                    self.conditionLabel.alpha = 1.0
+                    self.maxTempLabel.alpha = 1.0
+                    self.lowTempLabel.alpha = 1.0
+                    self.currentTempLabel.alpha = 1.0
+                    
+                    }, completion: { finished in
+                        // after completion
+                })
+        })
     }
 
 }

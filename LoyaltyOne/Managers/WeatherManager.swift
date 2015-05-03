@@ -151,7 +151,7 @@ class WeatherManager: NSObject {
     
     func numberFormatterWithNumber(number: NSNumber) -> String {
         let formatter = NSNumberFormatter()
-        formatter.positiveFormat = "0.#"
+        formatter.positiveFormat = "0"
         
         return formatter.stringFromNumber(number)!
     }

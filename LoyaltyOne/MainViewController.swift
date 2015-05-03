@@ -165,11 +165,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let low = weatherJSON["main"]["temp_min"].numberValue
             let currentTemp = weatherJSON["main"]["temp"].numberValue
             
-            // updating labels
-            self.weatherView.conditionLabel.text = "\(condition.capitalizeFirst)"
-            self.weatherView.maxTempLabel.text = "\(self.weatherManager.tempToCelcius(max))"
-            self.weatherView.lowTempLabel.text = "\(self.weatherManager.tempToCelcius(low))"
-            self.weatherView.currentTempLabel.text = "\(self.weatherManager.tempToCelcius(currentTemp))"
+            // updating labels animated
+            self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
+                                                         maxTemp: self.weatherManager.tempToCelcius(max),
+                                                         lowTemp: self.weatherManager.tempToCelcius(low),
+                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp))
         }
 
     }

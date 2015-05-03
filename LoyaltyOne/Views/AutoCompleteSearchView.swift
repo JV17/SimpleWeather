@@ -204,8 +204,13 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func dismissTableViewAnimated() {
         
         UIView.animateWithDuration(0.4, delay: 0.2, options: .CurveEaseOut, animations: {
+            
+            // animations
             self.tableView.alpha = 0.0
+            
             }, completion: { finished in
+                
+                // after completion
                 self.tableView.removeFromSuperview()
         })
     }
@@ -217,8 +222,12 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         }
         
         UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+            
+            // animations
             self.tableView.alpha = 1.0
+            
             }, completion: { finished in
+                // after completion
         })
     }
     
