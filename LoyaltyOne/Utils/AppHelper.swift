@@ -102,6 +102,30 @@ class AppHelper: NSObject {
             alpha: CGFloat(1.0)
         )
     }
+
+    func removeProvinceFromCityName(cityName: String) -> String {
+        
+        if(!cityName.isEmpty) {
+            let cityArr = split(cityName) {$0 == ","}
+            
+            if(cityArr.count > 0) {
+                return cityArr[0] as String
+            }
+        }
+        
+        return ""
+    }
+    
+    func removeSpaceFromString(cityName: NSString) -> String {
+        
+        var city: String = ""
+        
+        if cityName.rangeOfString(" ").location != NSNotFound {
+            city = cityName.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: NSMakeRange(0, cityName.length))
+        }
+        
+        return city
+    }
     
     func displayFontFamilies() {
         

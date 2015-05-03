@@ -78,7 +78,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         
         // making service call
         self.weatherManager.delegate = self
-        self.weatherManager.requestWeatherForCity("Toronto")
+        self.weatherManager.requestWeatherForCity("Toronto,Ontario")
         
         // setting up the blurred background image
         self.setupBackgroundImage()
