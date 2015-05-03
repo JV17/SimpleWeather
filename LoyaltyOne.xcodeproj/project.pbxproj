@@ -29,6 +29,7 @@
 		3CF7C3901AF5578400AD0F6E /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38C1AF5578400AD0F6E /* HTTPUpload.swift */; };
 		3CF7C3931AF5595800AD0F6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3921AF5595800AD0F6E /* SwiftyJSON.swift */; };
 		3CF7C3951AF55FDB00AD0F6E /* WeatherHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3941AF55FDB00AD0F6E /* WeatherHelper.swift */; };
+		3CF7C3981AF5A9C800AD0F6E /* AutoCompleteSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		3CF7C38C1AF5578400AD0F6E /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPUpload.swift; path = SwiftHTTP/HTTPUpload.swift; sourceTree = "<group>"; };
 		3CF7C3921AF5595800AD0F6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = SwiftyJSON/SwiftyJSON.swift; sourceTree = "<group>"; };
 		3CF7C3941AF55FDB00AD0F6E /* WeatherHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherHelper.swift; path = Utils/WeatherHelper.swift; sourceTree = "<group>"; };
+		3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AutoCompleteSearchView.swift; path = Views/AutoCompleteSearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		3C2937B61AF3F6E900399A21 /* LoyaltyOne */ = {
 			isa = PBXGroup;
 			children = (
+				3CF7C3961AF5A97E00AD0F6E /* Views */,
 				3CF7C3911AF5594700AD0F6E /* SwiftyJSON */,
 				3CF7C3881AF5575B00AD0F6E /* SwiftHTTP */,
 				3C2937EB1AF4078300399A21 /* Images */,
@@ -206,6 +209,14 @@
 				3CF7C3921AF5595800AD0F6E /* SwiftyJSON.swift */,
 			);
 			name = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		3CF7C3961AF5A97E00AD0F6E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +334,7 @@
 				3CF7C3931AF5595800AD0F6E /* SwiftyJSON.swift in Sources */,
 				3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */,
 				3C2937EA1AF4077C00399A21 /* AppHelper.swift in Sources */,
+				3CF7C3981AF5A9C800AD0F6E /* AutoCompleteSearchView.swift in Sources */,
 				3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */,
 				3CF7C3951AF55FDB00AD0F6E /* WeatherHelper.swift in Sources */,
 				3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */,

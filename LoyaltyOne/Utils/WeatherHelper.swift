@@ -8,11 +8,29 @@
 
 import UIKit
 
-class WeatherHelper: NSObject {
-
-    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
+protocol WeatherDataSource {
+    // this function allows us to know when we get data from our API call
+    func weatherRequestFinishedWithJSON(weatherHelper: WeatherHelper, weatherJSON: JSON)
     
+    // this function allows us to get notify if an error occurred while doing the API call
+    func weatherRequestFinishedWithError(weatherHelper: WeatherHelper, error: NSError)
+}
+
+class WeatherHelper: NSObject {
+    
+    // url call for cities by country name
+    // "http://ws.geonames.org/searchJSON?country=usa&maxRows=1000&username=jvdev"
+    
+    // url call for weather underground
+    // "http://api.wunderground.com/api/87c31015035f8c5b/conditions/q/ON/Toronto.json"
+    
+    // url call for open weather map
+    // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
+    
+    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     var json: JSON?
+    var delegate: WeatherDataSource?
+    
     
     //MARK:
     //MARK: Request Weather
@@ -31,17 +49,22 @@ class WeatherHelper: NSObject {
                 
                 self.json = JSON(data: data)
                 
-                println("response: \(self.json)")
+                // telling the delegate we have received data from our API call
+                self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
                 
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
+                
+                // telling the delegate we have received an error
+                self.delegate?.weatherRequestFinishedWithError(self, error: error)
         })
     }
     
     func getWeatherCondition() -> Dictionary<String, String> {
         
-        if((self.json?.isEmpty) != nil) {
+        // we need to check if we have weather data
+        if((self.json?.isEmpty) == nil) {
             self.requestWeatherFromAPIUrl("")
         }
         
@@ -65,11 +88,10 @@ class WeatherHelper: NSObject {
     
     func getWeatherMain() -> Dictionary<String, String> {
         
-        if((self.json?.isEmpty) != nil) {
+        // we need to check if we have weather data
+        if((self.json?.isEmpty) == nil) {
             self.requestWeatherFromAPIUrl("")
         }
-        
-        println("testing json: \(self.json)")
         
         var dictionary = Dictionary<String, String>()
         
