@@ -16,26 +16,26 @@ struct Constants {
 
     struct WeatherView {
         // height for weather view in main view controller
-        static let height: CGFloat = 140
+        static let height: CGFloat = 160
         
         // labels x origin in weather view
         static let labelsX: CGFloat = 15
 
         // condition label height
-        static let conditionHeight: CGFloat = 25
+        static let conditionHeight: CGFloat = 30
         
         // labels low temp and high temp width in weather view
         static let lowHightWidth: CGFloat = 40
-        static let lowHightHeigt: CGFloat = 30
+        static let lowHightHeigt: CGFloat = 35
         
         // temp label height
-        static let tempHeight: CGFloat = 70
+        static let tempHeight: CGFloat = 80
         static let tempX: CGFloat = 5
         
         // font size
-        static let conditionFontSize: CGFloat = 20
-        static let lowHighFontSize: CGFloat = 18
-        static let tempFontSize: CGFloat = 80
+        static let conditionFontSize: CGFloat = 24
+        static let lowHighFontSize: CGFloat = 22
+        static let tempFontSize: CGFloat = 90
         
         // font family
         static let fontFamily = "Lato-Light"
