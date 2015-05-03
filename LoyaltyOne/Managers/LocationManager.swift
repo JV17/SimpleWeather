@@ -31,9 +31,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         
-        var locValue:CLLocationCoordinate2D = manager.location.coordinate
-        println("locations = \(locValue.latitude) \(locValue.longitude)")
-        
+        // this send a request to apple servers and we get back the placemarks if they found a matching address in their server
         CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: { (placemarks, error) -> Void in
             
             if(error != nil) {
