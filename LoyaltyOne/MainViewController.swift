@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
-class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDelegate {
+class MainViewController: UIViewController, CLLocationManagerDelegate, WeatherDataSource, AutoCompleteDelegate {
 
     //MARK:
     //MARK: Properties
 
+    let locationManager = CLLocationManager()
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
 
@@ -76,6 +78,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func commonInit() {
         
+        // request location to user
+        self.requestLocation()
+        
         // making service call
         self.weatherManager.delegate = self
         self.weatherManager.requestWeatherForCity("Toronto,Ontario")
@@ -94,6 +99,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     //MARK:
     //MARK: Controller helper functions
+    
+    func requestLocation() {
+        // ask for location
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if(CLLocationManager.locationServicesEnabled()) {
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.startUpdatingLocation()
+        }
+    }
     
     func setCityTimeLabels() {
 
@@ -133,6 +150,49 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     
     //MARK:
+    //MARK: Location Manager delegate
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        
+        var locValue:CLLocationCoordinate2D = manager.location.coordinate
+        println("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: { (placemarks, error) -> Void in
+
+            if(error != nil) {
+                println("Error:" + error.localizedDescription)
+            }
+            
+            if(placemarks.count > 0) {
+                let pm = placemarks[0] as! CLPlacemark
+                self.displayLocationInfo(pm)
+            }
+            else {
+                println("Error with data")
+            }
+        })
+
+    }
+    
+    func displayLocationInfo(placemark: CLPlacemark) {
+        
+        // stop updating location
+        self.locationManager.stopUpdatingLocation()
+        
+        // print location info
+        println(placemark.locality)
+        println(placemark.postalCode)
+        println(placemark.administrativeArea)
+        println(placemark.country)
+        
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        println("Error: " + error.localizedDescription)
+    }
+    
+    
+    //MARK:
     //MARK: Weather Helper delegate
     
     func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON) {
@@ -157,6 +217,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError) {
         // error handling
+        println("Request Error: \(error)")
     }
 
     
