@@ -49,15 +49,19 @@ class WeatherManager: NSObject {
                 
                 self.json = JSON(data: data)
                 
-                // telling the delegate we have received data from our API call
-                self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
-                
+                // we need to avoid delays from our download task
+                dispatch_async(dispatch_get_main_queue()) {
+                    // telling the delegate we have received data from our API call
+                    self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
+                }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
-                
-                // telling the delegate we have received an error
-                self.delegate?.weatherRequestFinishedWithError(self, error: error)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    // telling the delegate we have received an error
+                    self.delegate?.weatherRequestFinishedWithError(self, error: error)
+                }
         })
     }
     

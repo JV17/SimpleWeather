@@ -14,7 +14,7 @@ class MainViewController: UIViewController, WeatherDataSource {
     //MARK: Properties
 
     let appHelper = AppHelper()
-    let weatherHelper = WeatherManager()
+    let weatherManager = WeatherManager()
 
     //MARK:
     //MARK: Lazy loading
@@ -76,8 +76,8 @@ class MainViewController: UIViewController, WeatherDataSource {
     func commonInit() {
         
         // making service call
-        self.weatherHelper.delegate = self
-        self.weatherHelper.requestWeatherFromAPIUrl("")
+        self.weatherManager.delegate = self
+        self.weatherManager.requestWeatherFromAPIUrl("")
         
         // setting up the blurred background image
         self.setupBackgroundImage()
@@ -137,6 +137,21 @@ class MainViewController: UIViewController, WeatherDataSource {
     func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON) {
         // let weather = self.weatherHelper.getWeatherMain()
         println("\n\ndelegate: \(weatherJSON)")
+        
+        if(!weatherJSON.isEmpty) {
+            // extracting values from json
+            let condition = weatherJSON["weather"][0]["description"].stringValue
+            let max = weatherJSON["main"]["temp_max"].numberValue
+            let low = weatherJSON["main"]["temp_min"].numberValue
+            let currentTemp = weatherJSON["main"]["temp"].numberValue
+            
+            // updating labels
+            self.weatherView.conditionLabel.text = "\(condition.capitalizeFirst)"
+            self.weatherView.maxTempLabel.text = "\(self.weatherManager.tempToCelcius(max))"
+            self.weatherView.lowTempLabel.text = "\(self.weatherManager.tempToCelcius(low))"
+            self.weatherView.currentTempLabel.text = "\(self.weatherManager.tempToCelcius(currentTemp))"
+        }
+
     }
     
     func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError) {

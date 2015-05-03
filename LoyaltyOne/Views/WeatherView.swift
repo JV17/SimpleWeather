@@ -29,6 +29,7 @@ class WeatherView: UIView {
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
+        tmpLabel.text = "Loading..."
 
         return tmpLabel
     }()
@@ -43,7 +44,8 @@ class WeatherView: UIView {
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
-
+        tmpLabel.text = "  ..."
+        
         return tmpLabel
     }()
     
@@ -57,7 +59,8 @@ class WeatherView: UIView {
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
-
+        tmpLabel.text = " ..."
+        
         return tmpLabel
     }()
     
@@ -71,7 +74,8 @@ class WeatherView: UIView {
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
-
+        tmpLabel.text = " ..."
+        
         return tmpLabel
     }()
     
@@ -90,18 +94,15 @@ class WeatherView: UIView {
     }
     
     func commonInit() {
-        
-        self.conditionLabel.text = "Good condition"
-        
-        self.maxTempLabel.text = "21"
-        self.lowTempLabel.text = "15"
-        
-        self.currentTempLabel.text = "17"
-        
+    
+        // adding labels to view
         self.addSubview(self.conditionLabel)
         self.addSubview(self.maxTempLabel)
         self.addSubview(self.lowTempLabel)
         self.addSubview(self.currentTempLabel)
+    }
+    
+    func updateConditionLabel(string: String) {
     }
 
 }

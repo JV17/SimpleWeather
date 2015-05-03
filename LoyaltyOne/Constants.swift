@@ -25,7 +25,7 @@ struct Constants {
         static let conditionHeight: CGFloat = 25
         
         // labels low temp and high temp width in weather view
-        static let lowHightWidth: CGFloat = 30
+        static let lowHightWidth: CGFloat = 40
         static let lowHightHeigt: CGFloat = 30
         
         // temp label height
@@ -45,5 +45,15 @@ struct Constants {
     }
 
     
+    
+}
+
+extension String {
+    
+    var capitalizeFirst:String {
+        var result = self
+        result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).capitalizedString)
+        return result
+    }
     
 }
