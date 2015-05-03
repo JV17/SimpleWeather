@@ -181,6 +181,9 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             textField.text = self.autoCompleteCities[0]
             self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.appHelper.removeProvinceFromCityName(self.autoCompleteCities[0]))
         }
+        else if(!textField.text.isEmpty) {
+            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: textField.text)
+        }
         
         return true
     }

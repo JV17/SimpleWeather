@@ -120,7 +120,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // creating blurred view
         self.blurredView.backgroundColor = UIColor(patternImage: bgImage)
         appHelper.applyBlurToView(self.blurredView, withBlurEffectStyle: .Dark)
-        self.blurredView.alpha = 0.9
+        self.blurredView.alpha = 0.7
         
         self.view.addSubview(self.blurredView)
     }

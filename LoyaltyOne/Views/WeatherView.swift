@@ -122,7 +122,7 @@ class WeatherView: UIView {
                 self.conditionLabel.text = condition
                 self.maxTempLabel.text = maxTemp
                 self.lowTempLabel.text = lowTemp
-                self.currentTempLabel.text = currentTemp
+                self.currentTempLabel.text = currentTemp + "º"
                 
                 UIView.animateWithDuration(3.0, delay: 0.0, options: .CurveEaseOut, animations: {
                     

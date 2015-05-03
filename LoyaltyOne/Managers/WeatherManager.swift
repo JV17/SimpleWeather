@@ -28,6 +28,7 @@ class WeatherManager: NSObject {
     // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     
     let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q="
+    let apiKey: String = "&APPID=432dbd419b713483bc99b3cbcd13d5ab"
     var json: JSON?
     var delegate: WeatherDataSource?
     
@@ -41,10 +42,10 @@ class WeatherManager: NSObject {
         var request = HTTPTask()
         
         if(city.isEmpty) {
-            url = self.defaultURL+"Toronto"
+            url = self.defaultURL + "Toronto" + self.apiKey
         }
         else {
-            url = self.defaultURL+city
+            url = self.defaultURL + city + self.apiKey
         }
         
         request.GET(url, parameters: nil, success: {(response: HTTPResponse) in

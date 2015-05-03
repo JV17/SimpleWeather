@@ -30,7 +30,7 @@ struct Constants {
         
         // temp label height
         static let tempHeight: CGFloat = 80
-        static let tempX: CGFloat = 5
+        static let tempX: CGFloat = 10
         
         // font size
         static let conditionFontSize: CGFloat = 24
