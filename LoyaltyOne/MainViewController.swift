@@ -63,7 +63,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.view.frame)-60, 10, 50, 50))
         tmpBtn.backgroundColor = UIColor.clearColor()
         tmpBtn.tag = 1
-        tmpBtn.setImage(UIImage(named: "plus"), forState: UIControlState.Normal)
+        tmpBtn.setImage(UIImage(named: "plus-48"), forState: UIControlState.Normal)
         tmpBtn.addTarget(self, action: "showAutocompleteView:", forControlEvents: UIControlEvents.TouchUpInside)
         
         return tmpBtn
@@ -164,8 +164,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
         else {
             
+            // hidding the keyboard
+            self.autocompleteView.textField.resignFirstResponder()
+
             // autocomplete hide animations
-            UIView.animateWithDuration(1.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+            UIView.animateWithDuration(1.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.2, options: .CurveEaseIn, animations: {
                 
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
@@ -173,8 +176,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 
             }, completion: { finished in
                 
-                // hidding the keyboard
-                self.autocompleteView.textField.resignFirstResponder()
                 self.autocompleteBtn.tag = 1
             })
         }
