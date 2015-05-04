@@ -147,6 +147,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func showAutocompleteView(button: UIButton) {
         
         if(button.tag == 1) {
+            
+            // showing the keyboard as soon as the animation finished
+            self.autocompleteView.textField.becomeFirstResponder()
 
             // autocomplete show animations
             UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
@@ -157,8 +160,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 
             }, completion: { finished in
                 
-                // showing the keyboard as soon as the animation finished
-                self.autocompleteView.textField.becomeFirstResponder()
                 self.autocompleteBtn.tag = 2
             })
         }

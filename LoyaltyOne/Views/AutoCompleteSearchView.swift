@@ -143,14 +143,10 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     // MARK: UITextFieldDelegate & search helper
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        if(count(textField.text) > 2) {
-            
-            // auto complete logic
-            let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            self.searchAutocompleteEntriesWithSubstring(subString)
-            
-        }
+    
+        // auto complete logic
+        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        self.searchAutocompleteEntriesWithSubstring(subString)
         
         return true
     }
