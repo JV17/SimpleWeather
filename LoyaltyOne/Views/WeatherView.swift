@@ -225,7 +225,6 @@ class WeatherView: UIView {
         UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
 
             // animations
-            self.alpha = 0.0
             self.loadingLabel.alpha = 0.0
             
             }, completion: { finished in
@@ -236,6 +235,7 @@ class WeatherView: UIView {
                 self.maxTempLabel.text = maxTemp
                 self.lowTempLabel.text = lowTemp
                 self.currentTempLabel.text = currentTemp + "º"
+                self.alpha = 0.0
                 
                 UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
                     
