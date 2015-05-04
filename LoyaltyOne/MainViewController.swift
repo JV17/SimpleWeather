@@ -21,7 +21,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK: Lazy loading
 
     lazy var autocompleteView: AutoCompleteSearchView = {
-        var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, CGRectGetMaxY(self.timeLabel.frame)+30, self.appHelper.screenSize.width-30, 250))
+        var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, -250, self.appHelper.screenSize.width-30, 250))
         tmpView.delegate = self
         
         return tmpView
@@ -59,6 +59,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return tmpLabel
     }()
     
+    lazy var autocompleteBtn: UIButton = {
+        var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.view.frame)-60, 10, 50, 50))
+        tmpBtn.backgroundColor = UIColor.clearColor()
+        tmpBtn.tag = 1
+        tmpBtn.setImage(UIImage(named: "plus"), forState: UIControlState.Normal)
+        tmpBtn.addTarget(self, action: "showAutocompleteView:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        return tmpBtn
+    }()
     
     //MARK:
     //MARK: Initializers
@@ -91,8 +100,8 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.setCityTimeLabels()
         
         self.view.addSubview(self.autocompleteView)
-        
         self.view.addSubview(self.weatherView)
+        self.view.addSubview(self.autocompleteBtn)
     }
     
 
@@ -135,6 +144,41 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return formatter.stringFromDate(date)
     }
     
+    func showAutocompleteView(button: UIButton) {
+        
+        if(button.tag == 1) {
+
+            // autocomplete show animations
+            UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+                
+                // show autocomplete from offset
+                let oldFrame: CGRect = self.autocompleteView.frame
+                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, CGRectGetMaxY(self.timeLabel.frame)+30, oldFrame.size.width, oldFrame.size.height)
+                
+            }, completion: { finished in
+                
+                // showing the keyboard as soon as the animation finished
+                self.autocompleteView.textField.becomeFirstResponder()
+                self.autocompleteBtn.tag = 2
+            })
+        }
+        else {
+            
+            // autocomplete hide animations
+            UIView.animateWithDuration(1.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+                
+                // show autocomplete from offset
+                let oldFrame: CGRect = self.autocompleteView.frame
+                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, 0-oldFrame.size.height, oldFrame.size.width, oldFrame.size.height)
+                
+            }, completion: { finished in
+                
+                // hidding the keyboard
+                self.autocompleteView.textField.resignFirstResponder()
+                self.autocompleteBtn.tag = 1
+            })
+        }
+    }
     
     //MARK:
     //MARK: Location Manager delegate
