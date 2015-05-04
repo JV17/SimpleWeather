@@ -16,12 +16,13 @@ protocol AutoCompleteDelegate {
 }
 
 
-class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, WeatherDataSource {
 
     //MARK:
     //MARK: Properties
  
     let appHelper = AppHelper()
+    let weatherManager = WeatherManager()
     var cities = Array<String>()
     var autoCompleteCities = Array<String>()
     var delegate: AutoCompleteDelegate?
@@ -143,14 +144,23 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        // auto complete logic
-        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        self.searchAutocompleteEntriesWithSubstring(subString)
+        if(count(textField.text) > 2) {
+            
+            // auto complete logic
+            let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            self.searchAutocompleteEntriesWithSubstring(subString)
+            
+        }
         
         return true
     }
     
     func searchAutocompleteEntriesWithSubstring(subString: String) {
+        
+        // TODO: search in not as efficient from API calls
+        // self.weatherManager.delegate = self
+        // self.weatherManager.requestCitiesFromString(subString)
+        
         // cleaning any previous cities
         self.autoCompleteCities.removeAll(keepCapacity: true)
         
@@ -287,5 +297,40 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
     }
+    
+    
+    //MARK:
+    //MARK: Weather Manager delegate
+    
+    func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
 
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            // cleaning any previous cities
+            self.autoCompleteCities.removeAll(keepCapacity: false)
+            
+            var x: Int = 0
+            // loops over all the cities in JSON
+            for (; x < citiesJSON.count-1; x++) {
+                let city: String = citiesJSON["list"][x]["name"].stringValue
+                self.autoCompleteCities.append(city)
+            }
+            
+            self.tableView.reloadData()
+        }
+
+    }
+
+    func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
+        // error handling
+        println("Cities request ERROR: \(error)")
+    }
+    
+    func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
+        // empty delegate
+    }
+    
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+        // empty delegate
+    }
 }

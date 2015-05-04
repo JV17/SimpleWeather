@@ -154,7 +154,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Weather Helper delegate
     
-    func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON) {
+    func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
         // let weather = self.weatherHelper.getWeatherMain()
         println("\n\ndelegate: \(weatherJSON)")
         
@@ -174,9 +174,17 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     }
     
-    func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError) {
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
         // error handling
         println("Request Error: \(error)")
+    }
+    
+    func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
+        // empty delegate
+    }
+    
+    func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
+        // empty delegate
     }
 
     

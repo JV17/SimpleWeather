@@ -9,11 +9,17 @@
 import UIKit
 
 protocol WeatherDataSource {
-    // this function allows us to know when we get data from our API call
-    func weatherRequestFinishedWithJSON(weatherHelper: WeatherManager, weatherJSON: JSON)
+    // this function allows us to know when we get the weather data from open weather map
+    func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON)
     
     // this function allows us to get notify if an error occurred while doing the API call
-    func weatherRequestFinishedWithError(weatherHelper: WeatherManager, error: NSError)
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError)
+
+    // this function allows us to know when we get the cities from open weather map
+    func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON)
+    
+    // this function allows us to get notify if an error occurred while doing the API call
+    func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError)
 }
 
 class WeatherManager: NSObject {
@@ -27,9 +33,12 @@ class WeatherManager: NSObject {
     // url call for open weather map
     // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     
-    let defaultURL: String = "http://api.openweathermap.org/data/2.5/weather?q="
+    let request = HTTPTask()
+    let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather?q="
+    let citiesURL: String = "http://api.openweathermap.org/data/2.5/find?q="
     let apiKey: String = "&APPID=432dbd419b713483bc99b3cbcd13d5ab"
-    var json: JSON?
+    var weatherJSON: JSON?
+    var citiesJSON: JSON?
     var delegate: WeatherDataSource?
     
     
@@ -39,19 +48,18 @@ class WeatherManager: NSObject {
     func requestWeatherForCity(city: String) {
         
         var url = String()
-        var request = HTTPTask()
         
         if(city.isEmpty) {
-            url = self.defaultURL + "Toronto" + self.apiKey
+            url = self.weatherURL + "Toronto" + self.apiKey
         }
         else {
-            url = self.defaultURL + city + self.apiKey
+            url = self.weatherURL + city + self.apiKey
         }
         
-        request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
+        self.request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
-                self.json = JSON(data: data)
+                self.weatherJSON = JSON(data: data)
                 
                 // we need to avoid delays from our download task
                 dispatch_async(dispatch_get_main_queue()) {
@@ -68,38 +76,71 @@ class WeatherManager: NSObject {
         })
     }
     
+    func requestCitiesFromString(string: String) {
+        
+        var url = String()
+        
+        if(string.isEmpty) {
+            return
+        }
+        else {
+            url = self.citiesURL + string + "&type=like"
+        }
+        
+        self.request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
+            if let data = response.responseObject as? NSData {
+                
+                self.citiesJSON = JSON(data: data)
+                
+                println("\(self.citiesJSON)")
+                
+                // we need to avoid delays from our download task
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.citiesRequestFinishedWithJSON(self, citiesJSON: self.citiesJSON!)
+                }
+            }
+            },failure: {(error: NSError, response: HTTPResponse?) in
+                println("error: \(error)")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    // telling the delegate we have received an error
+                    self.delegate?.citiesRequestFinishedWithError(self, error: error)
+                }
+        })
+    }
+    
     func checkForValidWeatherData() {
 
         // we need to check if we have weather data
-        if((self.json?.isEmpty) == nil) {
+        if((self.weatherJSON?.isEmpty) == nil) {
             self.requestWeatherForCity("")
         }
         
-        if ((self.json!["message"].string) != nil) {
+        if ((self.weatherJSON!["message"].string) != nil) {
             // error handling
-            let errorMessage = self.json!["message"].stringValue
+            let errorMessage = self.weatherJSON!["message"].stringValue
             println("\(errorMessage)")
         }
         else {
             // telling the delegate we have received data from our API call
-            self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.json!)
+            self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.weatherJSON!)
         }
     }
     
     func getWeatherCondition() -> Dictionary<String, String> {
         
         // we need to check if we have weather data
-        if((self.json?.isEmpty) == nil) {
+        if((self.weatherJSON?.isEmpty) == nil) {
             self.requestWeatherForCity("")
         }
         
         var dictionary = Dictionary<String, String>()
         
-        if ((self.json!["weather"].string) != nil) {
-            dictionary = ["id": self.json!["id"].stringValue,
-                          "main": self.json!["main"].stringValue,
-                          "icon": self.json!["icon"].stringValue,
-                          "description": self.json!["description"].stringValue]
+        if ((self.weatherJSON!["weather"].string) != nil) {
+            dictionary = ["id": self.weatherJSON!["id"].stringValue,
+                          "main": self.weatherJSON!["main"].stringValue,
+                          "icon": self.weatherJSON!["icon"].stringValue,
+                          "description": self.weatherJSON!["description"].stringValue]
         }
         else {
             dictionary = ["id": "n/a",
@@ -114,20 +155,20 @@ class WeatherManager: NSObject {
     func getWeatherMain() -> Dictionary<String, String> {
         
         // we need to check if we have weather data
-        if((self.json?.isEmpty) == nil) {
+        if((self.weatherJSON?.isEmpty) == nil) {
             self.requestWeatherForCity("")
         }
         
         var dictionary = Dictionary<String, String>()
         
-        if ((self.json!["main"].string) != nil) {
-            dictionary = ["humidity": self.json!["humidity"].stringValue,
-                          "temp_min": self.json!["temp_min"].stringValue,
-                          "temp_max": self.json!["temp_max"].stringValue,
-                          "temp": self.json!["temp"].stringValue,
-                          "pressure": self.json!["pressure"].stringValue,
-                          "sea_level": self.json!["sea_level"].stringValue,
-                          "grnd_level": self.json!["grnd_level"].stringValue]
+        if ((self.weatherJSON!["main"].string) != nil) {
+            dictionary = ["humidity": self.weatherJSON!["humidity"].stringValue,
+                          "temp_min": self.weatherJSON!["temp_min"].stringValue,
+                          "temp_max": self.weatherJSON!["temp_max"].stringValue,
+                          "temp": self.weatherJSON!["temp"].stringValue,
+                          "pressure": self.weatherJSON!["pressure"].stringValue,
+                          "sea_level": self.weatherJSON!["sea_level"].stringValue,
+                          "grnd_level": self.weatherJSON!["grnd_level"].stringValue]
         }
         else {
             dictionary = ["humidity": "n/a",
