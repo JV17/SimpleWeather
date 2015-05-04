@@ -100,7 +100,7 @@ class WeatherView: UIView {
     lazy var currentTempLabel: UILabel = {
         var tmpLabel: UILabel = UILabel(frame: CGRectMake(Constants.WeatherView.tempX,
                                                           CGRectGetMaxY(self.maxTempLabel.frame),
-                                                          self.frame.width-Constants.WeatherView.labelsX,
+                                                          self.frame.width/2,
                                                           Constants.WeatherView.tempHeight))
         
         tmpLabel.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.tempFontSize)
@@ -111,6 +111,53 @@ class WeatherView: UIView {
         
         return tmpLabel
     }()
+    
+    lazy var celciusButton: UIButton = {
+        var tmpButton: UIButton = UIButton(frame: CGRectMake(self.frame.width-Constants.WeatherView.buttonSize*2-10,
+                                                             CGRectGetMaxY(self.currentTempLabel.frame)-Constants.WeatherView.buttonSize+5,
+                                                             Constants.WeatherView.buttonSize,
+                                                             Constants.WeatherView.buttonSize))
+        
+        tmpButton.backgroundColor = UIColor.clearColor()
+        tmpButton.titleLabel?.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.buttonFontSize)
+        tmpButton.titleLabel?.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
+        tmpButton.titleLabel?.textAlignment = NSTextAlignment.Right
+        tmpButton.setTitle("ºC", forState: UIControlState.Normal)
+        tmpButton.addTarget(self, action: "changeTemperatureToCelcius:", forControlEvents: UIControlEvents.TouchUpInside)
+        tmpButton.alpha = 0.0
+        
+        return tmpButton
+    }()
+    
+    lazy var dividerLine: UIView = {
+        var tmpView: UIView = UIView(frame: CGRectMake(CGRectGetMaxX(self.celciusButton.frame),
+                                                       CGRectGetMaxY(self.currentTempLabel.frame)-Constants.WeatherView.buttonSize+15,
+                                                       1,
+                                                       Constants.WeatherView.dividerLineHeight))
+        
+        tmpView.backgroundColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
+        tmpView.alpha = 0.0
+        
+        return tmpView
+    }()
+    
+    lazy var fahranheitButton: UIButton = {
+        var tmpButton: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.celciusButton.frame)+1,
+                                                             CGRectGetMaxY(self.currentTempLabel.frame)-Constants.WeatherView.buttonSize+5,
+                                                             Constants.WeatherView.buttonSize,
+                                                             Constants.WeatherView.buttonSize))
+        
+        tmpButton.backgroundColor = UIColor.clearColor()
+        tmpButton.titleLabel?.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.buttonFontSize)
+        tmpButton.titleLabel?.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
+        tmpButton.titleLabel?.textAlignment = NSTextAlignment.Left
+        tmpButton.setTitle("ºF", forState: UIControlState.Normal)
+        tmpButton.addTarget(self, action: "changeTemperatureToFahranheit:", forControlEvents: UIControlEvents.TouchUpInside)
+        tmpButton.alpha = 0.0
+        
+        return tmpButton
+    }()
+    
     
     //MARK:
     //MARK: Initializers
@@ -136,6 +183,9 @@ class WeatherView: UIView {
         self.addSubview(self.lowTempImageView)
         self.addSubview(self.lowTempLabel)
         self.addSubview(self.currentTempLabel)
+        self.addSubview(self.celciusButton)
+        self.addSubview(self.dividerLine)
+        self.addSubview(self.fahranheitButton)
     }
     
     
@@ -154,6 +204,9 @@ class WeatherView: UIView {
             self.lowTempImageView.alpha = 0.0
             self.lowTempLabel.alpha = 0.0
             self.currentTempLabel.alpha = 0.0
+            self.celciusButton.alpha = 0.0
+            self.dividerLine.alpha = 0.0
+            self.fahranheitButton.alpha = 0.0
             
             }, completion: { finished in
                 
@@ -173,11 +226,26 @@ class WeatherView: UIView {
                     self.lowTempImageView.alpha = 1.0
                     self.lowTempLabel.alpha = 1.0
                     self.currentTempLabel.alpha = 1.0
+                    self.celciusButton.alpha = 1.0
+                    self.dividerLine.alpha = 1.0
+                    self.fahranheitButton.alpha = 1.0
                     
                     }, completion: { finished in
                         // after completion
                 })
         })
+    }
+    
+    
+    //MARK:
+    //MARK: Temperature Celcius/Fahranheit
+    
+    func changeTemperatureToCelcius(button: UIButton) {
+        
+    }
+
+    func changeTemperatureToFahranheit(button: UIButton) {
+        
     }
 
 }

@@ -32,10 +32,17 @@ struct Constants {
         static let tempHeight: CGFloat = 80
         static let tempX: CGFloat = 10
         
+        // the buttons size
+        static let buttonSize: CGFloat = 50
+        
+        // the divider line between the buttons
+        static let dividerLineHeight: CGFloat = 30
+
         // font size
         static let conditionFontSize: CGFloat = 24
         static let lowHighFontSize: CGFloat = 22
         static let tempFontSize: CGFloat = 90
+        static let buttonFontSize: CGFloat = 26
         
         // font family
         static let fontFamily = "Lato-Light"

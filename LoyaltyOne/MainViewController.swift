@@ -28,7 +28,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }()
     
     lazy var weatherView: WeatherView = {
-        var tmpView: WeatherView = WeatherView(frame: CGRectMake(0, CGRectGetHeight(self.view.frame)-Constants.WeatherView.height, self.appHelper.screenSize.width-30, Constants.WeatherView.height))
+        var tmpView: WeatherView = WeatherView(frame: CGRectMake(0, CGRectGetHeight(self.view.frame)-Constants.WeatherView.height, self.appHelper.screenSize.width, Constants.WeatherView.height))
         
         return tmpView
     }()
