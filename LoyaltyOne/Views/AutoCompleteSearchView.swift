@@ -294,6 +294,13 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
     }
     
+    func clearAutocompleteTextField() {
+        // clear all content of our custom search bar
+        self.textField.text = ""
+        self.autoCompleteCities.removeAll(keepCapacity: false)
+        self.tableView.reloadData()
+    }
+    
     
     //MARK:
     //MARK: Weather Manager delegate

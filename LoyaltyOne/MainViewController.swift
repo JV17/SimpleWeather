@@ -181,6 +181,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 
             }, completion: { finished in
                 // completion handling
+                self.autocompleteView.clearAutocompleteTextField()
                 self.autocompleteBtn.tag = 1
             })
         }
@@ -212,6 +213,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 })
         })
     }
+    
     
     //MARK:
     //MARK: Location Manager delegate
