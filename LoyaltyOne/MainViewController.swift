@@ -89,18 +89,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.locationManager.delegate = self
         self.locationManager.requestLocation()
         
-        // making service call
-        self.weatherManager.delegate = self
-        self.weatherManager.requestWeatherForCity("Toronto,Ontario")
-        
         // setting up the blurred background image
         self.setupBackgroundImage()
         
         // setting up current city and time labels
         self.setCityTimeLabels()
         
-        self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.weatherView)
+        self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.autocompleteBtn)
     }
     
@@ -220,6 +216,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func locationFinishedUpdatingWithCity(cityName: String, postalCode: String, state: String, country: String, countryCode: String) {
         // get user location
+        
+        // making service call with location data
+        self.weatherManager.delegate = self
+        self.weatherManager.requestWeatherForCity(cityName)
         
         // print location info
         println("\(cityName)")

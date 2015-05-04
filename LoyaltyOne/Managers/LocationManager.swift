@@ -25,6 +25,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     var delegate: LocationManagerDelegate?
+    var alreadyUpdatedLocation = Bool()
     
     //MARK:
     //MARK: Location Manager delegate
@@ -37,19 +38,23 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if(error != nil) {
                 println("Error:" + error.localizedDescription)
             }
+
+            // avoiding delays from block
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                if(placemarks.count > 0) {
+                    let pm = placemarks[0] as! CLPlacemark
+                    self.displayLocationInfo(pm)
+                }
+                else {
+                    println("Error with data")
+                }
+                
+                // stop updating location
+                self.stopUpdationgLocation()
+            }
             
-            if(placemarks.count > 0) {
-                let pm = placemarks[0] as! CLPlacemark
-                self.displayLocationInfo(pm)
-            }
-            else {
-                println("Error with data")
-            }
         })
-        
-        // stop updating location
-        self.locationManager.stopUpdatingLocation()
-        
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
@@ -67,14 +72,25 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         if(CLLocationManager.locationServicesEnabled()) {
             self.locationManager.delegate = self
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             self.locationManager.startUpdatingLocation()
         }
     }
     
     func displayLocationInfo(placemark: CLPlacemark) {
         
+        if(self.alreadyUpdatedLocation) {
+            return
+        }
+        
         self.delegate?.locationFinishedUpdatingWithCity(placemark.locality, postalCode: placemark.postalCode, state: placemark.administrativeArea, country: placemark.country, countryCode: placemark.ISOcountryCode)
         
+    }
+    
+    func stopUpdationgLocation() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.locationManager.stopUpdatingLocation()
+            self.alreadyUpdatedLocation = true
+        }
     }
 }
