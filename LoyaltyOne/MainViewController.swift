@@ -111,7 +111,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func setCityTimeLabels() {
 
         // setting city label
-        self.cityLabel.text = "Toronto"
+        self.cityLabel.text = "Loading..."
         self.view.addSubview(self.cityLabel)
         
         // setting time label
@@ -154,12 +154,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             // autocomplete show animations
             UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
                 
+                self.autocompleteView.alpha = 1.0
+                
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
                 self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, CGRectGetMaxY(self.timeLabel.frame)+30, oldFrame.size.width, oldFrame.size.height)
                 
             }, completion: { finished in
-                
+                // completion handling
                 self.autocompleteBtn.tag = 2
             })
         }
@@ -171,15 +173,44 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             // autocomplete hide animations
             UIView.animateWithDuration(1.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.2, options: .CurveEaseIn, animations: {
                 
+                self.autocompleteView.alpha = 0.0
+                
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
-                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, 0-oldFrame.size.height, oldFrame.size.width, oldFrame.size.height)
+                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, -100, oldFrame.size.width, oldFrame.size.height)
                 
             }, completion: { finished in
-                
+                // completion handling
                 self.autocompleteBtn.tag = 1
             })
         }
+    }
+    
+    func updateCityLabelAnimated(city: String) {
+        
+        if(city.isEmpty) {
+            return
+        }
+        
+        // city animation
+        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
+            
+            self.cityLabel.alpha = 0.0
+            
+            }, completion: { finished in
+
+                // completion handling
+                self.cityLabel.text = city
+                
+                // fade in animation
+                UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
+                    
+                    self.cityLabel.alpha = 1.0
+                    
+                    }, completion: { finished in
+                        // completion handling
+                })
+        })
     }
     
     //MARK:
@@ -210,6 +241,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let max = weatherJSON["main"]["temp_max"].numberValue
             let low = weatherJSON["main"]["temp_min"].numberValue
             let currentTemp = weatherJSON["main"]["temp"].numberValue
+            let city = weatherJSON["name"].stringValue
             
             // saving current temperature to user defaults
             let saveTempDic: [NSObject : AnyObject] = [Constants.UserDefaults.conditionKey : condition,
@@ -225,8 +257,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                                                          maxTemp: self.weatherManager.tempToCelcius(max),
                                                          lowTemp: self.weatherManager.tempToCelcius(low),
                                                          currentTemp: self.weatherManager.tempToCelcius(currentTemp))
+            
+            // updating city label animated
+            self.updateCityLabelAnimated(city)
         }
-
     }
     
     func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
