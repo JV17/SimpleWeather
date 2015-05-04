@@ -14,10 +14,21 @@ class WeatherView: UIView {
     //MARK: Properties
     
     let appHelper = AppHelper()
-    
-    
+
     //MARK:
-    //MARK: Lazy loading
+    //MARK: Lazy loading properties
+    
+    lazy var loadingLabel: UILabel = {
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.frame.size.width, self.frame.height))
+        
+        tmpLabel.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.loadingFontSize)
+        tmpLabel.backgroundColor = UIColor.clearColor()
+        tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
+        tmpLabel.textAlignment = NSTextAlignment.Center
+        tmpLabel.text = "Loading..."
+        
+        return tmpLabel
+    }()
     
     lazy var conditionImageView: UIImageView = {
         var tmpImgView: UIImageView = UIImageView(frame: CGRectMake(Constants.WeatherView.labelsX,
@@ -41,6 +52,7 @@ class WeatherView: UIView {
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
         tmpLabel.text = "Loading..."
+        tmpLabel.alpha = 0.0
 
         return tmpLabel
     }()
@@ -67,6 +79,7 @@ class WeatherView: UIView {
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
         tmpLabel.text = "  ..."
+        tmpLabel.alpha = 0.0
         
         return tmpLabel
     }()
@@ -93,6 +106,7 @@ class WeatherView: UIView {
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
         tmpLabel.text = " ..."
+        tmpLabel.alpha = 0.0
         
         return tmpLabel
     }()
@@ -108,6 +122,7 @@ class WeatherView: UIView {
         tmpLabel.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpLabel.textAlignment = NSTextAlignment.Left
         tmpLabel.text = " ..."
+        tmpLabel.alpha = 0.0
         
         return tmpLabel
     }()
@@ -123,6 +138,9 @@ class WeatherView: UIView {
         tmpButton.titleLabel?.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpButton.titleLabel?.textAlignment = NSTextAlignment.Right
         tmpButton.setTitle("ºC", forState: UIControlState.Normal)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonColor), forState: UIControlState.Normal)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonHighlightedColor), forState: UIControlState.Highlighted)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonHighlightedColor), forState: UIControlState.Selected)
         tmpButton.addTarget(self, action: "changeTemperatureToCelcius:", forControlEvents: UIControlEvents.TouchUpInside)
         tmpButton.alpha = 0.0
         
@@ -152,6 +170,9 @@ class WeatherView: UIView {
         tmpButton.titleLabel?.textColor = self.appHelper.colorWithHexString(Constants.WeatherView.fontColor)
         tmpButton.titleLabel?.textAlignment = NSTextAlignment.Left
         tmpButton.setTitle("ºF", forState: UIControlState.Normal)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonColor), forState: UIControlState.Normal)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonHighlightedColor), forState: UIControlState.Highlighted)
+        tmpButton.setTitleColor(self.appHelper.colorWithHexString(Constants.WeatherView.buttonHighlightedColor), forState: UIControlState.Selected)
         tmpButton.addTarget(self, action: "changeTemperatureToFahranheit:", forControlEvents: UIControlEvents.TouchUpInside)
         tmpButton.alpha = 0.0
         
@@ -174,7 +195,10 @@ class WeatherView: UIView {
     }
     
     func commonInit() {
-    
+        
+        // celcius is by default the temp measurement
+        self.celciusButton.selected = true
+        
         // adding labels to view
         self.addSubview(self.conditionImageView)
         self.addSubview(self.conditionLabel)
@@ -186,6 +210,10 @@ class WeatherView: UIView {
         self.addSubview(self.celciusButton)
         self.addSubview(self.dividerLine)
         self.addSubview(self.fahranheitButton)
+        
+        // adding default label
+        self.addSubview(self.loadingLabel)
+    
     }
     
     
@@ -197,28 +225,22 @@ class WeatherView: UIView {
         UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
 
             // animations
-            self.conditionImageView.alpha = 0.0
-            self.conditionLabel.alpha = 0.0
-            self.maxTempImageView.alpha = 0.0
-            self.maxTempLabel.alpha = 0.0
-            self.lowTempImageView.alpha = 0.0
-            self.lowTempLabel.alpha = 0.0
-            self.currentTempLabel.alpha = 0.0
-            self.celciusButton.alpha = 0.0
-            self.dividerLine.alpha = 0.0
-            self.fahranheitButton.alpha = 0.0
+            self.alpha = 0.0
+            self.loadingLabel.alpha = 0.0
             
             }, completion: { finished in
                 
                 // after completion
+                self.loadingLabel.removeFromSuperview()
                 self.conditionLabel.text = condition
                 self.maxTempLabel.text = maxTemp
                 self.lowTempLabel.text = lowTemp
                 self.currentTempLabel.text = currentTemp + "º"
                 
-                UIView.animateWithDuration(3.0, delay: 0.0, options: .CurveEaseOut, animations: {
+                UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
                     
                     // animations
+                    self.alpha = 1.0
                     self.conditionImageView.alpha = 1.0
                     self.conditionLabel.alpha = 1.0
                     self.maxTempImageView.alpha = 1.0
@@ -236,16 +258,63 @@ class WeatherView: UIView {
         })
     }
     
+    func updateWeatherTemperatureLabelsAnimated(maxTemp: String, lowTemp: String, currentTemp: String) {
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+            
+            // animations
+            self.maxTempLabel.alpha = 0.0
+            self.lowTempLabel.alpha = 0.0
+            self.currentTempLabel.alpha = 0.0
+            
+            }, completion: { finished in
+                
+                // after completion
+                self.maxTempLabel.text = maxTemp
+                self.lowTempLabel.text = lowTemp
+                self.currentTempLabel.text = currentTemp + "º"
+                
+                UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
+                    
+                    // animations
+                    self.maxTempLabel.alpha = 1.0
+                    self.lowTempLabel.alpha = 1.0
+                    self.currentTempLabel.alpha = 1.0
+                    
+                    }, completion: { finished in
+                        // after completion
+                })
+        })
+    }
+    
     
     //MARK:
-    //MARK: Temperature Celcius/Fahranheit
+    //MARK: Temperature Celcius/Fahranheit helper buttons
     
     func changeTemperatureToCelcius(button: UIButton) {
+        // re-setting buttons state
+        self.celciusButton.selected = true
+        self.fahranheitButton.selected = false
+
+        let weatherManager = WeatherManager()
         
+        // updating labels animated
+        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToCelcius(weatherManager.getSavedKelvinMaxTemperature()),
+                                                    lowTemp: weatherManager.tempToCelcius(weatherManager.getSavedKelvinLowTemperature()),
+                                                    currentTemp: weatherManager.tempToCelcius(weatherManager.getSavedKelvinCurrentTemperature()))
     }
 
     func changeTemperatureToFahranheit(button: UIButton) {
+        // re-setting buttons state
+        self.celciusButton.selected = false
+        self.fahranheitButton.selected = true
+    
+        let weatherManager = WeatherManager()
         
+        // updating labels animated
+        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinMaxTemperature()),
+                                                    lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinLowTemperature()),
+                                                    currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinCurrentTemperature()))
     }
-
+    
 }

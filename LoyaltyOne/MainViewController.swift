@@ -210,6 +210,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let low = weatherJSON["main"]["temp_min"].numberValue
             let currentTemp = weatherJSON["main"]["temp"].numberValue
             
+            // saving current temperature to user defaults
+            let saveTempDic: [NSObject : AnyObject] = [Constants.UserDefaults.conditionKey : condition,
+                                                       Constants.UserDefaults.maxTempKey : max,
+                                                       Constants.UserDefaults.lowTempKey : low,
+                                                       Constants.UserDefaults.currentTempKey : currentTemp]
+            
+            NSUserDefaults.standardUserDefaults().setObject(saveTempDic, forKey: Constants.UserDefaults.dicTempKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
             // updating labels animated
             self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
                                                          maxTemp: self.weatherManager.tempToCelcius(max),

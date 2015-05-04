@@ -183,19 +183,71 @@ class WeatherManager: NSObject {
         return dictionary
     }
     
+    
+    //MARK:
+    //MARK: Temperature conversation
+    
     func tempToCelcius(tempKelvin: NSNumber) -> String {
         return self.numberFormatterWithNumber((tempKelvin.floatValue - 273.15))
     }
     
     func tempToFahrenheit(tempKelvin: NSNumber) -> String {
-        return self.numberFormatterWithNumber(((tempKelvin.floatValue * 9/5) - 459.67))
+        return self.numberFormatterWithNumber((((tempKelvin.floatValue - 273.15) * 1.8) + 32.00))
     }
     
     func numberFormatterWithNumber(number: NSNumber) -> String {
         let formatter = NSNumberFormatter()
+        formatter.roundingMode = NSNumberFormatterRoundingMode.RoundDown
         formatter.positiveFormat = "0"
         
         return formatter.stringFromNumber(number)!
     }
+    
+    
+    //MARK:
+    //MARK: Saved temperature getters
+    
+    func getSavedTemperatureCondition() -> String {
+        
+        if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
+            if let condition = tempDic[Constants.UserDefaults.conditionKey] as? String {
+                return String(format: "\(condition)")
+            }
+        }
+        
+        return ""
+    }
 
+    func getSavedKelvinMaxTemperature() -> NSNumber {
+
+        if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
+            if let maxTemp = tempDic[Constants.UserDefaults.maxTempKey] as? NSNumber {
+                return maxTemp
+            }
+        }
+        
+        return 0
+    }
+    
+    func getSavedKelvinLowTemperature() -> NSNumber {
+        
+        if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
+            if let lowTemp = tempDic[Constants.UserDefaults.lowTempKey] as? NSNumber {
+                return lowTemp
+            }
+        }
+        
+        return 0
+    }
+
+    func getSavedKelvinCurrentTemperature() -> NSNumber {
+        
+        if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
+            if let currentTemp = tempDic[Constants.UserDefaults.currentTempKey] as? NSNumber {
+                return currentTemp
+            }
+        }
+        
+        return 0
+    }
 }

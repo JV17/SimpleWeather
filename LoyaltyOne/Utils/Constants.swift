@@ -34,11 +34,14 @@ struct Constants {
         
         // the buttons size
         static let buttonSize: CGFloat = 50
+        static let buttonColor: String = "F7F7F7"
+        static let buttonHighlightedColor: String = "898C90"
         
         // the divider line between the buttons
         static let dividerLineHeight: CGFloat = 30
 
         // font size
+        static let loadingFontSize: CGFloat = 40
         static let conditionFontSize: CGFloat = 24
         static let lowHighFontSize: CGFloat = 22
         static let tempFontSize: CGFloat = 90
@@ -49,8 +52,20 @@ struct Constants {
         
         // font color
         static let fontColor = "F7F7F7"
+    
     }
 
     
+    //MARK:
+    //MARK: User defaults constants
+    
+    struct UserDefaults {
+        
+        static let dicTempKey: String = "temperature"
+        static let conditionKey: String = "condition"
+        static let maxTempKey: String = "max"
+        static let lowTempKey: String = "low"
+        static let currentTempKey: String = "current"
+    }
     
 }
