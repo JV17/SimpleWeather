@@ -24,6 +24,10 @@
 		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
 		3C7030BF1AF671A00075E648 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7030BE1AF671A00075E648 /* WeatherView.swift */; };
 		3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */; };
+		3CEA7F051AF72D68000B7671 /* collapse_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F011AF72D68000B7671 /* collapse_arrow@2x.png */; };
+		3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F021AF72D68000B7671 /* expand_arrow@2x.png */; };
+		3CEA7F071AF72D68000B7671 /* plus-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F031AF72D68000B7671 /* plus-50@2x.png */; };
+		3CEA7F081AF72D68000B7671 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F041AF72D68000B7671 /* plus@2x.png */; };
 		3CEC02671AF6BB2E00CC5ADD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEC02661AF6BB2E00CC5ADD /* CoreLocation.framework */; };
 		3CEC026A1AF6C3F600CC5ADD /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC02691AF6C3F600CC5ADD /* WeatherManager.swift */; };
 		3CEC026D1AF6C40000CC5ADD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026B1AF6C40000CC5ADD /* Constants.swift */; };
@@ -69,6 +73,10 @@
 		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
 		3C7030BE1AF671A00075E648 /* WeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherView.swift; path = Views/WeatherView.swift; sourceTree = "<group>"; };
 		3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "canadian_cities_ provinces.txt"; path = "Resources/canadian_cities_ provinces.txt"; sourceTree = "<group>"; };
+		3CEA7F011AF72D68000B7671 /* collapse_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "collapse_arrow@2x.png"; path = "Images/collapse_arrow@2x.png"; sourceTree = "<group>"; };
+		3CEA7F021AF72D68000B7671 /* expand_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "expand_arrow@2x.png"; path = "Images/expand_arrow@2x.png"; sourceTree = "<group>"; };
+		3CEA7F031AF72D68000B7671 /* plus-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-50@2x.png"; path = "Images/plus-50@2x.png"; sourceTree = "<group>"; };
+		3CEA7F041AF72D68000B7671 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Images/plus@2x.png"; sourceTree = "<group>"; };
 		3CEC02661AF6BB2E00CC5ADD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3CEC02691AF6C3F600CC5ADD /* WeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherManager.swift; path = Managers/WeatherManager.swift; sourceTree = "<group>"; };
 		3CEC026B1AF6C40000CC5ADD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Utils/Constants.swift; sourceTree = "<group>"; };
@@ -180,6 +188,10 @@
 		3C2937EB1AF4078300399A21 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3CEA7F011AF72D68000B7671 /* collapse_arrow@2x.png */,
+				3CEA7F021AF72D68000B7671 /* expand_arrow@2x.png */,
+				3CEA7F031AF72D68000B7671 /* plus-50@2x.png */,
+				3CEA7F041AF72D68000B7671 /* plus@2x.png */,
 				3C2937EE1AF4079B00399A21 /* background1.jpg */,
 				3C2937EF1AF4079B00399A21 /* background2.jpg */,
 				3C2937F01AF4079B00399A21 /* background3.jpg */,
@@ -333,8 +345,12 @@
 				3C2937F21AF4079B00399A21 /* background1.jpg in Resources */,
 				3C2937F31AF4079B00399A21 /* background2.jpg in Resources */,
 				3C2937C11AF3F6E900399A21 /* Images.xcassets in Resources */,
+				3CEA7F051AF72D68000B7671 /* collapse_arrow@2x.png in Resources */,
 				3C2937F41AF4079B00399A21 /* background3.jpg in Resources */,
+				3CEA7F081AF72D68000B7671 /* plus@2x.png in Resources */,
+				3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */,
 				3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */,
+				3CEA7F071AF72D68000B7671 /* plus-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
