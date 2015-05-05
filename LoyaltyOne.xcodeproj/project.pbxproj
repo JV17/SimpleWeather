@@ -43,7 +43,6 @@
 		3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FE1AF4197000399A21 /* Lato-Light.otf */; };
 		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
 		3C7030BF1AF671A00075E648 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7030BE1AF671A00075E648 /* WeatherView.swift */; };
-		3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */; };
 		3CEA7F051AF72D68000B7671 /* collapse_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F011AF72D68000B7671 /* collapse_arrow@2x.png */; };
 		3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F021AF72D68000B7671 /* expand_arrow@2x.png */; };
 		3CEA7F071AF72D68000B7671 /* plus-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEA7F031AF72D68000B7671 /* plus-50@2x.png */; };
@@ -113,7 +112,6 @@
 		3C2937FE1AF4197000399A21 /* Lato-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.otf"; path = "Fonts/Lato-Light.otf"; sourceTree = "<group>"; };
 		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
 		3C7030BE1AF671A00075E648 /* WeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherView.swift; path = Views/WeatherView.swift; sourceTree = "<group>"; };
-		3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "canadian_cities_ provinces.txt"; path = "Resources/canadian_cities_ provinces.txt"; sourceTree = "<group>"; };
 		3CEA7F011AF72D68000B7671 /* collapse_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "collapse_arrow@2x.png"; path = "Images/collapse_arrow@2x.png"; sourceTree = "<group>"; };
 		3CEA7F021AF72D68000B7671 /* expand_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "expand_arrow@2x.png"; path = "Images/expand_arrow@2x.png"; sourceTree = "<group>"; };
 		3CEA7F031AF72D68000B7671 /* plus-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-50@2x.png"; path = "Images/plus-50@2x.png"; sourceTree = "<group>"; };
@@ -307,7 +305,6 @@
 			children = (
 				3C2035211AF9325D00C99CAE /* countries.txt */,
 				3C2035221AF9325D00C99CAE /* country-codes.txt */,
-				3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -456,7 +453,6 @@
 				3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */,
 				3C1026D71AF7B9AD00C771A7 /* downpour-50@2x.png in Resources */,
 				3C1026DE1AF7B9B700C771A7 /* fog_day-50@2x.png in Resources */,
-				3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */,
 				3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */,
 				3C1026DF1AF7B9B700C771A7 /* little_rain-50@2x.png in Resources */,
 				3C1026E91AF7B9C100C771A7 /* rain-48@2x.png in Resources */,
