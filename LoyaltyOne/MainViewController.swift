@@ -252,10 +252,19 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let currentTemp = weatherJSON["main"]["temp"].numberValue
             self.currentCity = weatherJSON["name"].stringValue
             
+            var newMax: Float = max.floatValue
+            var newLow: Float = low.floatValue
+            let ran = Float(rand() % 4)
+            
+            if(currentTemp.floatValue == newMax || currentTemp.floatValue == newLow) {
+                newMax += ran
+                newLow -= ran
+            }
+            
             // saving current temperature to user defaults
             let saveTempDic: [NSObject : AnyObject] = [Constants.UserDefaults.conditionKey : condition,
-                                                       Constants.UserDefaults.maxTempKey : max,
-                                                       Constants.UserDefaults.lowTempKey : low,
+                                                       Constants.UserDefaults.maxTempKey : newMax,
+                                                       Constants.UserDefaults.lowTempKey : newLow,
                                                        Constants.UserDefaults.currentTempKey : currentTemp]
             
             NSUserDefaults.standardUserDefaults().setObject(saveTempDic, forKey: Constants.UserDefaults.dicTempKey)
@@ -263,8 +272,8 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             
             // updating labels animated
             self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
-                                                         maxTemp: self.weatherManager.tempToCelcius(max),
-                                                         lowTemp: self.weatherManager.tempToCelcius(low),
+                                                         maxTemp: self.weatherManager.tempToCelcius(newMax),
+                                                         lowTemp: self.weatherManager.tempToCelcius(newLow),
                                                          currentTemp: self.weatherManager.tempToCelcius(currentTemp))
             
             // updating city label animated
