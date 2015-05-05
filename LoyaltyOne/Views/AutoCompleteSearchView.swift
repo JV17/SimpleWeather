@@ -280,7 +280,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
                     
                     // creating a dictionary with all the country codes and countries
                     for(var x: Int = 0; x < indexes.count; x++) {
-                        self.countriesDic[indexes[x]] = values[x]
+                        self.countriesDic[indexes[x]] = (values[x].lowercaseString)
                     }
                 }
             }
@@ -334,7 +334,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
                 let countryCode: String = citiesJSON["list"][x]["sys"]["country"].stringValue
                 var cityToAppend: String = city
                 if let country: String = self.countriesDic[countryCode] {
-                    cityToAppend = city + ", " + self.countriesDic[countryCode]!
+                    cityToAppend = city + ", " + country.capitalizeFirst
                 }
                 self.autoCompleteCities.append(cityToAppend)
             }
