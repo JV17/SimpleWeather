@@ -73,4 +73,12 @@ struct Constants {
         static let selectedCity: String = "selectedCity"
     }
     
+    
+    //MARK:
+    //MARK: Autocomplete view constants
+    
+    struct AutocompleteView {
+        static let viewYoffSet: CGFloat = 36.0
+    }
+
 }

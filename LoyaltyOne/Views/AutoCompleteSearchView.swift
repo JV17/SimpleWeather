@@ -85,11 +85,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        // removing notification since we won't need to update the table view anymore
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
-    }
-    
     func commonInit() {
         
         // getting all country codes and countries
@@ -167,20 +162,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // TODO: search in not as efficient from API calls
          self.weatherManager.delegate = self
          self.weatherManager.requestCitiesFromString(subString)
-        
-        // cleaning any previous cities
-//        self.autoCompleteCities.removeAll(keepCapacity: true)
-//        
-//        // loops over all the cities
-//        for city in self.cities {
-//            
-//            // if contains the the subString then add the city
-//            if(self.containsKeyword(city, keyword: subString)) {
-//                self.autoCompleteCities.append(city)
-//            }
-//        }
-//        
-//        self.tableView.reloadData()
     }
     
     func containsKeyword(text: NSString, keyword: String) -> Bool
@@ -263,16 +244,19 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             // calculating new frame for table view
             let oldCGPoint = self.tableView.frame.origin
             let oldCGSize = self.tableView.frame.size
-            let newHeight: CGFloat = self.appHelper.screenSize.height-self.frame.origin.y-self.textField.frame.height-keyboardSize.height-4
+            let newHeight: CGFloat = self.appHelper.screenSize.height-Constants.AutocompleteView.viewYoffSet-self.textField.frame.height-keyboardSize.height-41.0
  
             // setting the new height for table view
             self.tableView.frame = CGRectMake(oldCGPoint.x, oldCGPoint.y, oldCGSize.width, newHeight)
             
             // calculating new frame for view
-            let newViewHeight = self.textField.frame.height+self.tableView.frame.height+5
+            let newViewHeight = self.textField.frame.size.height+self.tableView.frame.size.height
             
             // setting the new frame for view
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, newViewHeight)
+            
+            // removing notification since we won't need to update the table view anymore
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         }
     }
     
