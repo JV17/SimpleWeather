@@ -24,6 +24,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
     var cities = Array<String>()
+    var countriesDic = Dictionary<String, String>()
     var autoCompleteCities = Array<String>()
     var delegate: AutoCompleteDelegate?
     
@@ -91,8 +92,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func commonInit() {
         
-        // getting canadian cities/provinces
-        self.getCanadianCities()
+        // getting all country codes and countries
+        self.getCountriesWithCountryCodes()
         
         self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.4)
         self.addSubview(self.textField)
@@ -153,12 +154,11 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
-        if(count(textField.text) > 2) {
         // auto complete logic
-        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        self.searchAutocompleteEntriesWithSubstring(subString)
+        if((textField.text as NSString).length > 1) {
+            let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            self.searchAutocompleteEntriesWithSubstring(subString)
         }
-        
         return true
     }
     
@@ -280,6 +280,29 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     //MARK:
     //MARK: View helper functions
     
+    func getCountriesWithCountryCodes() {
+        // getting the files from our main bundle
+        let countryCodesFilePath = NSBundle.mainBundle().pathForResource("country-codes", ofType: "txt")
+        let countriesFilePath = NSBundle.mainBundle().pathForResource("countries", ofType: "txt")
+        
+        // getting the content from the files
+        if let countryCodesString = String(contentsOfFile: countryCodesFilePath!, encoding: NSUTF8StringEncoding, error: nil) {
+            if let countriesString = String(contentsOfFile: countriesFilePath!, encoding: NSUTF8StringEncoding, error: nil) {
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    // getting the country codes and contries content
+                    let indexes = countryCodesString.componentsSeparatedByString("\n")
+                    let values = countriesString.componentsSeparatedByString("\n")
+                    
+                    // creating a dictionary with all the country codes and countries
+                    for(var x: Int = 0; x < indexes.count; x++) {
+                        self.countriesDic[indexes[x]] = values[x]
+                    }
+                }
+            }
+        }
+    }
+    
     func getCanadianCities() {
         
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -314,7 +337,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     //MARK: Weather Manager delegate
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
-
+        
         dispatch_async(dispatch_get_main_queue()) {
             
             // cleaning any previous cities
@@ -322,9 +345,14 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             
             var x: Int = 0
             // loops over all the cities in JSON
-            for (; x < citiesJSON.count-1; x++) {
+            for (; x < citiesJSON["list"].count; x++) {
                 let city: String = citiesJSON["list"][x]["name"].stringValue
-                self.autoCompleteCities.append(city)
+                let countryCode: String = citiesJSON["list"][x]["sys"]["country"].stringValue
+                var cityToAppend: String = city
+                if let country: String = self.countriesDic[countryCode] {
+                    cityToAppend = city + ", " + self.countriesDic[countryCode]!
+                }
+                self.autoCompleteCities.append(cityToAppend)
             }
             
             self.tableView.reloadData()

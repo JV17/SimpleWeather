@@ -25,6 +25,8 @@
 		3C1026F41AF7BAC500C771A7 /* little_rain-48@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1026F31AF7BAC500C771A7 /* little_rain-48@2x.png */; };
 		3C1026F81AF854C200C771A7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1026F71AF854C200C771A7 /* Reachability.m */; };
 		3C1026FA1AF8550B00C771A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */; };
+		3C2035231AF9325D00C99CAE /* countries.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035211AF9325D00C99CAE /* countries.txt */; };
+		3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035221AF9325D00C99CAE /* country-codes.txt */; };
 		3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937B91AF3F6E900399A21 /* AppDelegate.swift */; };
 		3C2937BC1AF3F6E900399A21 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937BB1AF3F6E900399A21 /* MainViewController.swift */; };
 		3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937BD1AF3F6E900399A21 /* Main.storyboard */; };
@@ -89,6 +91,8 @@
 		3C1026F71AF854C200C771A7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Reachability/Reachability.m; sourceTree = "<group>"; };
 		3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3C1026FB1AF855D900C771A7 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		3C2035211AF9325D00C99CAE /* countries.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countries.txt; path = Resources/countries.txt; sourceTree = "<group>"; };
+		3C2035221AF9325D00C99CAE /* country-codes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "country-codes.txt"; path = "Resources/country-codes.txt"; sourceTree = "<group>"; };
 		3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoyaltyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2937B81AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C2937B91AF3F6E900399A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 		3C9442E81AF44920000B9429 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3C2035211AF9325D00C99CAE /* countries.txt */,
+				3C2035221AF9325D00C99CAE /* country-codes.txt */,
 				3C9442EB1AF449B2000B9429 /* canadian_cities_ provinces.txt */,
 			);
 			name = Resources;
@@ -446,10 +452,12 @@
 				3C2937F41AF4079B00399A21 /* background3.jpg in Resources */,
 				3C1026F41AF7BAC500C771A7 /* little_rain-48@2x.png in Resources */,
 				3C1026E01AF7B9B700C771A7 /* partly_cloudy_day-48@2x.png in Resources */,
+				3C2035231AF9325D00C99CAE /* countries.txt in Resources */,
 				3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */,
 				3C1026D71AF7B9AD00C771A7 /* downpour-50@2x.png in Resources */,
 				3C1026DE1AF7B9B700C771A7 /* fog_day-50@2x.png in Resources */,
 				3C9442EC1AF449B2000B9429 /* canadian_cities_ provinces.txt in Resources */,
+				3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */,
 				3C1026DF1AF7B9B700C771A7 /* little_rain-50@2x.png in Resources */,
 				3C1026E91AF7B9C100C771A7 /* rain-48@2x.png in Resources */,
 				3C1026EF1AF7B9C100C771A7 /* up-50@2x.png in Resources */,
