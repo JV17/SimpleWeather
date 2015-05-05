@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDelegate, LocationManagerDelegate {
 
     //MARK:
@@ -17,6 +18,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     let weatherManager = WeatherManager()
     let locationManager = LocationManager()
     var currentCity: String?
+    var backgroundImage: UIImage?
 
     //MARK:
     //MARK: Lazy loading
@@ -118,16 +120,75 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func setupBackgroundImage() {
        
         // we need to check if we have a correct image size to use as our background image
-        let bgImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: "background1")!, newSize: self.appHelper.screenSize.size)
+        self.backgroundImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: "background1")!, newSize: self.appHelper.screenSize.size)
         
-        self.view.backgroundColor = UIColor(patternImage: bgImage)
+        self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
         
         // creating blurred view
-        self.blurredView.backgroundColor = UIColor(patternImage: bgImage)
+        self.blurredView.backgroundColor = UIColor(patternImage: self.backgroundImage!)
         appHelper.applyBlurToView(self.blurredView, withBlurEffectStyle: .Dark)
-        self.blurredView.alpha = 0.7
+        self.blurredView.alpha = 0.6
         
         self.view.addSubview(self.blurredView)
+        
+        // saving the first background image used
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: Constants.UserDefaults.backgroundImageNum)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func updateBackgroundImage() {
+        
+        // we check which background image we currently have
+        var imageNum = NSUserDefaults.standardUserDefaults().integerForKey(Constants.UserDefaults.backgroundImageNum)
+
+        if(imageNum == 1) {
+            imageNum = 2
+        }
+        else if(imageNum == 2) {
+            imageNum = 3
+        }
+        else if(imageNum == 3) {
+            imageNum = 4
+        }
+        else if(imageNum == 4){
+            imageNum = 1
+        }
+        else {
+            imageNum = 1
+            
+            // saving the new selected image
+            NSUserDefaults.standardUserDefaults().setInteger(imageNum, forKey: Constants.UserDefaults.backgroundImageNum)
+            NSUserDefaults.standardUserDefaults().synchronize()
+
+            return
+        }
+        
+        let newImageName = "background" + "\(imageNum)"
+        self.backgroundImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: newImageName)!, newSize: self.appHelper.screenSize.size)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+            
+            // animations
+//            self.view.window?.backgroundColor
+            
+            }, completion: { finished in
+                
+                // after completion
+                self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
+                
+                UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+                    
+                    // animations
+                    self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
+                    
+                    }, completion: { finished in
+                        // after completion
+                })
+        })
+
+        // saving the new selected image
+        NSUserDefaults.standardUserDefaults().setInteger(imageNum, forKey: Constants.UserDefaults.backgroundImageNum)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func getCurrentTime() -> String {
@@ -268,6 +329,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             
             NSUserDefaults.standardUserDefaults().setObject(saveTempDic, forKey: Constants.UserDefaults.dicTempKey)
             NSUserDefaults.standardUserDefaults().synchronize()
+            
+            // updating background image
+            self.updateBackgroundImage()
             
             // updating labels animated
             self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
