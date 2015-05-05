@@ -16,6 +16,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
     let locationManager = LocationManager()
+    var city: String?
 
     //MARK:
     //MARK: Lazy loading
@@ -243,7 +244,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let max = weatherJSON["main"]["temp_max"].numberValue
             let low = weatherJSON["main"]["temp_min"].numberValue
             let currentTemp = weatherJSON["main"]["temp"].numberValue
-            let city = weatherJSON["name"].stringValue
+            self.city = weatherJSON["name"].stringValue
             
             // saving current temperature to user defaults
             let saveTempDic: [NSObject : AnyObject] = [Constants.UserDefaults.conditionKey : condition,
@@ -261,13 +262,17 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                                                          currentTemp: self.weatherManager.tempToCelcius(currentTemp))
             
             // updating city label animated
-            self.updateCityLabelAnimated(city)
+            self.updateCityLabelAnimated(self.city!)
         }
     }
     
     func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
         // error handling
         println("Request Error: \(error)")
+        
+        if(!self.city!.isEmpty) {
+            self.weatherManager.requestWeatherForCity(self.city!)
+        }
     }
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {

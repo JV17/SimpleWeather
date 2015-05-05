@@ -268,7 +268,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, newViewHeight)
         
             // removing notification since we won't need to update the table view anymore
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
+//            NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
         }
     }
     
