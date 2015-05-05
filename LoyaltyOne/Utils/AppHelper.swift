@@ -127,6 +127,20 @@ class AppHelper: NSObject {
         return city
     }
     
+    func isCurrentTimeDayTime() -> Bool {
+        // we get current timestamp
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components(.CalendarUnitHour, fromDate: date)
+        let hour = components.hour
+        
+        if(hour >= 19) {
+            return false
+        }
+        
+        return true
+    }
+    
     func displayFontFamilies() {
         
         for family in UIFont.familyNames() {

@@ -344,19 +344,47 @@ class WeatherView: UIView {
             image = UIImage(named: "rain-50")
         }
         else if(currentCondition == "Atmosphere") {
-            image = UIImage(named: "fog_day-50")
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "fog_day-50")
+            }
+            else {
+                image = UIImage(named: "fog_night-50")
+            }
         }
         else if(currentCondition == "Clouds" || currentCondition == "Extreme") {
 
             if(currentConditionDesc == "clear sky" || currentConditionDesc == "hot") {
-                image = UIImage(named: "summer-50")
+                if(self.appHelper.isCurrentTimeDayTime()) {
+                    image = UIImage(named: "summer-50")
+                }
+                else {
+                    image = UIImage(named: "moon-50")
+                }
             }
             else {
-                image = UIImage(named: "partly_cloudy_day-50")
+                if(self.appHelper.isCurrentTimeDayTime()) {
+                    image = UIImage(named: "partly_cloudy_day-50")
+                }
+                else {
+                    image = UIImage(named: "partly_cloudy_night-50")
+                }
+            }
+        }
+        else if(currentCondition == "Snow") {
+            if(currentConditionDesc == "snow" || currentConditionDesc == "heavy snow" || currentConditionDesc == "sleet" || currentConditionDesc == "heavy shower snow") {
+                image = UIImage(named: "snow-50")
+            }
+            else {
+                image = UIImage(named: "light_snow-50")
             }
         }
         else {
-            image = UIImage(named: "summer-50")
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "summer-50")
+            }
+            else {
+                image = UIImage(named: "moon-50")
+            }
         }
         
         return image!

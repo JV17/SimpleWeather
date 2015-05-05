@@ -78,7 +78,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         
         // setup controller
         self.commonInit()
-        
     }
     
     override func didReceiveMemoryWarning() {
