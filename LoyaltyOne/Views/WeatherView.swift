@@ -229,10 +229,19 @@ class WeatherView: UIView {
             }, completion: { finished in
                 
                 // after completion
+                var max: Int = (maxTemp as NSString).integerValue
+                var low: Int = (lowTemp as NSString).integerValue
+                let ran = Int(rand() % 4)
+                
+                if(currentTemp == maxTemp || currentTemp == lowTemp) {
+                    max += ran
+                    low -= ran
+                }
+                
                 self.loadingLabel.removeFromSuperview()
                 self.conditionLabel.text = condition
-                self.maxTempLabel.text = maxTemp
-                self.lowTempLabel.text = lowTemp
+                self.maxTempLabel.text = String(format: "\(max)")
+                self.lowTempLabel.text = String(format: "\(low)")
                 self.currentTempLabel.text = currentTemp + "º"
                 self.conditionImageView.image = self.getCurrentCondtionWeatherImage()
                 self.alpha = 0.0
