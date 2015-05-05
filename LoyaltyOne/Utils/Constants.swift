@@ -69,6 +69,8 @@ struct Constants {
         // weather manager defaults
         static let currentConditionKey: String = "currentCondition"
         static let currentCondtionDescKey: String = "currentConditionDesc"
+        
+        static let selectedCity: String = "selectedCity"
     }
     
 }

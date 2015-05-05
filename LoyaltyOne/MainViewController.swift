@@ -272,9 +272,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
         // error handling
-        self.showWeatherAlertControllerWithError(error)
+        self.showWeatherAlertControllerWithError(error, errorMessage: errorMessage, cityRequested: cityRequested)
     }
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
@@ -335,7 +335,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func showWeatherAlertControllerWithError(error: NSError) {
+    func showWeatherAlertControllerWithError(error: NSError, errorMessage: String, cityRequested: String) {
         
         let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
 
@@ -344,7 +344,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             switch action.style {
             case .Default:
                 // retry getting weather from services
-                if(!self.currentCity!.isEmpty) {
+                if(!cityRequested.isEmpty) {
+                    self.weatherManager.requestWeatherForCity(cityRequested)
+                }
+                else if(!self.currentCity!.isEmpty) {
                     self.weatherManager.requestWeatherForCity(self.currentCity!)
                 }
             case .Cancel:
@@ -362,7 +365,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 println("default")
                 
             case .Cancel:
-                println("cancel")
+                // show search bar to allow the user find a new location
+                self.autocompleteBtn.tag = 1
+                self.showAutocompleteView(self.autocompleteBtn)
                 
             case .Destructive:
                 println("destructive")

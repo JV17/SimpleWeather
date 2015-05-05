@@ -84,6 +84,11 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        // removing notification since we won't need to update the table view anymore
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
+    }
+    
     func commonInit() {
         
         // getting canadian cities/provinces
@@ -187,7 +192,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         textField.resignFirstResponder()
         
         // if there is only 1 city left in our auto complete array then auto selected
-        if(self.autoCompleteCities.count == 1) {
+        if(self.autoCompleteCities.count > 0) {
             textField.text = self.autoCompleteCities[0]
             self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.appHelper.removeProvinceFromCityName(self.autoCompleteCities[0]))
         }
@@ -266,9 +271,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             
             // setting the new frame for view
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, newViewHeight)
-        
-            // removing notification since we won't need to update the table view anymore
-//            NSNotificationCenter.defaultCenter().removeObserver(self, name: "keyboardWillShow:", object: nil)
         }
     }
     
@@ -337,7 +339,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // empty delegate
     }
     
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
         // empty delegate
     }
 }

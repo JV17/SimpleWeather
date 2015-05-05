@@ -17,7 +17,7 @@ protocol WeatherDataSource {
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON)
     
     // this function allows us to get notify if an error occurred while doing the API call
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError)
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String)
 
     // this function allows us to know when we get the cities from open weather map
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON)
@@ -71,7 +71,7 @@ class WeatherManager: NSObject {
                 
                 // we need to avoid delays from our download task
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.checkForValidWeatherData()
+                    self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
                 }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
@@ -79,7 +79,7 @@ class WeatherManager: NSObject {
 
                 dispatch_async(dispatch_get_main_queue()) {
                     // telling the delegate we have received an error
-                    self.delegate?.weatherRequestFinishedWithError(self, error: error)
+                    self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
                 }
         })
     }
@@ -121,7 +121,7 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Weather Manager helper functions
     
-    func checkForValidWeatherData() {
+    func checkForValidWeatherDataWithCity(city: String) {
 
         // we need to check if we have weather data
         if((self.weatherJSON?.isEmpty) == nil) {
@@ -135,7 +135,7 @@ class WeatherManager: NSObject {
             let error = NSError(domain: errorMessage, code: errorCode, userInfo: nil)
 
             // tells the delegate we couldn't find the city
-            self.delegate?.weatherRequestFinishedWithError(self, error: error)
+            self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: city)
         }
         else {
             // saving current weather condition to match with proper icons
