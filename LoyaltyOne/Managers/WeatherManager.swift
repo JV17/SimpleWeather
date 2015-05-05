@@ -9,6 +9,10 @@
 import UIKit
 
 protocol WeatherDataSource {
+    
+    //MARK:
+    //MARK: Protocol
+
     // this function allows us to know when we get the weather data from open weather map
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON)
     
@@ -22,7 +26,11 @@ protocol WeatherDataSource {
     func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError)
 }
 
+
 class WeatherManager: NSObject {
+    
+    //MARK:
+    //MARK: Properties
     
     // url call for cities by country name
     // "http://ws.geonames.org/searchJSON?country=usa&maxRows=1000&username=jvdev"
@@ -109,6 +117,10 @@ class WeatherManager: NSObject {
         })
     }
     
+    
+    //MARK:
+    //MARK: Weather Manager helper functions
+    
     func checkForValidWeatherData() {
 
         // we need to check if we have weather data
@@ -126,6 +138,9 @@ class WeatherManager: NSObject {
             self.delegate?.weatherRequestFinishedWithError(self, error: error)
         }
         else {
+            // saving current weather condition to match with proper icons
+            self.saveCurrentWeatherConditionFromJSON(self.weatherJSON!)
+            
             // telling the delegate we have received data from our API call
             self.delegate?.weatherRequestFinishedWithJSON(self, weatherJSON: self.weatherJSON!)
         }
@@ -185,6 +200,25 @@ class WeatherManager: NSObject {
         }
         
         return dictionary
+    }
+    
+    func saveCurrentWeatherConditionFromJSON(weatherJSON: JSON) {
+        
+        // we need to check if we have weather data
+        if((self.weatherJSON?.isEmpty) == nil) {
+            self.requestWeatherForCity("")
+        }
+        
+        if (!weatherJSON.isEmpty) {
+            // getting current condition from json
+            let currentCondition = weatherJSON["weather"][0]["main"].stringValue
+            let currentConditionDesc = weatherJSON["weather"][0]["description"].stringValue
+            
+            // saving current condition to defaults
+            NSUserDefaults.standardUserDefaults().setObject(currentCondition, forKey: Constants.UserDefaults.currentConditionKey)
+            NSUserDefaults.standardUserDefaults().setObject(currentCondition, forKey: Constants.UserDefaults.currentCondtionDescKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
     }
     
     

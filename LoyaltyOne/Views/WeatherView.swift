@@ -35,7 +35,6 @@ class WeatherView: UIView {
                                                                     0,
                                                                     Constants.WeatherView.conditionHeight,
                                                                     Constants.WeatherView.conditionHeight))
-        tmpImgView.image = UIImage(named: "summer-50")
         tmpImgView.alpha = 0.0
         
         return tmpImgView
@@ -235,6 +234,7 @@ class WeatherView: UIView {
                 self.maxTempLabel.text = maxTemp
                 self.lowTempLabel.text = lowTemp
                 self.currentTempLabel.text = currentTemp + "º"
+                self.conditionImageView.image = self.getCurrentCondtionWeatherImage()
                 self.alpha = 0.0
                 
                 UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -316,5 +316,42 @@ class WeatherView: UIView {
                                                     lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinLowTemperature()),
                                                     currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinCurrentTemperature()))
     }
+    
+    
+    //MARK:
+    //MARK: Weather View helper functions
+    
+    func getCurrentCondtionWeatherImage() -> UIImage {
+        
+        var image: UIImage?
+        
+        let currentCondition: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentConditionKey)! as! String
+        let currentConditionDesc: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCondtionDescKey)! as! String
+        
+        if(currentCondition == "Drizzle") {
+            image = UIImage(named: "little_rain-50")
+        }
+        else if(currentCondition == "Rain") {
+            image = UIImage(named: "rain-50")
+        }
+        else if(currentCondition == "Atmosphere") {
+            image = UIImage(named: "fog_day-50")
+        }
+        else if(currentCondition == "Clouds" || currentCondition == "Extreme") {
+
+            if(currentConditionDesc == "clear sky" || currentConditionDesc == "hot") {
+                image = UIImage(named: "summer-50")
+            }
+            else if(currentConditionDesc == "few clouds" || currentConditionDesc == "broken clouds" || currentConditionDesc == "overcast clouds") {
+                image = UIImage(named: "partly_cloudy_day-50")
+            }
+        }
+        else {
+            image = UIImage(named: "summer-50")
+        }
+        
+        return image!
+    }
+
     
 }

@@ -52,7 +52,6 @@ struct Constants {
         
         // font color
         static let fontColor = "F7F7F7"
-    
     }
 
     
@@ -66,6 +65,10 @@ struct Constants {
         static let maxTempKey: String = "max"
         static let lowTempKey: String = "low"
         static let currentTempKey: String = "current"
+        
+        // weather manager defaults
+        static let currentConditionKey: String = "currentCondition"
+        static let currentCondtionDescKey: String = "currentConditionDesc"
     }
     
 }
