@@ -153,9 +153,11 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
+        if(count(textField.text) > 2) {
         // auto complete logic
         let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         self.searchAutocompleteEntriesWithSubstring(subString)
+        }
         
         return true
     }
@@ -163,22 +165,22 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func searchAutocompleteEntriesWithSubstring(subString: String) {
         
         // TODO: search in not as efficient from API calls
-        // self.weatherManager.delegate = self
-        // self.weatherManager.requestCitiesFromString(subString)
+         self.weatherManager.delegate = self
+         self.weatherManager.requestCitiesFromString(subString)
         
         // cleaning any previous cities
-        self.autoCompleteCities.removeAll(keepCapacity: true)
-        
-        // loops over all the cities
-        for city in self.cities {
-            
-            // if contains the the subString then add the city
-            if(self.containsKeyword(city, keyword: subString)) {
-                self.autoCompleteCities.append(city)
-            }
-        }
-        
-        self.tableView.reloadData()
+//        self.autoCompleteCities.removeAll(keepCapacity: true)
+//        
+//        // loops over all the cities
+//        for city in self.cities {
+//            
+//            // if contains the the subString then add the city
+//            if(self.containsKeyword(city, keyword: subString)) {
+//                self.autoCompleteCities.append(city)
+//            }
+//        }
+//        
+//        self.tableView.reloadData()
     }
     
     func containsKeyword(text: NSString, keyword: String) -> Bool
