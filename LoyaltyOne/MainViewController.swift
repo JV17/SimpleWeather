@@ -16,7 +16,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
     let locationManager = LocationManager()
-    var city: String?
+    var currentCity: String?
 
     //MARK:
     //MARK: Lazy loading
@@ -80,7 +80,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.commonInit()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -215,19 +215,25 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Location Manager delegate
     
-    func locationFinishedUpdatingWithCity(cityName: String, postalCode: String, state: String, country: String, countryCode: String) {
+    func locationFinishedUpdatingWithCity(locationManager: LocationManager, city: String, postalCode: String, state: String, country: String, countryCode: String) {
         // get user location
         
         // making service call with location data
         self.weatherManager.delegate = self
-        self.weatherManager.requestWeatherForCity(cityName)
+        self.weatherManager.requestWeatherForCity(city)
+        self.currentCity = city
         
         // print location info
-        println("\(cityName)")
+        println("\(city)")
         println("\(postalCode)")
         println("\(state)")
         println("\(country)")
         println("\(countryCode)")
+    }
+    
+    func locationFinishedWithError(locationMAnager: LocationManager, error: NSError, errorMessage: String) {
+        // error handling
+        self.showLocationAlertControllerWithError(error, errorMessage: errorMessage)
     }
     
     
@@ -244,7 +250,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let max = weatherJSON["main"]["temp_max"].numberValue
             let low = weatherJSON["main"]["temp_min"].numberValue
             let currentTemp = weatherJSON["main"]["temp"].numberValue
-            self.city = weatherJSON["name"].stringValue
+            self.currentCity = weatherJSON["name"].stringValue
             
             // saving current temperature to user defaults
             let saveTempDic: [NSObject : AnyObject] = [Constants.UserDefaults.conditionKey : condition,
@@ -262,17 +268,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                                                          currentTemp: self.weatherManager.tempToCelcius(currentTemp))
             
             // updating city label animated
-            self.updateCityLabelAnimated(self.city!)
+            self.updateCityLabelAnimated(self.currentCity!)
         }
     }
     
     func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
         // error handling
-        println("Request Error: \(error)")
-        
-        if(!self.city!.isEmpty) {
-            self.weatherManager.requestWeatherForCity(self.city!)
-        }
+        self.showWeatherAlertControllerWithError(error)
     }
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
@@ -292,6 +294,82 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         if(!selectedCity.isEmpty) {
             self.weatherManager.requestWeatherForCity(selectedCity)
         }
+    }
+    
+    
+    //MARK:
+    //MARK: Error handling
+    
+    func showLocationAlertControllerWithError(error: NSError, errorMessage: String) {
+        
+        let alert = UIAlertController(title: "Location Service Error", message: "\(errorMessage)", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // retry getting users location
+        alert.addAction(UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { action in
+            switch action.style{
+            case .Default:
+                // retry getting users location
+                self.locationManager.requestLocation()
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        // cancel action
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func showWeatherAlertControllerWithError(error: NSError) {
+        
+        let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+
+        // retry getting weather from services action
+        alert.addAction(UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { action in
+            switch action.style {
+            case .Default:
+                // retry getting weather from services
+                if(!self.currentCity!.isEmpty) {
+                    self.weatherManager.requestWeatherForCity(self.currentCity!)
+                }
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        // cancel action
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
+            switch action.style {
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }

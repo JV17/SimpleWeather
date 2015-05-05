@@ -13,8 +13,10 @@ import CoreLocation
 protocol LocationManagerDelegate {
     
     // tells the users city, postal code, state, country, country code
-    func locationFinishedUpdatingWithCity(cityName: String, postalCode: String, state: String, country: String, countryCode: String)
+    func locationFinishedUpdatingWithCity(locationManager: LocationManager, city: String, postalCode: String, state: String, country: String, countryCode: String)
     
+    // tells if we got an error from our location service
+    func locationFinishedWithError(locationMAnager: LocationManager, error: NSError, errorMessage: String)
 }
 
 
@@ -37,6 +39,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             if(error != nil) {
                 println("Error:" + error.localizedDescription)
+                self.delegate?.locationFinishedWithError(self, error: error, errorMessage: error.localizedDescription)
             }
 
             // avoiding delays from block
@@ -48,6 +51,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 }
                 else {
                     println("Error with data")
+                    let error: NSError = NSError(domain: "Location Services", code: 1, userInfo: nil)
+                    self.delegate?.locationFinishedWithError(self, error: error, errorMessage: "Error with the location services information, please try again.")
                 }
                 
                 // stop updating location
@@ -59,6 +64,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("Error: " + error.localizedDescription)
+        self.delegate?.locationFinishedWithError(self, error: error, errorMessage: error.localizedDescription)
     }
     
     
@@ -66,6 +72,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     //MARK: Location Manager helper functions
     
     func requestLocation() {
+        
+        self.alreadyUpdatedLocation = false
+        
         // ask for location
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
@@ -75,6 +84,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             self.locationManager.startUpdatingLocation()
         }
+        else {
+            // user location services is off
+            let error: NSError = NSError(domain: "Location Services Unavailable", code: 1, userInfo: nil)
+            self.delegate?.locationFinishedWithError(self, error: error, errorMessage: "Please enabled your location services within your device settings.")
+        }
     }
     
     func displayLocationInfo(placemark: CLPlacemark) {
@@ -83,7 +97,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        self.delegate?.locationFinishedUpdatingWithCity(placemark.locality, postalCode: placemark.postalCode, state: placemark.administrativeArea, country: placemark.country, countryCode: placemark.ISOcountryCode)
+        self.delegate?.locationFinishedUpdatingWithCity(self, city: placemark.locality, postalCode: placemark.postalCode, state: placemark.administrativeArea, country: placemark.country, countryCode: placemark.ISOcountryCode)
         
     }
     
@@ -93,4 +107,5 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             self.alreadyUpdatedLocation = true
         }
     }
+    
 }

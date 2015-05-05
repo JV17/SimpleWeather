@@ -118,8 +118,12 @@ class WeatherManager: NSObject {
         
         if ((self.weatherJSON!["message"].string) != nil) {
             // error handling
-            let errorMessage = self.weatherJSON!["message"].stringValue
-            println("\(errorMessage)")
+            let errorMessage = self.weatherJSON!["message"].stringValue + ","
+            let errorCode = self.weatherJSON!["cod"].intValue
+            let error = NSError(domain: errorMessage, code: errorCode, userInfo: nil)
+
+            // tells the delegate we couldn't find the city
+            self.delegate?.weatherRequestFinishedWithError(self, error: error)
         }
         else {
             // telling the delegate we have received data from our API call
