@@ -23,6 +23,8 @@
 		3C1026EE1AF7B9C100C771A7 /* summer-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1026E71AF7B9C100C771A7 /* summer-50@2x.png */; };
 		3C1026EF1AF7B9C100C771A7 /* up-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1026E81AF7B9C100C771A7 /* up-50@2x.png */; };
 		3C1026F41AF7BAC500C771A7 /* little_rain-48@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1026F31AF7BAC500C771A7 /* little_rain-48@2x.png */; };
+		3C1026F81AF854C200C771A7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1026F71AF854C200C771A7 /* Reachability.m */; };
+		3C1026FA1AF8550B00C771A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */; };
 		3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937B91AF3F6E900399A21 /* AppDelegate.swift */; };
 		3C2937BC1AF3F6E900399A21 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937BB1AF3F6E900399A21 /* MainViewController.swift */; };
 		3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937BD1AF3F6E900399A21 /* Main.storyboard */; };
@@ -83,6 +85,10 @@
 		3C1026E71AF7B9C100C771A7 /* summer-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "summer-50@2x.png"; path = "Images/summer-50@2x.png"; sourceTree = "<group>"; };
 		3C1026E81AF7B9C100C771A7 /* up-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "up-50@2x.png"; path = "Images/up-50@2x.png"; sourceTree = "<group>"; };
 		3C1026F31AF7BAC500C771A7 /* little_rain-48@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "little_rain-48@2x.png"; path = "Images/little_rain-48@2x.png"; sourceTree = "<group>"; };
+		3C1026F61AF854C200C771A7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Reachability/Reachability.h; sourceTree = "<group>"; };
+		3C1026F71AF854C200C771A7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Reachability/Reachability.m; sourceTree = "<group>"; };
+		3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3C1026FB1AF855D900C771A7 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoyaltyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2937B81AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C2937B91AF3F6E900399A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C1026FA1AF8550B00C771A7 /* SystemConfiguration.framework in Frameworks */,
 				3CEC02671AF6BB2E00CC5ADD /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,9 +190,19 @@
 			name = menus;
 			sourceTree = "<group>";
 		};
+		3C1026F51AF8549C00C771A7 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				3C1026F61AF854C200C771A7 /* Reachability.h */,
+				3C1026F71AF854C200C771A7 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		3C2937AB1AF3F6E900399A21 = {
 			isa = PBXGroup;
 			children = (
+				3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */,
 				3CEC02661AF6BB2E00CC5ADD /* CoreLocation.framework */,
 				3C2937D91AF4008A00399A21 /* Podfile */,
 				3C2937B61AF3F6E900399A21 /* LoyaltyOne */,
@@ -206,6 +223,7 @@
 		3C2937B61AF3F6E900399A21 /* LoyaltyOne */ = {
 			isa = PBXGroup;
 			children = (
+				3C1026F51AF8549C00C771A7 /* Reachability */,
 				3CEC02681AF6C3AB00CC5ADD /* Managers */,
 				3CF7C3961AF5A97E00AD0F6E /* Views */,
 				3CF7C3911AF5594700AD0F6E /* SwiftyJSON */,
@@ -214,6 +232,7 @@
 				3C2937E61AF4061100399A21 /* Utils */,
 				3C2937B91AF3F6E900399A21 /* AppDelegate.swift */,
 				3C2937BB1AF3F6E900399A21 /* MainViewController.swift */,
+				3C1026FB1AF855D900C771A7 /* Bridging-Header.h */,
 				3C2937BD1AF3F6E900399A21 /* Main.storyboard */,
 				3C2937C01AF3F6E900399A21 /* Images.xcassets */,
 				3C2937C21AF3F6E900399A21 /* LaunchScreen.xib */,
@@ -456,6 +475,7 @@
 				3CF7C38F1AF5578400AD0F6E /* HTTPTask.swift in Sources */,
 				3C2937BC1AF3F6E900399A21 /* MainViewController.swift in Sources */,
 				3CF7C3901AF5578400AD0F6E /* HTTPUpload.swift in Sources */,
+				3C1026F81AF854C200C771A7 /* Reachability.m in Sources */,
 				3CF7C3931AF5595800AD0F6E /* SwiftyJSON.swift in Sources */,
 				3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */,
 				3CEC026A1AF6C3F600CC5ADD /* WeatherManager.swift in Sources */,
@@ -595,6 +615,7 @@
 				INFOPLIST_FILE = LoyaltyOne/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LoyaltyOne/Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -605,6 +626,7 @@
 				INFOPLIST_FILE = LoyaltyOne/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LoyaltyOne/Bridging-Header.h";
 			};
 			name = Release;
 		};
