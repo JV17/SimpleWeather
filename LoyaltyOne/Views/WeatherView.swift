@@ -149,7 +149,7 @@ class WeatherView: UIView {
     
     lazy var dividerLine: UIView = {
         var tmpView: UIView = UIView(frame: CGRectMake(CGRectGetMaxX(self.celciusButton.frame),
-                                                       CGRectGetMaxY(self.currentTempLabel.frame)-Constants.WeatherView.buttonSize+15,
+                                                       CGRectGetMaxY(self.currentTempLabel.frame)-Constants.WeatherView.buttonSize+16,
                                                        1,
                                                        Constants.WeatherView.dividerLineHeight))
         

@@ -130,6 +130,10 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // number of rows
+        if(self.autoCompleteCities.count > 50) {
+            return 50
+        }
+        
         return self.autoCompleteCities.count
     }
     
