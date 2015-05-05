@@ -342,7 +342,7 @@ class WeatherView: UIView {
             if(currentConditionDesc == "clear sky" || currentConditionDesc == "hot") {
                 image = UIImage(named: "summer-50")
             }
-            else if(currentConditionDesc == "few clouds" || currentConditionDesc == "broken clouds" || currentConditionDesc == "overcast clouds") {
+            else {
                 image = UIImage(named: "partly_cloudy_day-50")
             }
         }
