@@ -46,7 +46,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tmpTextField.font = UIFont(name: "Lato-Light", size: 22)
         tmpTextField.leftViewMode = .Always
         tmpTextField.textColor = UIColor.whiteColor()
-        tmpTextField.placeholder = NSLocalizedString("Enter your city", comment: "")
+        tmpTextField.attributedPlaceholder = NSAttributedString(string:"Enter city",
+                                                                attributes:[NSForegroundColorAttributeName: UIColor.lightGrayColor().colorWithAlphaComponent(0.6)])
         tmpTextField.returnKeyType = .Done
         tmpTextField.clearButtonMode = .Never
         tmpTextField.tintColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
@@ -90,7 +91,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // getting all country codes and countries
         self.getCountriesWithCountryCodes()
         
-        self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.7)
+        self.textField.backgroundColor = appHelper.colorWithHexString("1F1F21").colorWithAlphaComponent(0.7)
         self.addSubview(self.textField)
         
         // post notifications
