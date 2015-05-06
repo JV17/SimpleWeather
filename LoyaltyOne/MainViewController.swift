@@ -47,16 +47,20 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }()
     
     lazy var forecastView: ForecastWeatherView = {
-        var tmpView: ForecastWeatherView = ForecastWeatherView(frame: CGRectMake(0, CGRectGetMinY(self.weatherView.frame), self.view.frame.width, Constants.ForecastView.viewHeight))
+        var tmpView: ForecastWeatherView = ForecastWeatherView(frame: CGRectMake(0, CGRectGetMinY(self.weatherView.frame)-50, self.view.frame.width, Constants.ForecastView.viewHeight))
         tmpView.alpha = 0.0
         
         return tmpView
     }()
     
     lazy var forecastButton: UIButton = {
-        var tmpButton: UIButton = UIButton(frame: CGRectMake(0, 0, 0, 0))
+        var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.weatherView.frame)-50, CGRectGetMinY(self.weatherView.frame), 50, 50))
+        tmpBtn.backgroundColor = UIColor.clearColor()
+        tmpBtn.setImage(UIImage(named: "collapse_arrow"), forState: UIControlState.Normal)
+        tmpBtn.addTarget(self, action: "showForecastView:", forControlEvents: UIControlEvents.TouchUpInside)
+        tmpBtn.tag = 1
         
-        return tmpButton
+        return tmpBtn
     }()
     
     lazy var blurredView: UIView = {
@@ -121,6 +125,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.setCityTimeLabels()
         
         self.view.addSubview(self.weatherView)
+        self.view.addSubview(self.forecastButton)
         self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.autocompleteBtn)
     }
@@ -243,6 +248,46 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         formatter.timeStyle = .ShortStyle
         
         return formatter.stringFromDate(date)
+    }
+    
+    func showForecastView(button: UIButton) {
+        
+        if((self.forecastView.window) == nil) {
+            self.view.insertSubview(self.forecastView, belowSubview: self.weatherView)
+        }
+        
+        if(button.tag == 1) {
+            
+            UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+                // forecast view show animations
+                let oldFrame = self.forecastView.frame
+                self.forecastView.frame = CGRectMake(oldFrame.origin.x, CGRectGetHeight(self.view.frame)-Constants.ForecastView.subtractY, oldFrame.size.width, oldFrame.size.height)
+                self.forecastView.alpha = 1.0
+                
+                // forecast button animations
+                self.forecastButton.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+                
+                }, completion: { finished in
+                    // completion handling
+                    self.forecastButton.tag = 2
+            })
+        }
+        else {
+            
+            UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+                // forecast view hide animations
+                let oldFrame = self.forecastView.frame
+                self.forecastView.frame = CGRectMake(oldFrame.origin.x, CGRectGetMinY(self.weatherView.frame)-50, oldFrame.size.width, oldFrame.size.height)
+                self.forecastView.alpha = 0.0
+
+                // forecast button animations
+                self.forecastButton.transform = CGAffineTransformIdentity
+                
+                }, completion: { finished in
+                    // completion handling
+                    self.forecastButton.tag = 1
+            })
+        }
     }
     
     func showAutocompleteView(button: UIButton) {
