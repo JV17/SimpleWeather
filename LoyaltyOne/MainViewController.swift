@@ -128,6 +128,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.view.addSubview(self.forecastButton)
         self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.autocompleteBtn)
+        
+        var swipeUp = UISwipeGestureRecognizer(target: self, action: "showForecastView:")
+        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
+        self.weatherView.addGestureRecognizer(swipeUp)
+        
+        var swipeDown = UISwipeGestureRecognizer(target: self, action: "showForecastView:")
+        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
+        self.weatherView.addGestureRecognizer(swipeDown)
+
     }
     
 
@@ -250,13 +259,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return formatter.stringFromDate(date)
     }
     
-    func showForecastView(button: UIButton) {
+    func showForecastView(sender: AnyObject) {
         
         if((self.forecastView.window) == nil) {
             self.view.insertSubview(self.forecastView, belowSubview: self.weatherView)
         }
         
-        if(button.tag == 1) {
+        if(self.forecastButton.tag == 1) {
             
             UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
                 // forecast view show animations
@@ -292,7 +301,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func showAutocompleteView(button: UIButton) {
         
-        if(button.tag == 1) {
+        if(self.autocompleteBtn.tag == 1) {
             
             // showing the keyboard as soon as the animation finished
             self.autocompleteView.textField.becomeFirstResponder()
