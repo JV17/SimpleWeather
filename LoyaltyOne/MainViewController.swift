@@ -19,6 +19,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     let locationManager = LocationManager()
     var currentCity: String?
     var backgroundImage: UIImage?
+    var isAutocompleteViewAnimating = Bool()
 
     //MARK:
     //MARK: Lazy loading
@@ -235,6 +236,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func showAutocompleteView(button: UIButton) {
         
+        if(self.isAutocompleteViewAnimating) {
+            return
+        }
+        
+        self.isAutocompleteViewAnimating = true
+        
         if(self.autocompleteBtn.tag == 1) {
             
             // showing the keyboard as soon as the animation finished
@@ -256,6 +263,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             }, completion: { finished in
                 // completion handling
                 self.autocompleteBtn.tag = 2
+                self.isAutocompleteViewAnimating = false
             })
         }
         else {
@@ -280,6 +288,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 // completion handling
                 self.autocompleteView.clearAutocompleteTextField()
                 self.autocompleteBtn.tag = 1
+                self.isAutocompleteViewAnimating = false
             })
         }
     }
