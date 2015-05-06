@@ -12,6 +12,28 @@ import UIKit
 struct Constants {
 
     //MARK:
+    //MARK: Multi-threading
+    
+    struct MultiThreading {
+        // priorities
+        static let quality_class_interactive = Int(QOS_CLASS_USER_INTERACTIVE.value)
+        static let quality_class_initiated = Int(QOS_CLASS_USER_INITIATED.value)
+        static let quality_class_default = Int(QOS_CLASS_DEFAULT.value)
+        static let quality_class_utility = Int(QOS_CLASS_UTILITY.value)
+        static let quality_class_background = Int(QOS_CLASS_BACKGROUND.value)
+        static let quality_class_min = Int(QOS_MIN_RELATIVE_PRIORITY)
+        
+        // dispatchs
+        static let interactiveQueue = dispatch_get_global_queue(quality_class_interactive, 0)
+        static let initiatedQueue = dispatch_get_global_queue(quality_class_initiated, 0)
+        static let defaultQueue = dispatch_get_global_queue(quality_class_default, 0)
+        static let utilityQueue = dispatch_get_global_queue(quality_class_utility, 0)
+        static let backgroundQueue = dispatch_get_global_queue(quality_class_background, 0)
+        static let minPriorityQueue = dispatch_get_global_queue(quality_class_min, 0)
+    }
+
+    
+    //MARK:
     //MARK: Weather view constants
 
     struct WeatherView {

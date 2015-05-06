@@ -99,6 +99,8 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func commonInit() {
         
+        self.weatherManager.delegate = self
+        
         self.locationManager.delegate = self
         self.locationManager.requestLocation()
         
@@ -117,6 +119,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     //MARK:
     //MARK: Controller helper functions
+    
+    func performNewWeatherServiceCallWithCity(city: String) {
+        // making a new services call for city
+        dispatch_async(Constants.MultiThreading.backgroundQueue, {
+            self.weatherManager.requestWeatherForCity(city)
+        })
+    }
     
     func setCityTimeLabels() {
 
@@ -328,8 +337,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // get user location
         
         // making service call with location data
-        self.weatherManager.delegate = self
-        self.weatherManager.requestWeatherForCity(city)
+        self.performNewWeatherServiceCallWithCity(city)
         self.currentCity = city
         
         // print location info
@@ -413,7 +421,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String) {
         // make a new service call with the new city
         if(!selectedCity.isEmpty) {
-            self.weatherManager.requestWeatherForCity(selectedCity)
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForCity(selectedCity)
+            })
         }
     }
     
@@ -466,10 +476,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             case .Default:
                 // retry getting weather from services
                 if(!cityRequested.isEmpty) {
-                    self.weatherManager.requestWeatherForCity(cityRequested)
+                    self.performNewWeatherServiceCallWithCity(cityRequested)
                 }
                 else if(!self.currentCity!.isEmpty) {
-                    self.weatherManager.requestWeatherForCity(self.currentCity!)
+                    self.performNewWeatherServiceCallWithCity(self.currentCity!)
                 }
             case .Cancel:
                 println("cancel")

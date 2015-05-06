@@ -42,29 +42,28 @@ class WeatherManager: NSObject {
     // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
     
     let request = HTTPTask()
-    let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather?q="
-    let citiesURL: String = "http://api.openweathermap.org/data/2.5/find?q="
-    let apiKey: String = "&APPID=432dbd419b713483bc99b3cbcd13d5ab"
+    let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather?"
+    let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast?"
+    let citiesURL: String = "http://api.openweathermap.org/data/2.5/find?"
+    let apiKey: String = "432dbd419b713483bc99b3cbcd13d5ab"
     var weatherJSON: JSON?
     var citiesJSON: JSON?
     var delegate: WeatherDataSource?
     
     
     //MARK:
-    //MARK: Request Weather
+    //MARK: Weather Manager requests
     
     func requestWeatherForCity(city: String) {
         
-        var url = String()
-        
         if(city.isEmpty) {
-            url = self.weatherURL + "Toronto" + self.apiKey
-        }
-        else {
-            url = self.weatherURL + city + self.apiKey
+            // telling the delegate we have received an error
+            let error = NSError(domain: "Weather Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "Weather services are inaccessible without a city"])
+            self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
+            return
         }
         
-        self.request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
+        self.request.GET(self.weatherURL, parameters: ["q" : city, "APPID" : self.apiKey], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 self.weatherJSON = JSON(data: data)
@@ -84,18 +83,45 @@ class WeatherManager: NSObject {
         })
     }
     
-    func requestCitiesFromString(string: String) {
+    func requestWeatherForecastForCity(city: String) {
         
-        var url = String()
-        
-        if(string.isEmpty) {
+        if(city.isEmpty) {
+            // telling the delegate we have received an error
+            let error = NSError(domain: "Weather Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "Weather services are inaccessible without a city"])
+            self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
             return
         }
-        else {
-            url = self.citiesURL + string + "&type=like"
+        
+        self.request.GET(self.weatherForecastURL, parameters: ["q" : city, "APPID" : self.apiKey], success: {(response: HTTPResponse) in
+            if let data = response.responseObject as? NSData {
+                
+                self.weatherJSON = JSON(data: data)
+                
+                // we need to avoid delays from our download task
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
+                }
+            }
+            },failure: {(error: NSError, response: HTTPResponse?) in
+                println("error: \(error)")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    // telling the delegate we have received an error
+                    self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
+                }
+        })
+    }
+    
+    func requestCitiesFromString(searchString: String) {
+        
+        if(searchString.isEmpty) {
+            // telling the delegate we have received an error
+            let error = NSError(domain: "City Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "City services are inaccessible without a string/city to search for"])
+            self.delegate?.citiesRequestFinishedWithError(self, error: error)
+            return
         }
         
-        self.request.GET(url, parameters: nil, success: {(response: HTTPResponse) in
+        self.request.GET(self.citiesURL, parameters: ["q" : searchString, "type" : "like"], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 self.citiesJSON = JSON(data: data)
