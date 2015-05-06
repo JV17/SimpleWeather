@@ -53,7 +53,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tmpTextField.tintColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
         
         return tmpTextField
-        }()
+    }()
     
     lazy var tableView: UITableView = {
         var tmpTableView: UITableView = UITableView(frame: CGRectMake(0, CGRectGetMaxY(self.textField.frame), self.frame.width, 250), style: UITableViewStyle.Plain)
@@ -66,10 +66,10 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tmpTableView.alpha = 0.0 // this is for animations purposes
         tmpTableView.tableHeaderView = UIView(frame: CGRectZero)
         tmpTableView.tableFooterView = UIView(frame: CGRectZero)
-        tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tableViewCell")
+        tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "autoCompleteTableViewCell")
         
         return tmpTableView
-        }()
+    }()
     
     
     //MARK:
@@ -96,6 +96,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         
         // post notifications
         self.postNotifications()
+        
+        self.weatherManager.delegate = self
     }
     
     
@@ -105,7 +107,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         // table view cell setup
-        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("tableViewCell") as! UITableViewCell
+        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("autoCompleteTableViewCell") as! UITableViewCell
         
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
@@ -161,7 +163,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func searchAutocompleteEntriesWithSubstring(subString: String) {
         
         // TODO: search in not as efficient from API calls
-         self.weatherManager.delegate = self
          self.weatherManager.requestCitiesFromString(subString)
     }
     
@@ -330,7 +331,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             
             var x: Int = 0
             // loops over all the cities in JSON
-            for (; x < citiesJSON["list"].count; x++) {
+            for (; x < citiesJSON["count"].intValue; x++) {
                 let city: String = citiesJSON["list"][x]["name"].stringValue
                 let countryCode: String = citiesJSON["list"][x]["sys"]["country"].stringValue
                 var cityToAppend: String = city

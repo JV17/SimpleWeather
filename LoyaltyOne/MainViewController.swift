@@ -46,6 +46,19 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return tmpView
     }()
     
+    lazy var forecastView: ForecastWeatherView = {
+        var tmpView: ForecastWeatherView = ForecastWeatherView(frame: CGRectMake(0, CGRectGetMinY(self.weatherView.frame), self.view.frame.width, Constants.ForecastView.viewHeight))
+        tmpView.alpha = 0.0
+        
+        return tmpView
+    }()
+    
+    lazy var forecastButton: UIButton = {
+        var tmpButton: UIButton = UIButton(frame: CGRectMake(0, 0, 0, 0))
+        
+        return tmpButton
+    }()
+    
     lazy var blurredView: UIView = {
         var tmpView: UIView = UIView(frame: UIScreen.mainScreen().bounds)
         

@@ -56,6 +56,26 @@ struct Constants {
 
     
     //MARK:
+    //MARK: Forecast weather view
+    
+    struct ForecastView {
+        // font
+        static let fontFamily: String = "Lato-Light"
+        static let fontSize: CGFloat = 16
+        static let fontColor: String = "F7F7F7"
+        
+        static let numDays: Int = 7
+        
+        static let rowHeight: CGFloat = 59
+        
+        static let dividerColor: String = "F7F7F7"
+        
+        static let viewHeight: CGFloat = 80
+        static let subtractY: CGFloat = WeatherView.height + ForecastView.viewHeight + 5
+    }
+
+    
+    //MARK:
     //MARK: User defaults constants
     
     struct UserDefaults {
