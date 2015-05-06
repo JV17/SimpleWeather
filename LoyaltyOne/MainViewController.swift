@@ -414,6 +414,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // empty delegate
     }
 
+    func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
+        // empty delegate
+    }
+    
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+        // empty delegate
+    }
     
     //MARK:
     //MARK: Autocomplete Search View delegate

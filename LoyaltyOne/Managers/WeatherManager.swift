@@ -24,6 +24,12 @@ protocol WeatherDataSource {
     
     // this function allows us to get notify if an error occurred while doing the API call
     func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError)
+
+    // this function allows us to know when we get the forecast weather from open weather map
+    func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON)
+
+    // this function allows us to get notify if an error occurred while doing the API call
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError)
 }
 
 
@@ -32,21 +38,13 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Properties
     
-    // url call for cities by country name
-    // "http://ws.geonames.org/searchJSON?country=usa&maxRows=1000&username=jvdev"
-    
-    // url call for weather underground
-    // "http://api.wunderground.com/api/87c31015035f8c5b/conditions/q/ON/Toronto.json"
-    
-    // url call for open weather map
-    // "http://api.openweathermap.org/data/2.5/weather?q=Toronto,ca"
-    
     let request = HTTPTask()
     let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather?"
     let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast?"
     let citiesURL: String = "http://api.openweathermap.org/data/2.5/find?"
     let apiKey: String = "432dbd419b713483bc99b3cbcd13d5ab"
     var weatherJSON: JSON?
+    var forecastJSON: JSON?
     var citiesJSON: JSON?
     var delegate: WeatherDataSource?
     
@@ -69,14 +67,14 @@ class WeatherManager: NSObject {
                 self.weatherJSON = JSON(data: data)
                 
                 // we need to avoid delays from our download task
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(Constants.MultiThreading.mainQueue) {
                     self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
                 }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(Constants.MultiThreading.mainQueue) {
                     // telling the delegate we have received an error
                     self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
                 }
@@ -95,19 +93,21 @@ class WeatherManager: NSObject {
         self.request.GET(self.weatherForecastURL, parameters: ["q" : city, "APPID" : self.apiKey], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
-                self.weatherJSON = JSON(data: data)
+                self.forecastJSON = JSON(data: data)
+                
+                println("\(self.forecastJSON?.dictionary)")
                 
                 // we need to avoid delays from our download task
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
+                dispatch_async(Constants.MultiThreading.mainQueue) {
+                    self.delegate?.forecastWeatherRequestFinishedWithJSON(self, forecastJSON: self.forecastJSON!)
                 }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(Constants.MultiThreading.mainQueue) {
                     // telling the delegate we have received an error
-                    self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
+                    self.delegate?.forecastWeatherRequestFinishedWithError(self, error: error)
                 }
         })
     }
@@ -126,17 +126,15 @@ class WeatherManager: NSObject {
                 
                 self.citiesJSON = JSON(data: data)
                 
-                println("\(self.citiesJSON)")
-                
                 // we need to avoid delays from our download task
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(Constants.MultiThreading.mainQueue) {
                     self.delegate?.citiesRequestFinishedWithJSON(self, citiesJSON: self.citiesJSON!)
                 }
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(Constants.MultiThreading.mainQueue) {
                     // telling the delegate we have received an error
                     self.delegate?.citiesRequestFinishedWithError(self, error: error)
                 }

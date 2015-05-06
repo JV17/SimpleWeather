@@ -30,6 +30,8 @@ struct Constants {
         static let utilityQueue = dispatch_get_global_queue(quality_class_utility, 0)
         static let backgroundQueue = dispatch_get_global_queue(quality_class_background, 0)
         static let minPriorityQueue = dispatch_get_global_queue(quality_class_min, 0)
+        
+        static let mainQueue = dispatch_get_main_queue()
     }
 
     
