@@ -19,7 +19,7 @@ class WeatherView: UIView {
     //MARK: Lazy loading properties
     
     lazy var loadingLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 0, self.frame.size.width, self.frame.height))
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, Constants.ForecastView.viewHeight, self.frame.size.width, self.frame.height-Constants.ForecastView.viewHeight))
         
         tmpLabel.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.loadingFontSize)
         tmpLabel.backgroundColor = UIColor.clearColor()
