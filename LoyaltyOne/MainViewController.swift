@@ -244,10 +244,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
                 
                 self.autocompleteView.alpha = 1.0
-                
+
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
                 self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, CGRectGetMaxY(self.timeLabel.frame)+30, oldFrame.size.width, oldFrame.size.height)
+                
+                // auto complete button animations
+                let transfrom: CGFloat = (CGFloat(M_PI*3)/4)
+                self.autocompleteBtn.transform = CGAffineTransformRotate(CGAffineTransformIdentity, transfrom)
                 
             }, completion: { finished in
                 // completion handling
@@ -260,14 +264,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             self.autocompleteView.textField.resignFirstResponder()
 
             // autocomplete hide animations
-            UIView.animateWithDuration(1.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.2, options: .CurveEaseIn, animations: {
+            UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
                 
                 self.autocompleteView.alpha = 0.0
                 
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
-                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, -100, oldFrame.size.width, oldFrame.size.height)
+                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, -80, oldFrame.size.width, oldFrame.size.height)
                 
+                // auto complete button animations
+                let transfrom: CGFloat = (CGFloat(-M_PI*3)/4)
+                self.autocompleteBtn.transform = CGAffineTransformRotate(self.autocompleteBtn.transform, transfrom)
+
             }, completion: { finished in
                 // completion handling
                 self.autocompleteView.clearAutocompleteTextField()
