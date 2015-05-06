@@ -18,6 +18,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     var iconsImageViews = Array<UIImageView>()
     var tempsLabels = Array<UILabel>()
     var dividersViews = Array<UIView>()
+    var forecastViewIsAnimating = Bool()
     
     //MARK:
     //MARK: Lazy loading properties
@@ -190,4 +191,59 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         return view
     }
+    
+    
+    //MARK:
+    //MARK: Show and Hide animations
+    
+    func showForecastWeatherViewWithButton(button: UIButton) {
+        
+        if(self.forecastViewIsAnimating) {
+            return
+        }
+        
+        self.forecastViewIsAnimating = true
+        
+        UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+            // forecast view show animations
+            let oldFrame = self.frame
+            self.frame = CGRectMake(oldFrame.origin.x, 0, oldFrame.size.width, oldFrame.size.height)
+            self.alpha = 1.0
+            
+            if((button.window) != nil) {
+                // forecast button animations
+                button.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            }
+            
+            }, completion: { finished in
+                // completion handling
+                self.forecastViewIsAnimating = false
+        })
+    }
+    
+    func hideForecastWeatherViewWithButton(button: UIButton) {
+        
+        if(self.forecastViewIsAnimating) {
+            return
+        }
+        
+        self.forecastViewIsAnimating = true
+        
+        UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+            // forecast view hide animations
+            let oldFrame = self.frame
+            self.frame = CGRectMake(oldFrame.origin.x, Constants.ForecastView.viewHeight/2, oldFrame.size.width, oldFrame.size.height)
+            self.alpha = 0.0
+            
+            if((button.window) != nil) {
+                // forecast button animations
+                button.transform = CGAffineTransformIdentity
+            }
+            
+            }, completion: { finished in
+                // completion handling
+                self.forecastViewIsAnimating = false
+        })
+    }
+
 }

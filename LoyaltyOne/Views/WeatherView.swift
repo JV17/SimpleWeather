@@ -30,9 +30,27 @@ class WeatherView: UIView {
         return tmpLabel
     }()
     
+    lazy var forecastView: ForecastWeatherView = {
+        var tmpView: ForecastWeatherView = ForecastWeatherView(frame: CGRectMake(0, Constants.ForecastView.viewHeight/2, self.frame.width, Constants.ForecastView.viewHeight))
+        tmpView.alpha = 0.0
+        
+        return tmpView
+    }()
+    
+    lazy var forecastButton: UIButton = {
+        var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetWidth(self.frame)-50, Constants.ForecastView.viewHeight, 50, 50))
+        tmpBtn.backgroundColor = UIColor.clearColor()
+        tmpBtn.setImage(UIImage(named: "collapse_arrow"), forState: UIControlState.Normal)
+        tmpBtn.addTarget(self, action: "showAndHideForecastView:", forControlEvents: UIControlEvents.TouchUpInside)
+        tmpBtn.tag = 1
+        tmpBtn.alpha = 0.0
+        
+        return tmpBtn
+    }()
+    
     lazy var conditionImageView: UIImageView = {
         var tmpImgView: UIImageView = UIImageView(frame: CGRectMake(Constants.WeatherView.labelsX,
-                                                                    0,
+                                                                    Constants.ForecastView.viewHeight,
                                                                     Constants.WeatherView.conditionHeight,
                                                                     Constants.WeatherView.conditionHeight))
         tmpImgView.alpha = 0.0
@@ -42,7 +60,7 @@ class WeatherView: UIView {
     
     lazy var conditionLabel: UILabel = {
         var tmpLabel: UILabel = UILabel(frame: CGRectMake(CGRectGetMaxX(self.conditionImageView.frame)+4,
-                                                          0,
+                                                          Constants.ForecastView.viewHeight,
                                                           self.frame.width-self.conditionImageView.frame.width-Constants.WeatherView.labelsX,
                                                           Constants.WeatherView.conditionHeight))
         
@@ -209,6 +227,15 @@ class WeatherView: UIView {
         self.addSubview(self.celciusButton)
         self.addSubview(self.dividerLine)
         self.addSubview(self.fahranheitButton)
+        self.addSubview(self.forecastButton)
+
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "showAndHideForecastViewFromGestureRecognizer:")
+        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
+        self.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "showAndHideForecastViewFromGestureRecognizer:")
+        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
+        self.addGestureRecognizer(swipeDown)
         
         // adding default label
         self.addSubview(self.loadingLabel)
@@ -260,6 +287,7 @@ class WeatherView: UIView {
                     self.celciusButton.alpha = 1.0
                     self.dividerLine.alpha = 1.0
                     self.fahranheitButton.alpha = 1.0
+                    self.forecastButton.alpha = 1.0
                     
                     }, completion: { finished in
                         // after completion
@@ -296,6 +324,47 @@ class WeatherView: UIView {
         })
     }
     
+    func showAndHideForecastView(button: UIButton) {
+        
+        if((self.forecastView.window) == nil) {
+            self.addSubview(self.forecastView)
+        }
+        
+        if(self.forecastButton.tag == 1) {
+            // showing weather forecast view
+            self.forecastView.showForecastWeatherViewWithButton(self.forecastButton)
+            self.forecastButton.tag = 2
+        }
+        else {
+            // hidding weather forecast view
+            self.forecastView.hideForecastWeatherViewWithButton(self.forecastButton)
+            self.forecastButton.tag = 1
+        }
+    }
+    
+    func showAndHideForecastViewFromGestureRecognizer(gesture: UIGestureRecognizer) {
+        
+        if((self.forecastView.window) == nil) {
+            self.addSubview(self.forecastView)
+        }
+        
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.Up:
+                // showing weather forecast view
+                self.forecastView.showForecastWeatherViewWithButton(self.forecastButton)
+                self.forecastButton.tag = 2
+            case UISwipeGestureRecognizerDirection.Down:
+                // hidding weather forecast view
+                self.forecastView.hideForecastWeatherViewWithButton(self.forecastButton)
+                self.forecastButton.tag = 1
+            default:
+                break
+            }
+        }
+    }
+
     
     //MARK:
     //MARK: Temperature Celcius/Fahranheit helper buttons
