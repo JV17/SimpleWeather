@@ -247,6 +247,11 @@ class WeatherView: UIView {
     //MARK: Weather View animations
     
     func updateWeatherLabelsAnimated(condition: String, maxTemp: String, lowTemp: String, currentTemp: String) {
+
+        // adding forecast view after we have received data from services for weather view
+        if((self.forecastView.window) == nil) {
+            self.addSubview(self.forecastView)
+        }
         
         UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
 
@@ -326,10 +331,6 @@ class WeatherView: UIView {
     
     func showAndHideForecastView(button: UIButton) {
         
-        if((self.forecastView.window) == nil) {
-            self.addSubview(self.forecastView)
-        }
-        
         if(self.forecastButton.tag == 1) {
             // showing weather forecast view
             self.forecastView.showForecastWeatherViewWithButton(self.forecastButton)
@@ -343,10 +344,6 @@ class WeatherView: UIView {
     }
     
     func showAndHideForecastViewFromGestureRecognizer(gesture: UIGestureRecognizer) {
-        
-        if((self.forecastView.window) == nil) {
-            self.addSubview(self.forecastView)
-        }
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             

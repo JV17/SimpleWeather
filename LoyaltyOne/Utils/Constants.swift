@@ -114,6 +114,7 @@ struct Constants {
         static let currentConditionKey: String = "currentCondition"
         static let currentCondtionDescKey: String = "currentConditionDesc"
         
+        static let currentCity: String = "currentCity"
         static let selectedCity: String = "selectedCity"
         
         static let backgroundImageNum: String = "backgroundImageNum"

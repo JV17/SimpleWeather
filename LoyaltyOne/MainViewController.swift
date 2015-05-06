@@ -340,6 +340,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.performNewWeatherServiceCallWithCity(city)
         self.currentCity = city
         
+        // saving current city to user defaults
+        NSUserDefaults.standardUserDefaults().setObject(self.currentCity, forKey: Constants.UserDefaults.currentCity)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
         // print location info
         println("\(city)")
         println("\(postalCode)")

@@ -9,11 +9,13 @@
 import UIKit
 import Darwin
 
-class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
+class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, WeatherDataSource {
 
     //MARK:
     //MARK: Properties
     let appHelper = AppHelper()
+    let weatherManager = WeatherManager()
+    var dictionaries = Array<Dictionary<String, String>>()
     var daysLabels = Array<UILabel>()
     var iconsImageViews = Array<UIImageView>()
     var tempsLabels = Array<UILabel>()
@@ -55,8 +57,18 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // setting up view
-        self.commonInit()
+        self.weatherManager.delegate = self
+        
+        var city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as! String
+        
+        if(city.isEmpty) {
+            city = "Toronto"
+        }
+        
+        // making weather request for city
+        dispatch_async(Constants.MultiThreading.backgroundQueue, {
+            self.weatherManager.requestWeatherForecastForCity(city)
+        })
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -192,6 +204,32 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         return view
     }
     
+    func loadLabelsFromJSON(forecastJSON: JSON) {
+        
+        // check if we have any valid data
+        if (forecastJSON["list"].count > 0) {
+
+            // check if we have enough data for the 7 days forecast
+            if(forecastJSON["list"].count > 6) {
+                
+                var x: Int = 0
+                
+                for(; x < Constants.ForecastView.numDays; x++) {
+                    // extracting data from json
+                    let dictionary: Dictionary<String, String> = ["day": forecastJSON["list"][x]["dt_txt"].stringValue,
+                                                                  "temp": forecastJSON["list"][x]["main"]["temp"].stringValue,
+                                                                  "condition": forecastJSON["list"][x]["weather"]["main"].stringValue,
+                                                                  "description": forecastJSON["list"][x]["weather"]["description"].stringValue]
+
+                    // adding values to our dictionary array of dictionaries
+                    self.dictionaries.append(dictionary)
+                }
+            }
+        }
+        
+        println(self.dictionaries)
+    }
+    
     
     //MARK:
     //MARK: Show and Hide animations
@@ -244,6 +282,42 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                 // completion handling
                 self.forecastViewIsAnimating = false
         })
+    }
+    
+    
+    //MARK:
+    //MARK: Weather Manager delegate
+    
+    func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
+
+        // extract data from json and do matches for icons
+        if(!forecastJSON.isEmpty) {
+            self.loadLabelsFromJSON(forecastJSON)
+        }
+        
+        // setting up view
+        self.commonInit()
+        
+    }
+    
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+        
+    }
+    
+    func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
+        // empty delegate
+    }
+    
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+        // empty delegate
+    }
+    
+    func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
+        // empty delegate
+    }
+    
+    func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
+        // empty delegate
     }
 
 }
