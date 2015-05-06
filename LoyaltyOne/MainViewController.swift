@@ -22,6 +22,16 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     //MARK:
     //MARK: Lazy loading
+    
+    lazy var fromBackgroundImageView: UIImageView = {
+        var tmpImageView: UIImageView = UIImageView(frame: self.view.frame)
+        return tmpImageView
+    }()
+    
+    lazy var toBackgroundImageView: UIImageView = {
+        var tmpImageView: UIImageView = UIImageView(frame: self.view.frame)
+        return tmpImageView
+    }()
 
     lazy var autocompleteView: AutoCompleteSearchView = {
         var tmpView: AutoCompleteSearchView = AutoCompleteSearchView(frame: CGRectMake(15, -250, self.appHelper.screenSize.width-30, 250))
@@ -43,7 +53,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }()
     
     lazy var cityLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 5, self.appHelper.screenSize.width, 22))
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 5, self.appHelper.screenSize.width, 26))
         tmpLabel.font = UIFont(name: "Lato-Light", size: 22)
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString("F7F7F7")
@@ -53,7 +63,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }()
     
     lazy var timeLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, 30, self.appHelper.screenSize.width, 16))
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, CGRectGetMaxY(self.cityLabel.frame), self.appHelper.screenSize.width, 16))
         tmpLabel.font = UIFont(name: "Lato-Light", size: 16)
         tmpLabel.backgroundColor = UIColor.clearColor()
         tmpLabel.textColor = self.appHelper.colorWithHexString("F7F7F7")
@@ -121,13 +131,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
        
         // we need to check if we have a correct image size to use as our background image
         self.backgroundImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: "background1")!, newSize: self.appHelper.screenSize.size)
-        
-        self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
+
+        self.fromBackgroundImageView.image = self.backgroundImage
+        self.view.insertSubview(self.fromBackgroundImageView, atIndex: 0)
         
         // creating blurred view
         self.blurredView.backgroundColor = UIColor(patternImage: self.backgroundImage!)
         appHelper.applyBlurToView(self.blurredView, withBlurEffectStyle: .Dark)
-        self.blurredView.alpha = 0.6
+        self.blurredView.alpha = 0.5
         
         self.view.addSubview(self.blurredView)
         
@@ -141,51 +152,71 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // we check which background image we currently have
         var imageNum = NSUserDefaults.standardUserDefaults().integerForKey(Constants.UserDefaults.backgroundImageNum)
 
-        if(imageNum == 1) {
+        switch imageNum {
+        case 1:
             imageNum = 2
-        }
-        else if(imageNum == 2) {
+        case 2:
             imageNum = 3
-        }
-        else if(imageNum == 3) {
+        case 3:
             imageNum = 4
-        }
-        else if(imageNum == 4){
+        case 4:
+            imageNum = 5
+        case 5:
+            imageNum = 6
+        case 6:
+            imageNum = 7
+        case 7:
+            imageNum = 8
+        case 8:
+            imageNum = 9
+        case 9:
+            imageNum = 10
+        case 10:
             imageNum = 1
-        }
-        else {
+        default:
             imageNum = 1
             
             // saving the new selected image
             NSUserDefaults.standardUserDefaults().setInteger(imageNum, forKey: Constants.UserDefaults.backgroundImageNum)
             NSUserDefaults.standardUserDefaults().synchronize()
-
+            
             return
         }
         
         let newImageName = "background" + "\(imageNum)"
         self.backgroundImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: newImageName)!, newSize: self.appHelper.screenSize.size)
         
-        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
+        if((self.fromBackgroundImageView.window) != nil) {
+            // switching between background images fromImageView toImageView
+            self.toBackgroundImageView.alpha = 1.0
+            self.toBackgroundImageView.image = self.backgroundImage
+            self.view.insertSubview(self.toBackgroundImageView, belowSubview: self.fromBackgroundImageView)
             
-            // animations
-//            self.view.window?.backgroundColor
+            UIView.animateWithDuration(0.6, delay: 0.0, options: .CurveEaseOut, animations: {
+                // animations
+                self.fromBackgroundImageView.alpha = 0.0
+                
+                }, completion: { finished in
+                    // after completion
+                    self.fromBackgroundImageView.removeFromSuperview()
+            })
+        }
+        else {
+            // switching between background images toImageView fromImageView
+            self.fromBackgroundImageView.alpha = 1.0
+            self.fromBackgroundImageView.image = self.backgroundImage
+            self.view.insertSubview(self.fromBackgroundImageView, belowSubview: self.toBackgroundImageView)
             
-            }, completion: { finished in
+            UIView.animateWithDuration(0.6, delay: 0.0, options: .CurveEaseOut, animations: {
+                // animations
+                self.toBackgroundImageView.alpha = 0.0
                 
-                // after completion
-                self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
-                
-                UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
-                    
-                    // animations
-                    self.view.backgroundColor = UIColor(patternImage: self.backgroundImage!)
-                    
-                    }, completion: { finished in
-                        // after completion
-                })
-        })
-
+                }, completion: { finished in
+                    // after completion
+                    self.toBackgroundImageView.removeFromSuperview()
+            })
+        }
+        
         // saving the new selected image
         NSUserDefaults.standardUserDefaults().setInteger(imageNum, forKey: Constants.UserDefaults.backgroundImageNum)
         NSUserDefaults.standardUserDefaults().synchronize()

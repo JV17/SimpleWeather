@@ -90,7 +90,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // getting all country codes and countries
         self.getCountriesWithCountryCodes()
         
-        self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.4)
+        self.textField.backgroundColor = appHelper.colorWithHexString("8E8E93").colorWithAlphaComponent(0.7)
         self.addSubview(self.textField)
         
         // post notifications

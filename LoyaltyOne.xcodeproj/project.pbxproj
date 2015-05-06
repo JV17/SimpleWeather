@@ -32,6 +32,16 @@
 		3C20352C1AF95B8600C99CAE /* moon-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035271AF95B8600C99CAE /* moon-50@2x.png */; };
 		3C20352D1AF95B8600C99CAE /* partly_cloudy_night-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035281AF95B8600C99CAE /* partly_cloudy_night-50@2x.png */; };
 		3C20352E1AF95B8600C99CAE /* snow-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035291AF95B8600C99CAE /* snow-50@2x.png */; };
+		3C2035441AF991EC00C99CAE /* background4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20353D1AF991EC00C99CAE /* background4@2x.jpg */; };
+		3C2035451AF991EC00C99CAE /* background5@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20353E1AF991EC00C99CAE /* background5@2x.jpg */; };
+		3C2035461AF991EC00C99CAE /* background6@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20353F1AF991EC00C99CAE /* background6@2x.jpg */; };
+		3C2035471AF991EC00C99CAE /* background7@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035401AF991EC00C99CAE /* background7@2x.jpg */; };
+		3C2035481AF991EC00C99CAE /* background8@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035411AF991EC00C99CAE /* background8@2x.jpg */; };
+		3C2035491AF991EC00C99CAE /* background9@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035421AF991EC00C99CAE /* background9@2x.jpg */; };
+		3C20354A1AF991EC00C99CAE /* background10@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035431AF991EC00C99CAE /* background10@2x.jpg */; };
+		3C20354E1AF991F600C99CAE /* background1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20354B1AF991F600C99CAE /* background1@2x.jpg */; };
+		3C20354F1AF991F600C99CAE /* background2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20354C1AF991F600C99CAE /* background2@2x.jpg */; };
+		3C2035501AF991F600C99CAE /* background3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C20354D1AF991F600C99CAE /* background3@2x.jpg */; };
 		3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937B91AF3F6E900399A21 /* AppDelegate.swift */; };
 		3C2937BC1AF3F6E900399A21 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937BB1AF3F6E900399A21 /* MainViewController.swift */; };
 		3C2937BF1AF3F6E900399A21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937BD1AF3F6E900399A21 /* Main.storyboard */; };
@@ -40,10 +50,6 @@
 		3C2937D01AF3F6E900399A21 /* LoyaltyOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */; };
 		3C2937DA1AF4008A00399A21 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937D91AF4008A00399A21 /* Podfile */; };
 		3C2937EA1AF4077C00399A21 /* AppHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2937E91AF4077C00399A21 /* AppHelper.swift */; };
-		3C2937F21AF4079B00399A21 /* background1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937EE1AF4079B00399A21 /* background1.jpg */; };
-		3C2937F31AF4079B00399A21 /* background2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937EF1AF4079B00399A21 /* background2.jpg */; };
-		3C2937F41AF4079B00399A21 /* background3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937F01AF4079B00399A21 /* background3.jpg */; };
-		3C2937F51AF4079B00399A21 /* background4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937F11AF4079B00399A21 /* background4.jpg */; };
 		3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */; };
 		3C2938011AF4197000399A21 /* Lato-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FE1AF4197000399A21 /* Lato-Light.otf */; };
 		3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3C2937FF1AF4197000399A21 /* Lato-Regular.otf */; };
@@ -102,6 +108,16 @@
 		3C2035271AF95B8600C99CAE /* moon-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "moon-50@2x.png"; path = "Images/moon-50@2x.png"; sourceTree = "<group>"; };
 		3C2035281AF95B8600C99CAE /* partly_cloudy_night-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "partly_cloudy_night-50@2x.png"; path = "Images/partly_cloudy_night-50@2x.png"; sourceTree = "<group>"; };
 		3C2035291AF95B8600C99CAE /* snow-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "snow-50@2x.png"; path = "Images/snow-50@2x.png"; sourceTree = "<group>"; };
+		3C20353D1AF991EC00C99CAE /* background4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background4@2x.jpg"; path = "Images/background4@2x.jpg"; sourceTree = "<group>"; };
+		3C20353E1AF991EC00C99CAE /* background5@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background5@2x.jpg"; path = "Images/background5@2x.jpg"; sourceTree = "<group>"; };
+		3C20353F1AF991EC00C99CAE /* background6@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background6@2x.jpg"; path = "Images/background6@2x.jpg"; sourceTree = "<group>"; };
+		3C2035401AF991EC00C99CAE /* background7@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background7@2x.jpg"; path = "Images/background7@2x.jpg"; sourceTree = "<group>"; };
+		3C2035411AF991EC00C99CAE /* background8@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background8@2x.jpg"; path = "Images/background8@2x.jpg"; sourceTree = "<group>"; };
+		3C2035421AF991EC00C99CAE /* background9@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background9@2x.jpg"; path = "Images/background9@2x.jpg"; sourceTree = "<group>"; };
+		3C2035431AF991EC00C99CAE /* background10@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background10@2x.jpg"; path = "Images/background10@2x.jpg"; sourceTree = "<group>"; };
+		3C20354B1AF991F600C99CAE /* background1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background1@2x.jpg"; path = "Images/background1@2x.jpg"; sourceTree = "<group>"; };
+		3C20354C1AF991F600C99CAE /* background2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background2@2x.jpg"; path = "Images/background2@2x.jpg"; sourceTree = "<group>"; };
+		3C20354D1AF991F600C99CAE /* background3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background3@2x.jpg"; path = "Images/background3@2x.jpg"; sourceTree = "<group>"; };
 		3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoyaltyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2937B81AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C2937B91AF3F6E900399A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,10 +130,6 @@
 		3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyOneTests.swift; sourceTree = "<group>"; };
 		3C2937D91AF4008A00399A21 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		3C2937E91AF4077C00399A21 /* AppHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppHelper.swift; path = Utils/AppHelper.swift; sourceTree = "<group>"; };
-		3C2937EE1AF4079B00399A21 /* background1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background1.jpg; path = Images/background1.jpg; sourceTree = "<group>"; };
-		3C2937EF1AF4079B00399A21 /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background2.jpg; path = Images/background2.jpg; sourceTree = "<group>"; };
-		3C2937F01AF4079B00399A21 /* background3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background3.jpg; path = Images/background3.jpg; sourceTree = "<group>"; };
-		3C2937F11AF4079B00399A21 /* background4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background4.jpg; path = Images/background4.jpg; sourceTree = "<group>"; };
 		3C2937FD1AF4197000399A21 /* Lato-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Hairline.otf"; path = "Fonts/Lato-Hairline.otf"; sourceTree = "<group>"; };
 		3C2937FE1AF4197000399A21 /* Lato-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.otf"; path = "Fonts/Lato-Light.otf"; sourceTree = "<group>"; };
 		3C2937FF1AF4197000399A21 /* Lato-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.otf"; path = "Fonts/Lato-Regular.otf"; sourceTree = "<group>"; };
@@ -186,10 +198,16 @@
 		3C1026F11AF7B9FA00C771A7 /* backgrounds */ = {
 			isa = PBXGroup;
 			children = (
-				3C2937EE1AF4079B00399A21 /* background1.jpg */,
-				3C2937EF1AF4079B00399A21 /* background2.jpg */,
-				3C2937F01AF4079B00399A21 /* background3.jpg */,
-				3C2937F11AF4079B00399A21 /* background4.jpg */,
+				3C20354B1AF991F600C99CAE /* background1@2x.jpg */,
+				3C20354C1AF991F600C99CAE /* background2@2x.jpg */,
+				3C20354D1AF991F600C99CAE /* background3@2x.jpg */,
+				3C20353D1AF991EC00C99CAE /* background4@2x.jpg */,
+				3C20353E1AF991EC00C99CAE /* background5@2x.jpg */,
+				3C20353F1AF991EC00C99CAE /* background6@2x.jpg */,
+				3C2035401AF991EC00C99CAE /* background7@2x.jpg */,
+				3C2035411AF991EC00C99CAE /* background8@2x.jpg */,
+				3C2035421AF991EC00C99CAE /* background9@2x.jpg */,
+				3C2035431AF991EC00C99CAE /* background10@2x.jpg */,
 			);
 			name = backgrounds;
 			sourceTree = "<group>";
@@ -448,34 +466,40 @@
 				3C1026EC1AF7B9C100C771A7 /* storm-50@2x.png in Resources */,
 				3C2938021AF4197000399A21 /* Lato-Regular.otf in Resources */,
 				3C2937C41AF3F6E900399A21 /* LaunchScreen.xib in Resources */,
+				3C2035491AF991EC00C99CAE /* background9@2x.jpg in Resources */,
 				3C2938001AF4197000399A21 /* Lato-Hairline.otf in Resources */,
-				3C2937F51AF4079B00399A21 /* background4.jpg in Resources */,
 				3C1026EB1AF7B9C100C771A7 /* storm-48@2x.png in Resources */,
 				3C2937DA1AF4008A00399A21 /* Podfile in Resources */,
-				3C2937F21AF4079B00399A21 /* background1.jpg in Resources */,
 				3C20352B1AF95B8600C99CAE /* light_snow-50@2x.png in Resources */,
 				3C1026E11AF7B9B700C771A7 /* partly_cloudy_day-50@2x.png in Resources */,
+				3C20354E1AF991F600C99CAE /* background1@2x.jpg in Resources */,
 				3C1026ED1AF7B9C100C771A7 /* summer-48@2x.png in Resources */,
 				3C1026D31AF7B68700C771A7 /* plus-48@2x.png in Resources */,
-				3C2937F31AF4079B00399A21 /* background2.jpg in Resources */,
 				3C2937C11AF3F6E900399A21 /* Images.xcassets in Resources */,
 				3C1026D61AF7B9AD00C771A7 /* down-50@2x.png in Resources */,
 				3CEA7F051AF72D68000B7671 /* collapse_arrow@2x.png in Resources */,
+				3C2035471AF991EC00C99CAE /* background7@2x.jpg in Resources */,
+				3C2035461AF991EC00C99CAE /* background6@2x.jpg in Resources */,
 				3C1026EA1AF7B9C100C771A7 /* rain-50@2x.png in Resources */,
 				3C1026DD1AF7B9B700C771A7 /* fog_day-48@2x.png in Resources */,
-				3C2937F41AF4079B00399A21 /* background3.jpg in Resources */,
 				3C20352A1AF95B8600C99CAE /* fog_night-50@2x.png in Resources */,
 				3C1026F41AF7BAC500C771A7 /* little_rain-48@2x.png in Resources */,
+				3C2035451AF991EC00C99CAE /* background5@2x.jpg in Resources */,
 				3C20352E1AF95B8600C99CAE /* snow-50@2x.png in Resources */,
 				3C1026E01AF7B9B700C771A7 /* partly_cloudy_day-48@2x.png in Resources */,
+				3C2035441AF991EC00C99CAE /* background4@2x.jpg in Resources */,
 				3C2035231AF9325D00C99CAE /* countries.txt in Resources */,
 				3C20352C1AF95B8600C99CAE /* moon-50@2x.png in Resources */,
 				3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */,
 				3C1026D71AF7B9AD00C771A7 /* downpour-50@2x.png in Resources */,
+				3C2035481AF991EC00C99CAE /* background8@2x.jpg in Resources */,
 				3C1026DE1AF7B9B700C771A7 /* fog_day-50@2x.png in Resources */,
 				3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */,
 				3C1026DF1AF7B9B700C771A7 /* little_rain-50@2x.png in Resources */,
+				3C20354F1AF991F600C99CAE /* background2@2x.jpg in Resources */,
 				3C1026E91AF7B9C100C771A7 /* rain-48@2x.png in Resources */,
+				3C2035501AF991F600C99CAE /* background3@2x.jpg in Resources */,
+				3C20354A1AF991EC00C99CAE /* background10@2x.jpg in Resources */,
 				3C1026EF1AF7B9C100C771A7 /* up-50@2x.png in Resources */,
 				3CEA7F071AF72D68000B7671 /* plus-50@2x.png in Resources */,
 			);
