@@ -9,7 +9,7 @@
 import UIKit
 import Darwin
 
-class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, WeatherDataSource {
+class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
 
     //MARK:
     //MARK: Properties
@@ -57,18 +57,18 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.weatherManager.delegate = self
+//        self.weatherManager.delegate = self
         
-        self.city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as? String
-        
-        if(self.city!.isEmpty) {
-            self.city = "Toronto"
-        }
-        
-        // making weather request for city
-        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForecastForCity(self.city!)
-        })
+//        self.city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as? String
+//        
+//        if(self.city!.isEmpty) {
+//            self.city = "Toronto"
+//        }
+//        
+//        // making weather request for city
+//        dispatch_async(Constants.MultiThreading.backgroundQueue, {
+//            self.weatherManager.requestWeatherForecastForCity(self.city!)
+//        })
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -80,7 +80,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         
         // making weather request for city
         dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForecastForCity(city)
+//            self.weatherManager.requestWeatherForecastForCity(city)
         })
     }
     
@@ -387,44 +387,4 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         })
     }
     
-    
-    //MARK:
-    //MARK: Weather Manager delegate
-    
-    func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
-
-        // extract data from json and do matches for icons
-        if(!forecastJSON.isEmpty) {
-            // setting up the view with data
-            self.commonInitWithJSON(forecastJSON)
-        }
-        else {
-            // making weather request for city
-            dispatch_async(Constants.MultiThreading.backgroundQueue, {
-                self.weatherManager.requestWeatherForecastForCity(self.city!)
-            })
-        }
-        
-    }
-    
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
-        // empty delegate
-    }
-    
-    func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
-        // empty delegate
-    }
-    
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
-        // empty delegate
-    }
-    
-    func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
-        // empty delegate
-    }
-    
-    func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
-        // empty delegate
-    }
-
 }

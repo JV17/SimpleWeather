@@ -29,7 +29,7 @@ protocol WeatherDataSource {
     func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON)
 
     // this function allows us to get notify if an error occurred while doing the API call
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError)
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String)
 }
 
 
@@ -106,7 +106,7 @@ class WeatherManager: NSObject {
                 
                 dispatch_async(Constants.MultiThreading.mainQueue) {
                     // telling the delegate we have received an error
-                    self.delegate?.forecastWeatherRequestFinishedWithError(self, error: error)
+                    self.delegate?.forecastWeatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: city)
                 }
         })
     }

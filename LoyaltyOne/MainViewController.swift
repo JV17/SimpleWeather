@@ -127,6 +127,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         })
     }
     
+    func performNewWeatherForecastServiceCallWithCity(city: String) {
+        // making a new services call for city
+        dispatch_async(Constants.MultiThreading.backgroundQueue, {
+            self.weatherManager.requestWeatherForecastForCity(city)
+        })
+    }
+    
     func setCityTimeLabels() {
 
         // setting city label
@@ -364,6 +371,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let currentTemp = weatherJSON["main"]["temp"].numberValue
             self.currentCity = weatherJSON["name"].stringValue
             
+            // loading forescast data
+            self.performNewWeatherForecastServiceCallWithCity(self.currentCity!)
+            
             var newMax: Float = max.floatValue
             var newLow: Float = low.floatValue
             let ran = Float(rand() % 4)
@@ -389,8 +399,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
                                                          maxTemp: self.weatherManager.tempToCelcius(newMax),
                                                          lowTemp: self.weatherManager.tempToCelcius(newLow),
-                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp),
-                                                         currentCity: self.currentCity!)
+                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp))
             
             // updating city label animated
             self.updateCityLabelAnimated(self.currentCity!)
@@ -412,11 +421,16 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }
 
     func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
-        // empty delegate
+        // forecast finished with JSON
+        if(!forecastJSON.isEmpty) {
+            self.weatherView.loadForecastViewWithJSON(forecastJSON)
+        }
     }
     
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
-        // empty delegate
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+        // error handling
+        println("Error: \(error)")
+        self.showWeatherForecastAlertControllerWithError(error, errorMessage: errorMessage, cityRequested: cityRequested)
     }
     
     //MARK:
@@ -503,6 +517,46 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 // show search bar to allow the user find a new location
                 self.autocompleteBtn.tag = 1
                 self.showAutocompleteView(self.autocompleteBtn)
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func showWeatherForecastAlertControllerWithError(error: NSError, errorMessage: String, cityRequested: String) {
+        
+        let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // retry getting weather from services action
+        alert.addAction(UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { action in
+            switch action.style {
+            case .Default:
+                // retry getting weather from services
+                if(!cityRequested.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity(cityRequested)
+                }
+                else if(!self.currentCity!.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity(self.currentCity!)
+                }
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        // cancel action
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { action in
+            switch action.style {
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
                 
             case .Destructive:
                 println("destructive")

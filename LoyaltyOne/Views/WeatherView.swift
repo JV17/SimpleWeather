@@ -243,20 +243,21 @@ class WeatherView: UIView {
     
     }
     
-    
-    //MARK:
-    //MARK: Weather View animations
-    
-    func updateWeatherLabelsAnimated(condition: String, maxTemp: String, lowTemp: String, currentTemp: String, currentCity: String) {
-
+    func loadForecastViewWithJSON(forecastJSON: JSON) {
         // adding forecast view after we have received data from services for weather view
         if((self.forecastView.window) == nil) {
             self.addSubview(self.forecastView)
         }
-        else {
-            self.forecastView.reLoadForecastViewForCity(currentCity)
-        }
         
+        self.forecastView.commonInitWithJSON(forecastJSON)
+    }
+    
+    
+    //MARK:
+    //MARK: Weather View animations
+    
+    func updateWeatherLabelsAnimated(condition: String, maxTemp: String, lowTemp: String, currentTemp: String) {
+
         UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseOut, animations: {
 
             // animations

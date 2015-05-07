@@ -364,7 +364,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // empty delegate
     }
     
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
         // empty delegate
     }
 }
