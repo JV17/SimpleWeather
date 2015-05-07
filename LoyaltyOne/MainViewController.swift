@@ -389,7 +389,8 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
                                                          maxTemp: self.weatherManager.tempToCelcius(newMax),
                                                          lowTemp: self.weatherManager.tempToCelcius(newLow),
-                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp))
+                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp),
+                                                         currentCity: self.currentCity!)
             
             // updating city label animated
             self.updateCityLabelAnimated(self.currentCity!)
@@ -398,6 +399,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
         // error handling
+        println("Error: \(error)")
         self.showWeatherAlertControllerWithError(error, errorMessage: errorMessage, cityRequested: cityRequested)
     }
     

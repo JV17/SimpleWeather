@@ -22,6 +22,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     var dividersViews = Array<UIView>()
     var forecastViewIsAnimating = Bool()
     var city: String?
+    var referenceToForecastBtn: UIButton?
     
     //MARK:
     //MARK: Lazy loading properties
@@ -32,8 +33,6 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         tmpTableView.separatorStyle = .None
         tmpTableView.bounces = true
         tmpTableView.scrollEnabled = true
-        tmpTableView.delegate = self
-        tmpTableView.dataSource = self
         tmpTableView.tableHeaderView = UIView(frame: CGRectZero)
         tmpTableView.tableFooterView = UIView(frame: CGRectZero)
         tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "forecastTableViewCell")
@@ -76,6 +75,15 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         fatalError("init(coder:) has not been implemented")
     }
     
+    func reLoadForecastViewForCity(city: String) {
+        self.city = city
+        
+        // making weather request for city
+        dispatch_async(Constants.MultiThreading.backgroundQueue, {
+            self.weatherManager.requestWeatherForecastForCity(city)
+        })
+    }
+    
     func commonInitWithJSON(forecastJSON: JSON) {
         
         self.divider.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.fontColor).colorWithAlphaComponent(0.6)
@@ -91,6 +99,14 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
                 let iconsFrame = CGRectMake(14, 25, 30, 30)
                 let tempsFrame = CGRectMake(0, 0, 58, 20)
                 let dividersFrame = CGRectMake(0, 5, 0.7, 66)
+                
+                if(daysLabels.count > 0) {
+                        self.removeAllSubViewsFromForecastView()
+                        self.daysLabels.removeAll()
+                        self.iconsImageViews.removeAll()
+                        self.tempsLabels.removeAll()
+                        self.dividersViews.removeAll()
+                }
                 
                 var x: Int = 0
                 for(; x < Constants.ForecastView.numDays; x++) {
@@ -112,9 +128,16 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
                     
                     self.dividersViews.append(self.createViews(dividersFrame))
                 }
-                
+
                 // adding table view
-                self.addSubview(self.tableView)
+                if((self.tableView.window) == nil) {
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    self.addSubview(self.tableView)
+                }
+                else {
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -137,12 +160,14 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.userInteractionEnabled = false
         
-        cell.contentView.addSubview(self.daysLabels[indexPath.row])
-        cell.contentView.addSubview(self.iconsImageViews[indexPath.row])
-        cell.contentView.addSubview(self.tempsLabels[indexPath.row])
-        
-        if(indexPath.row < Constants.ForecastView.numDays-1) {
-            cell.contentView.addSubview(self.dividersViews[indexPath.row])
+        if(self.daysLabels.count > 0) {
+            cell.addSubview(self.daysLabels[indexPath.row])
+            cell.addSubview(self.iconsImageViews[indexPath.row])
+            cell.addSubview(self.tempsLabels[indexPath.row])
+            
+            if(indexPath.row < Constants.ForecastView.numDays-1) {
+                cell.addSubview(self.dividersViews[indexPath.row])
+            }
         }
         
         return cell
@@ -251,6 +276,55 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         }
     }
     
+    func reloadTableViewAnimated() {
+
+        if(self.forecastViewIsAnimating) {
+            return
+        }
+        
+        self.forecastViewIsAnimating = true
+        
+        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+            // animations
+            self.alpha = 0.0
+            
+            }, completion: { finished in
+                // completion handling
+                self.tableView.reloadData()
+                
+                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+                    // animations
+                    self.alpha = 1.0
+                    
+                    }, completion: { finished in
+                        // completion handling
+                        self.forecastViewIsAnimating = false
+                })
+        })
+    }
+    
+    func removeAllSubViewsFromForecastView() {
+        
+        if(self.daysLabels.count == 0 || self.iconsImageViews.count == 0 || self.tempsLabels.count == 0 || self.dividersViews.count == 0) {
+            return
+        }
+        
+        for label in self.daysLabels {
+            label.removeFromSuperview()
+        }
+        
+        for imageView in self.iconsImageViews {
+            imageView.removeFromSuperview()
+        }
+        
+        for tempLabel in self.tempsLabels {
+            tempLabel.removeFromSuperview()
+        }
+        
+        for view in self.dividersViews {
+            view.removeFromSuperview()
+        }
+    }
     
     //MARK:
     //MARK: Show and Hide animations
@@ -261,6 +335,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
             return
         }
         
+        if(self.referenceToForecastBtn == nil) {
+            self.referenceToForecastBtn = button
+        }
+
         self.forecastViewIsAnimating = true
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
@@ -269,9 +347,9 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
             self.frame = CGRectMake(oldFrame.origin.x, 0, oldFrame.size.width, oldFrame.size.height)
             self.alpha = 1.0
             
-            if((button.window) != nil) {
+            if((self.referenceToForecastBtn!.window) != nil) {
                 // forecast button animations
-                button.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+                self.referenceToForecastBtn!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
             }
             
             }, completion: { finished in
@@ -286,6 +364,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
             return
         }
         
+        if(self.referenceToForecastBtn == nil) {
+            self.referenceToForecastBtn = button
+        }
+        
         self.forecastViewIsAnimating = true
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
@@ -294,9 +376,9 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
             self.frame = CGRectMake(oldFrame.origin.x, Constants.ForecastView.viewHeight/2, oldFrame.size.width, oldFrame.size.height)
             self.alpha = 0.0
             
-            if((button.window) != nil) {
+            if((self.referenceToForecastBtn!.window) != nil) {
                 // forecast button animations
-                button.transform = CGAffineTransformIdentity
+                self.referenceToForecastBtn!.transform = CGAffineTransformIdentity
             }
             
             }, completion: { finished in
