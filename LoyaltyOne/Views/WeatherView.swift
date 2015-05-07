@@ -20,7 +20,7 @@ class WeatherView: UIView {
     //MARK: Lazy loading properties
     
     lazy var loadingLabel: UILabel = {
-        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, Constants.ForecastView.viewHeight, self.frame.size.width, self.frame.height-Constants.ForecastView.viewHeight))
+        var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, Constants.ForecastView.viewHeight+5, self.frame.size.width, self.frame.height-Constants.ForecastView.viewHeight))
         
         tmpLabel.font = UIFont(name: Constants.WeatherView.fontFamily, size: Constants.WeatherView.loadingFontSize)
         tmpLabel.backgroundColor = UIColor.clearColor()
@@ -51,7 +51,7 @@ class WeatherView: UIView {
     
     lazy var conditionImageView: UIImageView = {
         var tmpImgView: UIImageView = UIImageView(frame: CGRectMake(Constants.WeatherView.labelsX,
-                                                                    Constants.ForecastView.viewHeight,
+                                                                    Constants.ForecastView.viewHeight+5,
                                                                     Constants.WeatherView.conditionHeight,
                                                                     Constants.WeatherView.conditionHeight))
         tmpImgView.alpha = 0.0
@@ -61,7 +61,7 @@ class WeatherView: UIView {
     
     lazy var conditionLabel: UILabel = {
         var tmpLabel: UILabel = UILabel(frame: CGRectMake(CGRectGetMaxX(self.conditionImageView.frame)+4,
-                                                          Constants.ForecastView.viewHeight,
+                                                          Constants.ForecastView.viewHeight+5,
                                                           self.frame.width-self.conditionImageView.frame.width-Constants.WeatherView.labelsX,
                                                           Constants.WeatherView.conditionHeight))
         

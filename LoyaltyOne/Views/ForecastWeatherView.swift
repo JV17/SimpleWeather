@@ -78,8 +78,8 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     
     func commonInitWithJSON(forecastJSON: JSON) {
         
-//        self.divider.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.fontColor)
-//        self.addSubview(self.divider)
+        self.divider.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.fontColor).colorWithAlphaComponent(0.6)
+        self.addSubview(self.divider)
         
         // check if we have any valid data
         if (forecastJSON["list"].count > 0) {
@@ -215,7 +215,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     func createViews(frame: CGRect) -> UIView {
         // creating dividers views
         let view: UIView = UIView(frame: frame)
-        view.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.dividerColor)
+        view.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.dividerColor).colorWithAlphaComponent(0.6)
         view.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI))
         
         return view
@@ -263,7 +263,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         
         self.forecastViewIsAnimating = true
         
-        UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
             // forecast view show animations
             let oldFrame = self.frame
             self.frame = CGRectMake(oldFrame.origin.x, 0, oldFrame.size.width, oldFrame.size.height)
@@ -288,7 +288,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         
         self.forecastViewIsAnimating = true
         
-        UIView.animateWithDuration(0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
+        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
             // forecast view hide animations
             let oldFrame = self.frame
             self.frame = CGRectMake(oldFrame.origin.x, Constants.ForecastView.viewHeight/2, oldFrame.size.width, oldFrame.size.height)
@@ -326,7 +326,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     }
     
     func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError) {
-        
+        // empty delegate
     }
     
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {

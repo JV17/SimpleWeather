@@ -40,7 +40,7 @@ struct Constants {
 
     struct WeatherView {
         // height for weather view in main view controller
-        static let height: CGFloat = 160 + ForecastView.viewHeight
+        static let height: CGFloat = 165 + ForecastView.viewHeight
         
         // labels x origin in weather view
         static let labelsX: CGFloat = 15
