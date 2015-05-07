@@ -39,9 +39,9 @@ class WeatherManager: NSObject {
     //MARK: Properties
     
     let request = HTTPTask()
-    let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather?"
-    let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast?"
-    let citiesURL: String = "http://api.openweathermap.org/data/2.5/find?"
+    let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather"
+    let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast/daily"//http://api.openweathermap.org/data/2.5/forecast/daily?q=Toronto&cnt=10&mode=json
+    let citiesURL: String = "http://api.openweathermap.org/data/2.5/find"
     let apiKey: String = "432dbd419b713483bc99b3cbcd13d5ab"
     var weatherJSON: JSON?
     var forecastJSON: JSON?
@@ -90,7 +90,7 @@ class WeatherManager: NSObject {
             return
         }
         
-        self.request.GET(self.weatherForecastURL, parameters: ["q" : city, "APPID" : self.apiKey], success: {(response: HTTPResponse) in
+        self.request.GET(self.weatherForecastURL, parameters: ["q" : city, "cnt" : 7], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 self.forecastJSON = JSON(data: data)
@@ -121,7 +121,7 @@ class WeatherManager: NSObject {
             return
         }
         
-        self.request.GET(self.citiesURL, parameters: ["q" : searchString, "type" : "like"], success: {(response: HTTPResponse) in
+        self.request.GET(self.citiesURL, parameters: ["q" : searchString, "type" : "like", "cnt" : 10], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 self.citiesJSON = JSON(data: data)

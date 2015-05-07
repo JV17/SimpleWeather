@@ -216,10 +216,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
                 
                 for(; x < Constants.ForecastView.numDays; x++) {
                     // extracting data from json
-                    let dictionary: Dictionary<String, String> = ["day": forecastJSON["list"][x]["dt_txt"].stringValue,
-                                                                  "temp": forecastJSON["list"][x]["main"]["temp"].stringValue,
-                                                                  "condition": forecastJSON["list"][x]["weather"]["main"].stringValue,
-                                                                  "description": forecastJSON["list"][x]["weather"]["description"].stringValue]
+                    let dictionary: Dictionary<String, String> = ["day": forecastJSON["list"][x]["dt"].stringValue,
+                                                                  "temp": forecastJSON["list"][x]["temp"]["day"].stringValue,
+                                                                  "condition": forecastJSON["list"][x]["weather"][0]["main"].stringValue,
+                                                                  "description": forecastJSON["list"][x]["weather"][0]["description"].stringValue]
 
                     // adding values to our dictionary array of dictionaries
                     self.dictionaries.append(dictionary)
@@ -228,6 +228,36 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         }
         
         println(self.dictionaries)
+    }
+    
+    func getDayFromUnixTimestamp(unixTimestamp: String) -> String {
+        
+        let timestampVal = ((unixTimestamp as NSString).doubleValue)/1000
+        let timestamp = timestampVal as NSTimeInterval
+        let date = NSDate(timeIntervalSince1970: timestamp)
+        let calendar = NSCalendar.currentCalendar()
+        let components: NSDateComponents = calendar.components(NSCalendarUnit.CalendarUnitWeekday, fromDate: date)
+        let day = components.weekday
+        
+        // getting the date of the week
+        switch day {
+        case 1:
+            return "Sun"
+        case 2:
+            return "Mon"
+        case 3:
+            return "Tues"
+        case 4:
+            return "Wed"
+        case 5:
+            return "Thur"
+        case 6:
+            return "Fri"
+        case 7:
+            return "Sat"
+        default:
+            return ""
+        }
     }
     
     
