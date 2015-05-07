@@ -13,14 +13,15 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
 
     //MARK:
     //MARK: Properties
+    
     let appHelper = AppHelper()
     let weatherManager = WeatherManager()
-    var dictionaries = Array<Dictionary<String, String>>()
     var daysLabels = Array<UILabel>()
     var iconsImageViews = Array<UIImageView>()
     var tempsLabels = Array<UILabel>()
     var dividersViews = Array<UIView>()
     var forecastViewIsAnimating = Bool()
+    var city: String?
     
     //MARK:
     //MARK: Lazy loading properties
@@ -45,7 +46,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
     }()
     
     lazy var divider: UIView = {
-        var view: UIView = UIView(frame: CGRectMake(35, CGRectGetMaxY(self.tableView.frame), self.frame.width-70, 0.5))
+        var view: UIView = UIView(frame: CGRectMake(0, CGRectGetMaxY(self.tableView.frame), self.frame.width, 0.7))
         
         return view
     }()
@@ -59,15 +60,15 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         
         self.weatherManager.delegate = self
         
-        var city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as! String
+        self.city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as? String
         
-        if(city.isEmpty) {
-            city = "Toronto"
+        if(self.city!.isEmpty) {
+            self.city = "Toronto"
         }
         
         // making weather request for city
         dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForecastForCity(city)
+            self.weatherManager.requestWeatherForecastForCity(self.city!)
         })
     }
     
@@ -75,31 +76,47 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         fatalError("init(coder:) has not been implemented")
     }
     
-    func commonInit() {
-
-        let daysFrame = CGRectMake(0, 60, 58, 20)
-        let iconsFrame = CGRectMake(14, 25, 30, 30)
-        let tempsFrame = CGRectMake(0, 0, 58, 20)
-        let dividersFrame = CGRectMake(0, 5, 0.7, 66)
-        
-        var x: Int = 0
-        for(; x < Constants.ForecastView.numDays; x++) {
-            // creating all labels and images
-            self.daysLabels.append(self.createLabelsWithText("Mon", frame: daysFrame))
-            self.iconsImageViews.append(self.createImageViewsWithImage(UIImage(named: "summer-50")!, frame: iconsFrame))
-            self.tempsLabels.append(self.createLabelsWithText("18º", frame: tempsFrame))
-            
-            if(x == Constants.ForecastView.numDays-1) {
-                break
-            }
-            
-            self.dividersViews.append(self.createViews(dividersFrame))
-        }
-        
-        self.addSubview(self.tableView)
+    func commonInitWithJSON(forecastJSON: JSON) {
         
 //        self.divider.backgroundColor = self.appHelper.colorWithHexString(Constants.ForecastView.fontColor)
 //        self.addSubview(self.divider)
+        
+        // check if we have any valid data
+        if (forecastJSON["list"].count > 0) {
+            
+            // check if we have enough data for the 7 days forecast
+            if(forecastJSON["list"].count > 6) {
+                
+                let daysFrame = CGRectMake(0, 60, 58, 20)
+                let iconsFrame = CGRectMake(14, 25, 30, 30)
+                let tempsFrame = CGRectMake(0, 0, 58, 20)
+                let dividersFrame = CGRectMake(0, 5, 0.7, 66)
+                
+                var x: Int = 0
+                for(; x < Constants.ForecastView.numDays; x++) {
+                    
+                    // extracting data from json
+                    let day = forecastJSON["list"][x]["dt"].stringValue
+                    let temp = forecastJSON["list"][x]["temp"]["day"].numberValue
+                    let condition = forecastJSON["list"][x]["weather"][0]["main"].stringValue
+                    let description = forecastJSON["list"][x]["weather"][0]["description"].stringValue
+                    
+                    // creating all labels and images
+                    self.daysLabels.append(self.createLabelsWithText(self.getDayFromUnixTimestamp(day), frame: daysFrame))
+                    self.iconsImageViews.append(self.createImageViewsWithImage(self.weatherManager.getWeatherImageForCondition(condition, description: description), frame: iconsFrame))
+                    self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: tempsFrame))
+                    
+                    if(x == Constants.ForecastView.numDays-1) {
+                        break
+                    }
+                    
+                    self.dividersViews.append(self.createViews(dividersFrame))
+                }
+                
+                // adding table view
+                self.addSubview(self.tableView)
+            }
+        }
     }
     
     
@@ -204,39 +221,13 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
         return view
     }
     
-    func loadLabelsFromJSON(forecastJSON: JSON) {
-        
-        // check if we have any valid data
-        if (forecastJSON["list"].count > 0) {
-
-            // check if we have enough data for the 7 days forecast
-            if(forecastJSON["list"].count > 6) {
-                
-                var x: Int = 0
-                
-                for(; x < Constants.ForecastView.numDays; x++) {
-                    // extracting data from json
-                    let dictionary: Dictionary<String, String> = ["day": forecastJSON["list"][x]["dt"].stringValue,
-                                                                  "temp": forecastJSON["list"][x]["temp"]["day"].stringValue,
-                                                                  "condition": forecastJSON["list"][x]["weather"][0]["main"].stringValue,
-                                                                  "description": forecastJSON["list"][x]["weather"][0]["description"].stringValue]
-
-                    // adding values to our dictionary array of dictionaries
-                    self.dictionaries.append(dictionary)
-                }
-            }
-        }
-        
-        println(self.dictionaries)
-    }
-    
     func getDayFromUnixTimestamp(unixTimestamp: String) -> String {
         
-        let timestampVal = ((unixTimestamp as NSString).doubleValue)/1000
+        let timestampVal = ((unixTimestamp as NSString).doubleValue)
         let timestamp = timestampVal as NSTimeInterval
         let date = NSDate(timeIntervalSince1970: timestamp)
         let calendar = NSCalendar.currentCalendar()
-        let components: NSDateComponents = calendar.components(NSCalendarUnit.CalendarUnitWeekday, fromDate: date)
+        let components: NSDateComponents = calendar.components(NSCalendarUnit.CalendarUnitWeekday | NSCalendarUnit.CalendarUnitDay, fromDate: date)
         let day = components.weekday
         
         // getting the date of the week
@@ -322,11 +313,15 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource, W
 
         // extract data from json and do matches for icons
         if(!forecastJSON.isEmpty) {
-            self.loadLabelsFromJSON(forecastJSON)
+            // setting up the view with data
+            self.commonInitWithJSON(forecastJSON)
         }
-        
-        // setting up view
-        self.commonInit()
+        else {
+            // making weather request for city
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForecastForCity(self.city!)
+            })
+        }
         
     }
     

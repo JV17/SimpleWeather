@@ -37,7 +37,8 @@ class WeatherManager: NSObject {
     
     //MARK:
     //MARK: Properties
-    
+
+    let appHelper = AppHelper()
     let request = HTTPTask()
     let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather"
     let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast/daily"//http://api.openweathermap.org/data/2.5/forecast/daily?q=Toronto&cnt=10&mode=json
@@ -312,4 +313,66 @@ class WeatherManager: NSObject {
         
         return 0
     }
+    
+    
+    //MARK:
+    //MARK: Weather condition icons
+    
+    func getWeatherImageForCondition(condition: String, description: String) -> UIImage {
+        
+        var image: UIImage?
+        
+        if(condition == "Drizzle") {
+            image = UIImage(named: "little_rain-50")
+        }
+        else if(condition == "Rain") {
+            image = UIImage(named: "rain-50")
+        }
+        else if(condition == "Atmosphere") {
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "fog_day-50")
+            }
+            else {
+                image = UIImage(named: "fog_night-50")
+            }
+        }
+        else if(condition == "Clouds" || condition == "Extreme") {
+            
+            if(description == "clear sky" || description == "hot") {
+                if(self.appHelper.isCurrentTimeDayTime()) {
+                    image = UIImage(named: "summer-50")
+                }
+                else {
+                    image = UIImage(named: "moon-50")
+                }
+            }
+            else {
+                if(self.appHelper.isCurrentTimeDayTime()) {
+                    image = UIImage(named: "partly_cloudy_day-50")
+                }
+                else {
+                    image = UIImage(named: "partly_cloudy_night-50")
+                }
+            }
+        }
+        else if(condition == "Snow") {
+            if(description == "snow" || description == "heavy snow" || description == "sleet" || description == "heavy shower snow") {
+                image = UIImage(named: "snow-50")
+            }
+            else {
+                image = UIImage(named: "light_snow-50")
+            }
+        }
+        else {
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "summer-50")
+            }
+            else {
+                image = UIImage(named: "moon-50")
+            }
+        }
+        
+        return image!
+    }
+
 }

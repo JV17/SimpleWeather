@@ -13,6 +13,7 @@ class WeatherView: UIView {
     //MARK:
     //MARK: Properties
     
+    let weatherManager = WeatherManager()
     let appHelper = AppHelper()
 
     //MARK:
@@ -275,7 +276,13 @@ class WeatherView: UIView {
                 self.maxTempLabel.text = String(format: "\(max)")
                 self.lowTempLabel.text = String(format: "\(low)")
                 self.currentTempLabel.text = currentTemp + "º"
-                self.conditionImageView.image = self.getCurrentCondtionWeatherImage()
+                
+                // store values for current conditions
+                let currentCondition: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentConditionKey)! as! String
+                let currentConditionDesc: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCondtionDescKey)! as! String
+
+                // getting the current condition image
+                self.conditionImageView.image = self.weatherManager.getWeatherImageForCondition(currentCondition, description: currentConditionDesc)
                 self.alpha = 0.0
                 
                 UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -391,70 +398,5 @@ class WeatherView: UIView {
                                                     lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinLowTemperature()),
                                                     currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinCurrentTemperature()))
     }
-    
-    
-    //MARK:
-    //MARK: Weather View helper functions
-    
-    func getCurrentCondtionWeatherImage() -> UIImage {
-        
-        var image: UIImage?
-        
-        let currentCondition: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentConditionKey)! as! String
-        let currentConditionDesc: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCondtionDescKey)! as! String
-        
-        if(currentCondition == "Drizzle") {
-            image = UIImage(named: "little_rain-50")
-        }
-        else if(currentCondition == "Rain") {
-            image = UIImage(named: "rain-50")
-        }
-        else if(currentCondition == "Atmosphere") {
-            if(self.appHelper.isCurrentTimeDayTime()) {
-                image = UIImage(named: "fog_day-50")
-            }
-            else {
-                image = UIImage(named: "fog_night-50")
-            }
-        }
-        else if(currentCondition == "Clouds" || currentCondition == "Extreme") {
-
-            if(currentConditionDesc == "clear sky" || currentConditionDesc == "hot") {
-                if(self.appHelper.isCurrentTimeDayTime()) {
-                    image = UIImage(named: "summer-50")
-                }
-                else {
-                    image = UIImage(named: "moon-50")
-                }
-            }
-            else {
-                if(self.appHelper.isCurrentTimeDayTime()) {
-                    image = UIImage(named: "partly_cloudy_day-50")
-                }
-                else {
-                    image = UIImage(named: "partly_cloudy_night-50")
-                }
-            }
-        }
-        else if(currentCondition == "Snow") {
-            if(currentConditionDesc == "snow" || currentConditionDesc == "heavy snow" || currentConditionDesc == "sleet" || currentConditionDesc == "heavy shower snow") {
-                image = UIImage(named: "snow-50")
-            }
-            else {
-                image = UIImage(named: "light_snow-50")
-            }
-        }
-        else {
-            if(self.appHelper.isCurrentTimeDayTime()) {
-                image = UIImage(named: "summer-50")
-            }
-            else {
-                image = UIImage(named: "moon-50")
-            }
-        }
-        
-        return image!
-    }
-
     
 }
