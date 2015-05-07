@@ -13,16 +13,28 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     //MARK:
     //MARK: Properties
-
-    let appHelper = AppHelper()
-    let weatherManager = WeatherManager()
-    let locationManager = LocationManager()
+    
     var currentCity: String?
     var backgroundImage: UIImage?
     var isAutocompleteViewAnimating = Bool()
 
     //MARK:
     //MARK: Lazy loading
+    
+    var appHelper: AppHelper = {
+        var tmpAppHelper: AppHelper = AppHelper()
+        return tmpAppHelper
+    }()
+    
+    var weatherManager: WeatherManager = {
+        var tmpWeatherManager: WeatherManager = WeatherManager()
+        return tmpWeatherManager
+    }()
+    
+    var locationManager: LocationManager = {
+        var tmpLocationManager: LocationManager = LocationManager()
+        return tmpLocationManager
+    }()
     
     lazy var fromBackgroundImageView: UIImageView = {
         var tmpImageView: UIImageView = UIImageView(frame: self.view.frame)

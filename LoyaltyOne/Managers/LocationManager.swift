@@ -25,7 +25,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     //MARK:
     //MARK: Properties
 
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager = {
+        var tmpLocationManager: CLLocationManager = CLLocationManager()
+        return tmpLocationManager
+    }()
+    
     var delegate: LocationManagerDelegate?
     var alreadyUpdatedLocation = Bool()
     

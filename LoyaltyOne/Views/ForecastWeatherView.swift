@@ -14,18 +14,42 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     //MARK:
     //MARK: Properties
     
-    let appHelper = AppHelper()
-    let weatherManager = WeatherManager()
-    var daysLabels = Array<UILabel>()
-    var iconsImageViews = Array<UIImageView>()
-    var tempsLabels = Array<UILabel>()
-    var dividersViews = Array<UIView>()
     var forecastViewIsAnimating = Bool()
     var city: String?
     var referenceToForecastBtn: UIButton?
     
     //MARK:
     //MARK: Lazy loading properties
+    
+    var appHelper: AppHelper = {
+        var tmpAppHelper: AppHelper = AppHelper()
+        return tmpAppHelper
+    }()
+    
+    var weatherManager: WeatherManager = {
+        var tmpWeatherManager: WeatherManager = WeatherManager()
+        return tmpWeatherManager
+    }()
+    
+    var daysLabels: Array<UILabel> = {
+        var tmpArr: Array<UILabel> = Array<UILabel>()
+        return tmpArr
+    }()
+    
+    var iconsImageViews: Array<UIImageView> = {
+        var tmpArr: Array<UIImageView> = Array<UIImageView>()
+        return tmpArr
+    }()
+    
+    var tempsLabels: Array<UILabel> = {
+        var tmpArr: Array<UILabel> = Array<UILabel>()
+        return tmpArr
+    }()
+    
+    var dividersViews: Array<UIView> = {
+        var tmpArr: Array<UIView> = Array<UIView>()
+        return tmpArr
+    }()
     
     lazy var tableView: UITableView = {
         var tmpTableView: UITableView = UITableView(frame: CGRectMake(0, 0, self.frame.width, self.frame.height-1), style: UITableViewStyle.Plain)

@@ -11,13 +11,17 @@ import UIKit
 class WeatherView: UIView {
 
     //MARK:
-    //MARK: Properties
-    
-    let weatherManager = WeatherManager()
-    let appHelper = AppHelper()
-
-    //MARK:
     //MARK: Lazy loading properties
+    
+    var weatherManager: WeatherManager = {
+        var tmpWeatherManager: WeatherManager = WeatherManager()
+        return tmpWeatherManager
+    }()
+    
+    var appHelper: AppHelper = {
+        var tmpAppHelper: AppHelper = AppHelper()
+        return tmpAppHelper
+    }()
     
     lazy var loadingLabel: UILabel = {
         var tmpLabel: UILabel = UILabel(frame: CGRectMake(0, Constants.ForecastView.viewHeight+5, self.frame.size.width, self.frame.height-Constants.ForecastView.viewHeight))

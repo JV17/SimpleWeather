@@ -21,19 +21,38 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     //MARK:
     //MARK: Properties
  
-    let appHelper = AppHelper()
-    let weatherManager = WeatherManager()
-    var cities = Array<String>()
-    var countriesDic = Dictionary<String, String>()
-    var autoCompleteCities = Array<String>()
     var delegate: AutoCompleteDelegate?
-    
     var numRows: Int = 1
     let rowHeight: CGFloat = 50.0
     
     
     //MARK:
     //MARK: Lazy loading
+    
+    var appHelper: AppHelper = {
+        var tmpAppHelper: AppHelper = AppHelper()
+        return tmpAppHelper
+    }()
+    
+    var weatherManager: WeatherManager = {
+        var tmpWeatherManager: WeatherManager = WeatherManager()
+        return tmpWeatherManager
+    }()
+    
+    var cities: Array<String> = {
+        var tmpArr: Array<String> = Array<String>()
+        return tmpArr
+    }()
+    
+    var countriesDic: Dictionary<String, String> = {
+        var tmpDic: Dictionary<String, String> = Dictionary<String, String>()
+        return tmpDic
+    }()
+    
+    var autoCompleteCities: Array<String> = {
+        var tmpArr: Array<String> = Array<String>()
+        return tmpArr
+    }()
     
     lazy var textField: UITextField = {
         var tmpTextField: UITextField = UITextField(frame: CGRectMake(0, 0, self.frame.width, 52))

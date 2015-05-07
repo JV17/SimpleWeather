@@ -14,6 +14,17 @@ struct Constants {
     //MARK:
     //MARK: Multi-threading
     
+    struct WeatherManager {
+        // requests urls
+        static let weatherURL: String = "http://api.openweathermap.org/data/2.5/weather"
+        static let weatherForecastURL: String = "http://api.openweathermap.org/data/2.5/forecast/daily"
+        static let citiesURL: String = "http://api.openweathermap.org/data/2.5/find"
+        static let apiKey: String = "432dbd419b713483bc99b3cbcd13d5ab"
+    }
+    
+    //MARK:
+    //MARK: Multi-threading
+    
     struct MultiThreading {
         // priorities
         static let quality_class_interactive = Int(QOS_CLASS_USER_INTERACTIVE.value)
