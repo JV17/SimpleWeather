@@ -66,7 +66,7 @@ class WeatherManager: NSObject {
             if let data = response.responseObject as? NSData {
                 
                 self.weatherJSON = JSON(data: data)
-                
+                                
                 // we need to avoid delays from our download task
                 dispatch_async(Constants.MultiThreading.mainQueue) {
                     self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
@@ -95,7 +95,7 @@ class WeatherManager: NSObject {
             if let data = response.responseObject as? NSData {
                 
                 self.forecastJSON = JSON(data: data)
-                                
+                
                 // we need to avoid delays from our download task
                 dispatch_async(Constants.MultiThreading.mainQueue) {
                     self.delegate?.forecastWeatherRequestFinishedWithJSON(self, forecastJSON: self.forecastJSON!)

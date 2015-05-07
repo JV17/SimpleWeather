@@ -113,15 +113,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.view.addSubview(self.weatherView)
         self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.autocompleteBtn)
-        
-        let date = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.timeZone = NSTimeZone(name: "Toronto")
-        
-        println("date: " + dateFormatter.stringFromDate(date))
-
+    
     }
     
 
