@@ -113,6 +113,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.view.addSubview(self.weatherView)
         self.view.addSubview(self.autocompleteView)
         self.view.addSubview(self.autocompleteBtn)
+        
+        let date = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeZone = NSTimeZone(name: "Toronto")
+        
+        println("date: " + dateFormatter.stringFromDate(date))
 
     }
     
@@ -343,13 +351,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // saving current city to user defaults
         NSUserDefaults.standardUserDefaults().setObject(self.currentCity, forKey: Constants.UserDefaults.currentCity)
         NSUserDefaults.standardUserDefaults().synchronize()
-        
-        // print location info
-        println("\(city)")
-        println("\(postalCode)")
-        println("\(state)")
-        println("\(country)")
-        println("\(countryCode)")
     }
     
     func locationFinishedWithError(locationMAnager: LocationManager, error: NSError, errorMessage: String) {
@@ -362,8 +363,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK: Weather Helper delegate
     
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
-        // let weather = self.weatherHelper.getWeatherMain()
-        println("\n\ndelegate: \(weatherJSON)")
         
         if(!weatherJSON.isEmpty) {
             // extracting values from json
