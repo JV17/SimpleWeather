@@ -69,7 +69,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     }()
     
     lazy var divider: UIView = {
-        var view: UIView = UIView(frame: CGRectMake(0, CGRectGetMaxY(self.tableView.frame), self.frame.width, 0.7))
+        var view: UIView = UIView(frame: CGRectMake(0, CGRectGetMaxY(self.tableView.frame)+2, self.frame.width, 0.7))
         
         return view
     }()
@@ -367,9 +367,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
             // forecast view show animations
+            self.alpha = 1.0
+            
             let oldFrame = self.frame
             self.frame = CGRectMake(oldFrame.origin.x, 0, oldFrame.size.width, oldFrame.size.height)
-            self.alpha = 1.0
             
             if((self.referenceToForecastBtn!.window) != nil) {
                 // forecast button animations
@@ -396,9 +397,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .CurveEaseIn, animations: {
             // forecast view hide animations
+            self.alpha = 0.0
+
             let oldFrame = self.frame
             self.frame = CGRectMake(oldFrame.origin.x, Constants.ForecastView.viewHeight/2, oldFrame.size.width, oldFrame.size.height)
-            self.alpha = 0.0
             
             if((self.referenceToForecastBtn!.window) != nil) {
                 // forecast button animations

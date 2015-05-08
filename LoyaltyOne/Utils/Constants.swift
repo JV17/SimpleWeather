@@ -105,7 +105,7 @@ struct Constants {
         
         static let dividerColor: String = "F7F7F7"
         
-        static let viewHeight: CGFloat = 80
+        static let viewHeight: CGFloat = 82
         static let subtractY: CGFloat = WeatherView.height + ForecastView.viewHeight + 5
     }
 
