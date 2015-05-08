@@ -287,10 +287,9 @@ class WeatherView: UIView {
                 
                 // store values for current conditions
                 let currentCondition: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentConditionKey)! as! String
-                let currentConditionDesc: String = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCondtionDescKey)! as! String
 
                 // getting the current condition image
-                self.conditionImageView.image = self.weatherManager.getWeatherImageForCondition(currentCondition, description: currentConditionDesc)
+                self.conditionImageView.image = self.weatherManager.getWeatherImageForCondition(currentCondition)
                 self.alpha = 0.0
                 
                 UIView.animateWithDuration(1.5, delay: 0.0, options: .CurveEaseOut, animations: {
@@ -389,9 +388,9 @@ class WeatherView: UIView {
         let weatherManager = WeatherManager()
         
         // updating labels animated
-        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToCelcius(weatherManager.getSavedKelvinMaxTemperature()),
-                                                    lowTemp: weatherManager.tempToCelcius(weatherManager.getSavedKelvinLowTemperature()),
-                                                    currentTemp: weatherManager.tempToCelcius(weatherManager.getSavedKelvinCurrentTemperature()))
+        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToCelcius(weatherManager.getSavedMaxTemperature()),
+                                                    lowTemp: weatherManager.tempToCelcius(weatherManager.getSavedLowTemperature()),
+                                                    currentTemp: weatherManager.tempToCelcius(weatherManager.getSavedCurrentTemperature()))
     }
 
     func changeTemperatureToFahranheit(button: UIButton) {
@@ -402,9 +401,9 @@ class WeatherView: UIView {
         let weatherManager = WeatherManager()
         
         // updating labels animated
-        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinMaxTemperature()),
-                                                    lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinLowTemperature()),
-                                                    currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedKelvinCurrentTemperature()))
+        self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToFahrenheit(weatherManager.getSavedMaxTemperature()),
+                                                    lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedLowTemperature()),
+                                                    currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedCurrentTemperature()))
     }
     
 }

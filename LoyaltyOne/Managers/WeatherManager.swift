@@ -57,7 +57,7 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Weather Manager requests
     
-    func requestWeatherForCity(city: String) {
+    func requestWeatherForCity(city: String, state: String) {
         
         if(city.isEmpty) {
             // telling the delegate we have received an error
@@ -66,15 +66,23 @@ class WeatherManager: NSObject {
             return
         }
         
-        self.request.GET(Constants.WeatherManager.weatherURL, parameters: ["q" : city], success: {(response: HTTPResponse) in
+        let strURL: String = Constants.WeatherUnderground.weatherURL + state + "/" + city + ".json"
+        let requestURL: String = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        self.request.GET(requestURL, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
-                self.weatherJSON = JSON(data: data)
-                                
-                // we need to avoid delays from our download task
-                dispatch_async(Constants.MultiThreading.mainQueue) {
-                    self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto")
-                }
+                dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                    
+                    self.weatherJSON = JSON(data: data)
+                    
+                    println(self.weatherJSON)
+                    
+                    // we need to avoid delays from our download task
+                    dispatch_async(Constants.MultiThreading.mainQueue) {
+                        self.checkForValidWeatherDataWithCity(!city.isEmpty ? city : "Toronto", state: !state.isEmpty ? state: "ON")
+                    }
+                })
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
@@ -86,7 +94,7 @@ class WeatherManager: NSObject {
         })
     }
     
-    func requestWeatherForecastForCity(city: String) {
+    func requestWeatherForecastForCity(city: String, state: String) {
         
         if(city.isEmpty) {
             // telling the delegate we have received an error
@@ -95,15 +103,23 @@ class WeatherManager: NSObject {
             return
         }
         
-        self.request.GET(Constants.WeatherManager.weatherForecastURL, parameters: ["q" : city, "cnt" : 7], success: {(response: HTTPResponse) in
+        let strURL: String = Constants.WeatherUnderground.weatherForecastURL + state + "/" + city + ".json"
+        let requestURL: String = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
+        self.request.GET(requestURL, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
-                self.forecastJSON = JSON(data: data)
-                
-                // we need to avoid delays from our download task
-                dispatch_async(Constants.MultiThreading.mainQueue) {
-                    self.delegate?.forecastWeatherRequestFinishedWithJSON(self, forecastJSON: self.forecastJSON!)
-                }
+                dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                    
+                    self.forecastJSON = JSON(data: data)
+                    
+                    println(self.forecastJSON)
+                    
+                    // we need to avoid delays from our download task
+                    dispatch_async(Constants.MultiThreading.mainQueue) {
+                        self.delegate?.forecastWeatherRequestFinishedWithJSON(self, forecastJSON: self.forecastJSON!)
+                    }
+                })
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
@@ -124,15 +140,18 @@ class WeatherManager: NSObject {
             return
         }
         
-        self.request.GET(Constants.WeatherManager.citiesURL, parameters: ["q" : searchString, "type" : "like", "cnt" : 10], success: {(response: HTTPResponse) in
+        self.request.GET(Constants.WeatherUnderground.citiesURL, parameters: ["query" : searchString], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
-                
-                self.citiesJSON = JSON(data: data)
-                
-                // we need to avoid delays from our download task
-                dispatch_async(Constants.MultiThreading.mainQueue) {
-                    self.delegate?.citiesRequestFinishedWithJSON(self, citiesJSON: self.citiesJSON!)
-                }
+
+                dispatch_async(Constants.MultiThreading.backgroundQueue, {
+
+                    self.citiesJSON = JSON(data: data)
+                    
+                    // we need to avoid delays from our download task
+                    dispatch_async(Constants.MultiThreading.mainQueue) {
+                        self.delegate?.citiesRequestFinishedWithJSON(self, citiesJSON: self.citiesJSON!)
+                    }
+                })
             }
             },failure: {(error: NSError, response: HTTPResponse?) in
                 println("error: \(error)")
@@ -148,18 +167,18 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Weather Manager helper functions
     
-    func checkForValidWeatherDataWithCity(city: String) {
+    func checkForValidWeatherDataWithCity(city: String, state: String) {
 
         // we need to check if we have weather data
         if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity("")
+            self.requestWeatherForCity(city, state: state)
         }
         
-        if ((self.weatherJSON!["message"].string) != nil) {
+        // we received a json with error
+        if ((self.weatherJSON!["error"].string) != nil) {
             // error handling
-            let errorMessage = self.weatherJSON!["message"].stringValue + ","
-            let errorCode = self.weatherJSON!["cod"].intValue
-            let error = NSError(domain: errorMessage, code: errorCode, userInfo: nil)
+            let errorMessage = self.weatherJSON!["description"].stringValue + ","
+            let error = NSError(domain: errorMessage, code: 500, userInfo: nil)
 
             // tells the delegate we couldn't find the city
             self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: city)
@@ -173,77 +192,19 @@ class WeatherManager: NSObject {
         }
     }
     
-    func getWeatherCondition() -> Dictionary<String, String> {
-        
-        // we need to check if we have weather data
-        if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity("")
-        }
-        
-        var dictionary = Dictionary<String, String>()
-        
-        if ((self.weatherJSON!["weather"].string) != nil) {
-            dictionary = ["id": self.weatherJSON!["id"].stringValue,
-                          "main": self.weatherJSON!["main"].stringValue,
-                          "icon": self.weatherJSON!["icon"].stringValue,
-                          "description": self.weatherJSON!["description"].stringValue]
-        }
-        else {
-            dictionary = ["id": "n/a",
-                          "main": "n/a",
-                          "icon": "n/a",
-                          "description": "n/a"]
-        }
-        
-        return dictionary
-    }
-    
-    func getWeatherMain() -> Dictionary<String, String> {
-        
-        // we need to check if we have weather data
-        if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity("")
-        }
-        
-        var dictionary = Dictionary<String, String>()
-        
-        if ((self.weatherJSON!["main"].string) != nil) {
-            dictionary = ["humidity": self.weatherJSON!["humidity"].stringValue,
-                          "temp_min": self.weatherJSON!["temp_min"].stringValue,
-                          "temp_max": self.weatherJSON!["temp_max"].stringValue,
-                          "temp": self.weatherJSON!["temp"].stringValue,
-                          "pressure": self.weatherJSON!["pressure"].stringValue,
-                          "sea_level": self.weatherJSON!["sea_level"].stringValue,
-                          "grnd_level": self.weatherJSON!["grnd_level"].stringValue]
-        }
-        else {
-            dictionary = ["humidity": "n/a",
-                          "temp_min": "n/a",
-                          "temp_max": "n/a",
-                          "temp": "n/a",
-                          "pressure": "n/a",
-                          "sea_level": "n/a",
-                          "grnd_level": "n/a"]
-        }
-        
-        return dictionary
-    }
-    
     func saveCurrentWeatherConditionFromJSON(weatherJSON: JSON) {
         
         // we need to check if we have weather data
         if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity("")
+            self.requestWeatherForCity("", state: "")
         }
         
         if (!weatherJSON.isEmpty) {
             // getting current condition from json
-            let currentCondition = weatherJSON["weather"][0]["main"].stringValue
-            let currentConditionDesc = weatherJSON["weather"][0]["description"].stringValue
+            let currentCondition = weatherJSON["current_observation"]["weather"].stringValue
             
             // saving current condition to defaults
             NSUserDefaults.standardUserDefaults().setObject(currentCondition, forKey: Constants.UserDefaults.currentConditionKey)
-            NSUserDefaults.standardUserDefaults().setObject(currentCondition, forKey: Constants.UserDefaults.currentCondtionDescKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
@@ -252,12 +213,20 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Temperature conversation
     
-    func tempToCelcius(tempKelvin: NSNumber) -> String {
+    func tempToCelciusFromKelvin(tempKelvin: NSNumber) -> String {
         return self.numberFormatterWithNumber((tempKelvin.floatValue - 273.15))
     }
     
-    func tempToFahrenheit(tempKelvin: NSNumber) -> String {
+    func tempToFahrenheitFromKelvin(tempKelvin: NSNumber) -> String {
         return self.numberFormatterWithNumber((((tempKelvin.floatValue - 273.15) * 1.8) + 32.00))
+    }
+    
+    func tempToCelcius(temp: NSNumber) -> String {
+        return self.numberFormatterWithNumber(temp.floatValue) // we are storing the value as celcius so nothing to do here
+    }
+    
+    func tempToFahrenheit(temp: NSNumber) -> String {
+        return self.numberFormatterWithNumber((temp.floatValue*(9/5)) + 32.0)
     }
     
     func numberFormatterWithNumber(number: NSNumber) -> String {
@@ -283,7 +252,7 @@ class WeatherManager: NSObject {
         return ""
     }
 
-    func getSavedKelvinMaxTemperature() -> NSNumber {
+    func getSavedMaxTemperature() -> NSNumber {
 
         if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
             if let maxTemp = tempDic[Constants.UserDefaults.maxTempKey] as? NSNumber {
@@ -294,7 +263,7 @@ class WeatherManager: NSObject {
         return 0
     }
     
-    func getSavedKelvinLowTemperature() -> NSNumber {
+    func getSavedLowTemperature() -> NSNumber {
         
         if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
             if let lowTemp = tempDic[Constants.UserDefaults.lowTempKey] as? NSNumber {
@@ -305,7 +274,7 @@ class WeatherManager: NSObject {
         return 0
     }
 
-    func getSavedKelvinCurrentTemperature() -> NSNumber {
+    func getSavedCurrentTemperature() -> NSNumber {
         
         if let tempDic = NSUserDefaults.standardUserDefaults().dictionaryForKey(Constants.UserDefaults.dicTempKey) {
             if let currentTemp = tempDic[Constants.UserDefaults.currentTempKey] as? NSNumber {
@@ -320,17 +289,17 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Weather condition icons
     
-    func getWeatherImageForCondition(condition: String, description: String) -> UIImage {
+    func getWeatherImageForCondition(condition: String) -> UIImage {
         
         var image: UIImage?
         
-        if(condition == "Drizzle") {
+        if(condition == "Light Drizzle" || condition == "Light Rain" || condition == "Light Freezing Drizzle" || condition == "Light Freezing Rain" || condition == "Light Rain Showers" || condition == "Light Rain Mist") {
             image = UIImage(named: "little_rain-50")
         }
-        else if(condition == "Rain") {
+        else if(condition == "Heavy Rain" || condition == "Heavy Drizzle" || condition == "Heavy Freezing Drizzle" || condition == "Heavy Freezing Rain" || condition == "Heavy Rain Showers" || condition == "Heavy Rain Mist") {
             image = UIImage(named: "rain-50")
         }
-        else if(condition == "Atmosphere") {
+        else if(condition == "Patches of Fog" || condition == "Shallow Fog" || condition == "Partial Fog" || condition == "Light Fog" || condition == "Heavy Fog" || condition == "Heavy Fog Patches" || condition == "Light Fog Patches") {
             if(self.appHelper.isCurrentTimeDayTime()) {
                 image = UIImage(named: "fog_day-50")
             }
@@ -338,32 +307,27 @@ class WeatherManager: NSObject {
                 image = UIImage(named: "fog_night-50")
             }
         }
-        else if(condition == "Clouds" || condition == "Extreme") {
-            
-            if(description == "clear sky" || description == "hot") {
-                if(self.appHelper.isCurrentTimeDayTime()) {
-                    image = UIImage(named: "summer-50")
-                }
-                else {
-                    image = UIImage(named: "moon-50")
-                }
+        else if(condition == "Clear" || condition == "Overcast" || condition == "Scattered Clouds") {
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "summer-50")
             }
             else {
-                if(self.appHelper.isCurrentTimeDayTime()) {
-                    image = UIImage(named: "partly_cloudy_day-50")
-                }
-                else {
-                    image = UIImage(named: "partly_cloudy_night-50")
-                }
+                image = UIImage(named: "moon-50")
             }
         }
-        else if(condition == "Snow") {
-            if(description == "snow" || description == "heavy snow" || description == "sleet" || description == "heavy shower snow") {
-                image = UIImage(named: "snow-50")
+        else if(condition == "Partly Cloudy" || condition == "Mostly Cloudy" || condition == "Scattered Clouds" || condition == "Funnel Cloud") {
+            if(self.appHelper.isCurrentTimeDayTime()) {
+                image = UIImage(named: "partly_cloudy_day-50")
             }
             else {
-                image = UIImage(named: "light_snow-50")
+                image = UIImage(named: "partly_cloudy_night-50")
             }
+        }
+        else if(condition == "Heavy Snow" || condition == "Heavy Snow Grains" || condition == "Heavy Ice Crystals" || condition == "Heavy Ice Pellets" || condition == "Heavy Blowing Snow" || condition == "Heavy Low Drifting Snow" || condition == "Heavy Snow Showers" || condition == "Heavy Snow Blowing Snow Mist") {
+                image = UIImage(named: "snow-50")
+        }
+        else if(condition == "Light Snow" || condition == "Light Snow Grains" || condition == "Light Ice Crystals" || condition == "Light Ice Pellets" || condition == "Light Blowing Snow" || condition == "Light Low Drifting Snow" || condition == "Light Snow Showers" || condition == "Light Snow Blowing Snow Mist") {
+            image = UIImage(named: "light_snow-50")
         }
         else {
             if(self.appHelper.isCurrentTimeDayTime()) {

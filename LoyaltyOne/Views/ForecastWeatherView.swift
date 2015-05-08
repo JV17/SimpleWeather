@@ -80,32 +80,10 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        self.weatherManager.delegate = self
-        
-//        self.city = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.currentCity) as? String
-//        
-//        if(self.city!.isEmpty) {
-//            self.city = "Toronto"
-//        }
-//        
-//        // making weather request for city
-//        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-//            self.weatherManager.requestWeatherForecastForCity(self.city!)
-//        })
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func reLoadForecastViewForCity(city: String) {
-        self.city = city
-        
-        // making weather request for city
-        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-//            self.weatherManager.requestWeatherForecastForCity(city)
-        })
     }
     
     func commonInitWithJSON(forecastJSON: JSON) {
@@ -114,11 +92,11 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.addSubview(self.divider)
         
         // check if we have any valid data
-        if (forecastJSON["list"].count > 0) {
+        if (!forecastJSON.isEmpty) {
             
             // check if we have enough data for the 7 days forecast
-            if(forecastJSON["list"].count > 6) {
-                
+            if(forecastJSON["forecast"]["simpleforecast"]["forecastday"].count > 0) {
+            
                 let daysFrame = CGRectMake(0, 60, 58, 20)
                 let iconsFrame = CGRectMake(14, 25, 30, 30)
                 let tempsFrame = CGRectMake(0, 0, 58, 20)
@@ -136,14 +114,19 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                 for(; x < Constants.ForecastView.numDays; x++) {
                     
                     // extracting data from json
-                    let day = forecastJSON["list"][x]["dt"].stringValue
-                    let temp = forecastJSON["list"][x]["temp"]["day"].numberValue
-                    let condition = forecastJSON["list"][x]["weather"][0]["main"].stringValue
-                    let description = forecastJSON["list"][x]["weather"][0]["description"].stringValue
+                    let day = forecastJSON["forecast"]["simpleforecast"]["forecastday"][x]["date"]["weekday_short"].stringValue
+                    let temp = forecastJSON["forecast"]["simpleforecast"]["forecastday"][x]["high"]["celsius"].numberValue
+                    let condition = forecastJSON["forecast"]["simpleforecast"]["forecastday"][x]["conditions"].stringValue
+
+                    println()
+                    println("*********************")
+                    println(day)
+                    println(temp)
+                    println(condition)
                     
                     // creating all labels and images
-                    self.daysLabels.append(self.createLabelsWithText(self.getDayFromUnixTimestamp(day), frame: daysFrame))
-                    self.iconsImageViews.append(self.createImageViewsWithImage(self.weatherManager.getWeatherImageForCondition(condition, description: description), frame: iconsFrame))
+                    self.daysLabels.append(self.createLabelsWithText(day, frame: daysFrame))
+                    self.iconsImageViews.append(self.createImageViewsWithImage(self.weatherManager.getWeatherImageForCondition(condition), frame: iconsFrame))
                     self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: tempsFrame))
                     
                     if(x == Constants.ForecastView.numDays-1) {

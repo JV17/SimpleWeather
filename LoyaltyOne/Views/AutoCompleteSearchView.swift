@@ -107,9 +107,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func commonInit() {
         
-        // getting all country codes and countries
-        self.getCountriesWithCountryCodes()
-        
         self.textField.backgroundColor = appHelper.colorWithHexString("1F1F21").colorWithAlphaComponent(0.7)
         self.addSubview(self.textField)
         
@@ -145,7 +142,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         self.textField.text = self.autoCompleteCities[indexPath.row]
-        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.appHelper.removeProvinceFromCityName(self.autoCompleteCities[indexPath.row]))
+        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[indexPath.row])
         
         // dismiss keyboard and table view
         self.textField.resignFirstResponder()
@@ -199,7 +196,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // if there is only 1 city left in our auto complete array then auto selected
         if(self.autoCompleteCities.count > 0) {
             textField.text = self.autoCompleteCities[0]
-            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.appHelper.removeProvinceFromCityName(self.autoCompleteCities[0]))
+            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[0])
         }
         else if(!textField.text.isEmpty) {
             self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: textField.text)
@@ -351,14 +348,9 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             
             var x: Int = 0
             // loops over all the cities in JSON
-            for (; x < citiesJSON["count"].intValue; x++) {
-                let city: String = citiesJSON["list"][x]["name"].stringValue
-                let countryCode: String = citiesJSON["list"][x]["sys"]["country"].stringValue
-                var cityToAppend: String = city
-                if let country: String = self.countriesDic[countryCode] {
-                    cityToAppend = city + ", " + country.capitalizeFirst
-                }
-                self.autoCompleteCities.append(cityToAppend)
+            for (; x < citiesJSON["RESULTS"].count; x++) {
+                let city: String = citiesJSON["RESULTS"][x]["name"].stringValue
+                self.autoCompleteCities.append(city)
             }
             
             self.tableView.reloadData()

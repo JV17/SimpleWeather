@@ -22,6 +22,13 @@ struct Constants {
         static let apiKey: String = "432dbd419b713483bc99b3cbcd13d5ab"
     }
     
+    struct WeatherUnderground {
+        static let weatherURL: String = "http://api.wunderground.com/api/" + WeatherUnderground.apiKey + "/conditions/q/"
+        static let weatherForecastURL: String = "http://api.wunderground.com/api/" + WeatherUnderground.apiKey + "/forecast10day/q/"
+        static let citiesURL: String = "http://autocomplete.wunderground.com/aq"
+        static let apiKey: String = "87c31015035f8c5b"
+    }
+    
     //MARK:
     //MARK: Multi-threading
     

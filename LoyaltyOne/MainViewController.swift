@@ -15,6 +15,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK: Properties
     
     var currentCity: String?
+    var currentState: String?
     var backgroundImage: UIImage?
     var isAutocompleteViewAnimating = Bool()
 
@@ -132,17 +133,17 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Controller helper functions
     
-    func performNewWeatherServiceCallWithCity(city: String) {
+    func performNewWeatherServiceCallWithCity(city: String, state: String) {
         // making a new services call for city
         dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForCity(city)
+            self.weatherManager.requestWeatherForCity(city, state: state)
         })
     }
     
-    func performNewWeatherForecastServiceCallWithCity(city: String) {
+    func performNewWeatherForecastServiceCallWithCity(city: String, state: String) {
         // making a new services call for city
         dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForecastForCity(city)
+            self.weatherManager.requestWeatherForecastForCity(city, state: state)
         })
     }
     
@@ -355,9 +356,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func locationFinishedUpdatingWithCity(locationManager: LocationManager, city: String, postalCode: String, state: String, country: String, countryCode: String) {
         // get user location
         
+        println("state: " + state)
+        
         // making service call with location data
-        self.performNewWeatherServiceCallWithCity(city)
+        self.performNewWeatherServiceCallWithCity(city, state: country)
         self.currentCity = city
+        self.currentState = country
         
         // saving current city to user defaults
         NSUserDefaults.standardUserDefaults().setObject(self.currentCity, forKey: Constants.UserDefaults.currentCity)
@@ -377,14 +381,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         
         if(!weatherJSON.isEmpty) {
             // extracting values from json
-            let condition = weatherJSON["weather"][0]["description"].stringValue
-            let max = weatherJSON["main"]["temp_max"].numberValue
-            let low = weatherJSON["main"]["temp_min"].numberValue
-            let currentTemp = weatherJSON["main"]["temp"].numberValue
-            self.currentCity = weatherJSON["name"].stringValue
+            let condition = weatherJSON["current_observation"]["weather"].stringValue
+            let max = weatherJSON["current_observation"]["temp_c"].numberValue
+            let low = weatherJSON["current_observation"]["temp_c"].numberValue
+            let currentTemp = weatherJSON["current_observation"]["temp_c"].numberValue
+            self.currentCity = weatherJSON["current_observation"]["display_location"]["city"].stringValue
+            self.currentState = weatherJSON["current_observation"]["display_location"]["state_name"].stringValue
             
             // loading forescast data
-            self.performNewWeatherForecastServiceCallWithCity(self.currentCity!)
+            self.performNewWeatherForecastServiceCallWithCity(self.currentCity!, state: self.currentState!)
             
             var newMax: Float = max.floatValue
             var newLow: Float = low.floatValue
@@ -408,10 +413,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             self.updateBackgroundImage()
             
             // updating labels animated
-            self.weatherView.updateWeatherLabelsAnimated(condition.capitalizeFirst,
-                                                         maxTemp: self.weatherManager.tempToCelcius(newMax),
-                                                         lowTemp: self.weatherManager.tempToCelcius(newLow),
-                                                         currentTemp: self.weatherManager.tempToCelcius(currentTemp))
+            self.weatherView.updateWeatherLabelsAnimated(condition,
+                                                         maxTemp: self.weatherManager.numberFormatterWithNumber(newMax),
+                                                         lowTemp: self.weatherManager.numberFormatterWithNumber(newLow),
+                                                         currentTemp: self.weatherManager.numberFormatterWithNumber(currentTemp))
             
             // updating city label animated
             self.updateCityLabelAnimated(self.currentCity!)
@@ -452,7 +457,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         // make a new service call with the new city
         if(!selectedCity.isEmpty) {
             dispatch_async(Constants.MultiThreading.backgroundQueue, {
-                self.weatherManager.requestWeatherForCity(selectedCity)
+                let cityArr = selectedCity.componentsSeparatedByString(", ")
+                let city: String = cityArr[0]
+                let state: String = cityArr[1]
+                self.weatherManager.requestWeatherForCity(city, state: state)
             })
         }
     }
@@ -506,10 +514,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             case .Default:
                 // retry getting weather from services
                 if(!cityRequested.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(cityRequested)
+                    self.performNewWeatherServiceCallWithCity(cityRequested, state: "")
                 }
                 else if(!self.currentCity!.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(self.currentCity!)
+                    self.performNewWeatherServiceCallWithCity(self.currentCity!, state: self.currentState!)
                 }
             case .Cancel:
                 println("cancel")
@@ -548,10 +556,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             case .Default:
                 // retry getting weather from services
                 if(!cityRequested.isEmpty) {
-                    self.performNewWeatherForecastServiceCallWithCity(cityRequested)
+                    self.performNewWeatherForecastServiceCallWithCity(cityRequested, state: "")
                 }
                 else if(!self.currentCity!.isEmpty) {
-                    self.performNewWeatherForecastServiceCallWithCity(self.currentCity!)
+                    self.performNewWeatherForecastServiceCallWithCity(self.currentCity!, state: self.currentState!)
                 }
             case .Cancel:
                 println("cancel")
