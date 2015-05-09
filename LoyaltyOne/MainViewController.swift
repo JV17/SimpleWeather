@@ -14,8 +14,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Properties
     
-    var currentCity: String?
-    var currentState: String?
+    var currentCity: String = String()
+    var currentState: String = String()
+    var locationID: String = String()
     var backgroundImage: UIImage?
     var isAutocompleteViewAnimating = Bool()
 
@@ -149,11 +150,19 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         
     }
     
-    func performNewWeatherForecastServiceCallWithCity(city: String, state: String) {
+    func performNewWeatherForecastServiceCallWithCity(city: String, state: String, locationId: String) {
+
         // making a new services call for city
-        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForecastForCity(city, state: state)
-        })
+        if(!city.isEmpty || !state.isEmpty) {
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForecastForCity(city, state: state, locationId: locationId, forCity: true)
+            })
+        }
+        else if(!locationId.isEmpty) {
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForecastForCity(city, state: state, locationId: locationId, forCity: false)
+            })
+        }
     }
     
     func setCityTimeLabels() {
@@ -399,7 +408,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             self.currentState = weatherJSON["current_observation"]["display_location"]["state_name"].stringValue
             
             // loading forescast data
-            self.performNewWeatherForecastServiceCallWithCity(self.currentCity!, state: self.currentState!)
+            if(self.locationID.isEmpty) {
+                self.performNewWeatherForecastServiceCallWithCity(self.currentCity, state: self.currentState, locationId: "")
+            }
+            else {
+                self.performNewWeatherForecastServiceCallWithCity("", state: "", locationId: self.locationID)
+            }
             
             var newMax: Float = max.floatValue
             var newLow: Float = low.floatValue
@@ -429,14 +443,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                                                          currentTemp: self.weatherManager.numberFormatterWithNumber(currentTemp))
             
             // updating city label animated
-            self.updateCityLabelAnimated(self.currentCity!)
+            self.updateCityLabelAnimated(self.currentCity)
         }
     }
     
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, serverError: Bool, city: String, state: String, locationId: String) {
         // error handling
         println("Error: \(error)")
-        self.showWeatherAlertControllerWithError(error, errorMessage: errorMessage, cityRequested: cityRequested)
+        self.showWeatherAlertControllerWithError(error, serverError: serverError, city: city, state: state, locationId: locationId)
     }
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
@@ -454,22 +468,20 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, city: String, state: String, locationId: String) {
         // error handling
         println("Error: \(error)")
-        self.showWeatherForecastAlertControllerWithError(error, errorMessage: errorMessage, cityRequested: cityRequested)
+        self.showWeatherForecastAlertControllerWithError(error, city: city, state: state, locationId: locationId)
     }
     
     //MARK:
     //MARK: Autocomplete Search View delegate
     
-    func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String) {
+    func autocompleteFinishedWithLocationId(autocompleteView: AutoCompleteSearchView, locationId: String) {
         // make a new service call with the new city
-        if(!selectedCity.isEmpty) {
-//            let cityArr = selectedCity.componentsSeparatedByString(", ")
-//            let city: String = cityArr[0]
-//            let state: String = cityArr[1]
-            self.performNewWeatherServiceCallWithCity("", state: "", locationId: selectedCity)
+        if(!locationId.isEmpty) {
+            self.locationID = locationId
+            self.performNewWeatherServiceCallWithCity("", state: "", locationId: locationId)
         }
     }
     
@@ -512,20 +524,38 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func showWeatherAlertControllerWithError(error: NSError, errorMessage: String, cityRequested: String) {
+    func showWeatherAlertControllerWithError(error: NSError, serverError: Bool, city: String, state: String, locationId: String) {
         
-        let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Weather Services Error", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
 
+        let title: String?
+        
+        if(serverError) {
+            title = "Ok"
+        }
+        else {
+            title = "Retry"
+        }
+        
         // retry getting weather from services action
-        alert.addAction(UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { action in
+        alert.addAction(UIAlertAction(title: title!, style: UIAlertActionStyle.Default, handler: { action in
             switch action.style {
             case .Default:
-                // retry getting weather from services
-                if(!cityRequested.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(cityRequested, state: "", locationId: "")
+                if(title == "Ok") {
+                    break
                 }
-                else if(!self.currentCity!.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(self.currentCity!, state: self.currentState!, locationId: "")
+                // retry getting weather from services
+                if(!city.isEmpty && !state.isEmpty) {
+                    self.performNewWeatherServiceCallWithCity(city, state: state, locationId: "")
+                }
+                else if(!locationId.isEmpty) {
+                    self.performNewWeatherServiceCallWithCity("", state: "", locationId: locationId)
+                }
+                else if(!self.currentCity.isEmpty && !self.currentState.isEmpty) {
+                    self.performNewWeatherServiceCallWithCity(self.currentCity, state: self.currentState, locationId: "")
+                }
+                else if(!self.locationID.isEmpty) {
+                    self.performNewWeatherServiceCallWithCity("", state: "", locationId: self.locationID)
                 }
             case .Cancel:
                 println("cancel")
@@ -554,7 +584,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func showWeatherForecastAlertControllerWithError(error: NSError, errorMessage: String, cityRequested: String) {
+    func showWeatherForecastAlertControllerWithError(error: NSError, city: String, state: String, locationId: String) {
         
         let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -563,11 +593,17 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             switch action.style {
             case .Default:
                 // retry getting weather from services
-                if(!cityRequested.isEmpty) {
-                    self.performNewWeatherForecastServiceCallWithCity(cityRequested, state: "")
+                if(!city.isEmpty && !state.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity(city, state: state, locationId: "")
                 }
-                else if(!self.currentCity!.isEmpty) {
-                    self.performNewWeatherForecastServiceCallWithCity(self.currentCity!, state: self.currentState!)
+                else if(!locationId.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity("", state: "", locationId: locationId)
+                }
+                else if(!self.currentCity.isEmpty && !self.currentState.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity(self.currentCity, state: self.currentState, locationId: "")
+                }
+                else if(!self.locationID.isEmpty) {
+                    self.performNewWeatherForecastServiceCallWithCity("", state: "", locationId: self.locationID)
                 }
             case .Cancel:
                 println("cancel")

@@ -24,7 +24,7 @@ struct Constants {
     
     struct WeatherUnderground {
         static let weatherURL: String = "http://api.wunderground.com/api/" + WeatherUnderground.apiKey + "/conditions"
-        static let weatherForecastURL: String = "http://api.wunderground.com/api/" + WeatherUnderground.apiKey + "/forecast10day/q/"
+        static let weatherForecastURL: String = "http://api.wunderground.com/api/" + WeatherUnderground.apiKey + "/forecast10day"
         static let citiesURL: String = "http://autocomplete.wunderground.com/aq"
         static let apiKey: String = "87c31015035f8c5b"
     }

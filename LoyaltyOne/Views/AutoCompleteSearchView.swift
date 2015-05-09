@@ -11,7 +11,7 @@ import UIKit
 protocol AutoCompleteDelegate {
     
     // tells when the use has selected a new city from the autocomplete search view
-    func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String)
+    func autocompleteFinishedWithLocationId(autocompleteView: AutoCompleteSearchView, locationId: String)
 
 }
 
@@ -142,7 +142,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         self.textField.text = self.autoCompleteCities[indexPath.row][0]
-        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[indexPath.row][1])
+        self.delegate?.autocompleteFinishedWithLocationId(self, locationId: self.autoCompleteCities[indexPath.row][1])
         
         // dismiss keyboard and table view
         self.textField.resignFirstResponder()
@@ -196,10 +196,10 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // if there is only 1 city left in our auto complete array then auto selected
         if(self.autoCompleteCities.count > 0) {
             textField.text = self.autoCompleteCities[0][0]
-            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[0][1])
+            self.delegate?.autocompleteFinishedWithLocationId(self, locationId: self.autoCompleteCities[0][1])
         }
         else if(!textField.text.isEmpty) {
-            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: textField.text)
+            self.delegate?.autocompleteFinishedWithLocationId(self, locationId: textField.text)
         }
         
         return true
@@ -370,7 +370,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // empty delegate
     }
     
-    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+    func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, serverError: Bool, city: String, state: String, locationId: String) {
         // empty delegate
     }
     
@@ -378,7 +378,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // empty delegate
     }
     
-    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, errorMessage: String, cityRequested: String) {
+    func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, city: String, state: String, locationId: String) {
         // empty delegate
     }
 }
