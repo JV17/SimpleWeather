@@ -96,12 +96,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             
             // check if we have enough data for the 7 days forecast
             if(forecastJSON["forecast"]["simpleforecast"]["forecastday"].count > 0) {
-            
-                let daysFrame = CGRectMake(0, 60, 58, 20)
-                let iconsFrame = CGRectMake(14, 25, 30, 30)
-                let tempsFrame = CGRectMake(0, 0, 58, 20)
-                let dividersFrame = CGRectMake(0, 5, 0.7, 66)
-                
+                            
                 if(daysLabels.count > 0) {
                         self.removeAllSubViewsFromForecastView()
                         self.daysLabels.removeAll()
@@ -109,6 +104,8 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                         self.tempsLabels.removeAll()
                         self.dividersViews.removeAll()
                 }
+                
+                var tempsArray = Array<NSNumber>()
                 
                 var x: Int = 0
                 for(; x < Constants.ForecastView.numDays; x++) {
@@ -125,17 +122,21 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                     println(condition)
                     
                     // creating all labels and images
-                    self.daysLabels.append(self.createLabelsWithText(day, frame: daysFrame))
-                    self.iconsImageViews.append(self.createImageViewsWithImage(self.weatherManager.getWeatherImageForCondition(condition), frame: iconsFrame))
-                    self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: tempsFrame))
+                    tempsArray.append(temp)
+                    self.daysLabels.append(self.createLabelsWithText(day, frame: Constants.ForecastView.daysFrame))
+                    self.iconsImageViews.append(self.createImageViewsWithImage(self.weatherManager.getWeatherImageForCondition(condition), frame: Constants.ForecastView.iconsFrame))
+                    self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: Constants.ForecastView.tempsFrame))
                     
                     if(x == Constants.ForecastView.numDays-1) {
                         break
                     }
                     
-                    self.dividersViews.append(self.createViews(dividersFrame))
+                    self.dividersViews.append(self.createViews(Constants.ForecastView.dividersFrame))
                 }
-
+                
+                NSUserDefaults.standardUserDefaults().setObject(tempsArray, forKey: Constants.UserDefaults.forecastViewTemps)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
                 // adding table view
                 if((self.tableView.window) == nil) {
                     self.tableView.delegate = self
@@ -145,6 +146,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                 else {
                     self.tableView.reloadData()
                 }
+                
             }
         }
     }
@@ -281,6 +283,42 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         default:
             return ""
         }
+    }
+    
+    func changeTemperatureToCelcius() {
+        
+        // removing current temps from view
+        for tempLabel in self.tempsLabels {
+            tempLabel.removeFromSuperview()
+        }
+        
+        self.tempsLabels.removeAll(keepCapacity: false)
+        
+        let tempsArray: Array<NSNumber> = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.forecastViewTemps) as! Array<NSNumber>
+        
+        for temp in tempsArray {
+            self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: Constants.ForecastView.tempsFrame))
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func changeTemperatureToFahranheit() {
+
+        // removing current temps from view
+        for tempLabel in self.tempsLabels {
+            tempLabel.removeFromSuperview()
+        }
+
+        self.tempsLabels.removeAll(keepCapacity: false)
+        
+        let tempsArray: Array<NSNumber> = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.forecastViewTemps) as! Array<NSNumber>
+        
+        for temp in tempsArray {
+            self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToFahrenheit(temp) + "º", frame: Constants.ForecastView.tempsFrame))
+        }
+        
+        self.tableView.reloadData()
     }
     
     func reloadTableViewAnimated() {

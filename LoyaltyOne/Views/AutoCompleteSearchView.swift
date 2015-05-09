@@ -177,7 +177,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     }
     
     func searchAutocompleteEntriesWithSubstring(subString: String) {
-        // TODO: search in not as efficient from API calls
+        // making api calls for cities
         dispatch_async(Constants.MultiThreading.backgroundQueue, {
             self.weatherManager.requestCitiesFromString(subString)
         })

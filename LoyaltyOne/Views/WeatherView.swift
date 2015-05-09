@@ -381,6 +381,11 @@ class WeatherView: UIView {
     //MARK: Temperature Celcius/Fahranheit helper buttons
     
     func changeTemperatureToCelcius(button: UIButton) {
+        
+        if(self.celciusButton.selected) {
+            return
+        }
+        
         // re-setting buttons state
         self.celciusButton.selected = true
         self.fahranheitButton.selected = false
@@ -391,9 +396,17 @@ class WeatherView: UIView {
         self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToCelcius(weatherManager.getSavedMaxTemperature()),
                                                     lowTemp: weatherManager.tempToCelcius(weatherManager.getSavedLowTemperature()),
                                                     currentTemp: weatherManager.tempToCelcius(weatherManager.getSavedCurrentTemperature()))
+        
+        // updating forecast view temp to celcius
+        self.forecastView.changeTemperatureToCelcius()
     }
 
     func changeTemperatureToFahranheit(button: UIButton) {
+        
+        if(self.fahranheitButton.selected) {
+            return
+        }
+        
         // re-setting buttons state
         self.celciusButton.selected = false
         self.fahranheitButton.selected = true
@@ -404,6 +417,9 @@ class WeatherView: UIView {
         self.updateWeatherTemperatureLabelsAnimated(weatherManager.tempToFahrenheit(weatherManager.getSavedMaxTemperature()),
                                                     lowTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedLowTemperature()),
                                                     currentTemp: weatherManager.tempToFahrenheit(weatherManager.getSavedCurrentTemperature()))
+        
+        // updating forecast view temp to celcius
+        self.forecastView.changeTemperatureToFahranheit()
     }
     
 }

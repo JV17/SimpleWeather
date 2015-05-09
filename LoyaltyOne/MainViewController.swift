@@ -464,7 +464,9 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
         // forecast finished with JSON
         if(!forecastJSON.isEmpty) {
-            self.weatherView.loadForecastViewWithJSON(forecastJSON)
+            dispatch_async(Constants.MultiThreading.mainQueue) {
+                self.weatherView.loadForecastViewWithJSON(forecastJSON)
+            }
         }
     }
     

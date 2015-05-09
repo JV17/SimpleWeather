@@ -114,6 +114,12 @@ struct Constants {
         
         static let viewHeight: CGFloat = 82
         static let subtractY: CGFloat = WeatherView.height + ForecastView.viewHeight + 5
+        
+        static let daysFrame = CGRectMake(0, 60, 58, 20)
+        static let iconsFrame = CGRectMake(14, 25, 30, 30)
+        static let tempsFrame = CGRectMake(0, 0, 58, 20)
+        static let dividersFrame = CGRectMake(0, 5, 0.7, 66)
+
     }
 
     
@@ -137,6 +143,8 @@ struct Constants {
         static let selectedCity: String = "selectedCity"
         
         static let backgroundImageNum: String = "backgroundImageNum"
+        
+        static let forecastViewTemps: String = "forecastViewTemps"
     }
     
     
