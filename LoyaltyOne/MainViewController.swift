@@ -133,11 +133,20 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Controller helper functions
     
-    func performNewWeatherServiceCallWithCity(city: String, state: String) {
+    func performNewWeatherServiceCallWithCity(city: String, state: String, locationId: String) {
+        
         // making a new services call for city
-        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestWeatherForCity(city, state: state)
-        })
+        if(!city.isEmpty || !state.isEmpty) {
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: true)
+            })
+        }
+        else if(!locationId.isEmpty) {
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: false)
+            })
+        }
+        
     }
     
     func performNewWeatherForecastServiceCallWithCity(city: String, state: String) {
@@ -359,12 +368,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         println("state: " + state)
         
         // making service call with location data
-        self.performNewWeatherServiceCallWithCity(city, state: country)
+        self.performNewWeatherServiceCallWithCity(city, state: country, locationId: "")
         self.currentCity = city
         self.currentState = country
         
         // saving current city to user defaults
         NSUserDefaults.standardUserDefaults().setObject(self.currentCity, forKey: Constants.UserDefaults.currentCity)
+        NSUserDefaults.standardUserDefaults().setObject(self.currentState, forKey: Constants.UserDefaults.currentState)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
@@ -456,12 +466,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func autocompleteFinishedWithSelectedCity(autocompleteView: AutoCompleteSearchView, selectedCity: String) {
         // make a new service call with the new city
         if(!selectedCity.isEmpty) {
-            dispatch_async(Constants.MultiThreading.backgroundQueue, {
-                let cityArr = selectedCity.componentsSeparatedByString(", ")
-                let city: String = cityArr[0]
-                let state: String = cityArr[1]
-                self.weatherManager.requestWeatherForCity(city, state: state)
-            })
+//            let cityArr = selectedCity.componentsSeparatedByString(", ")
+//            let city: String = cityArr[0]
+//            let state: String = cityArr[1]
+            self.performNewWeatherServiceCallWithCity("", state: "", locationId: selectedCity)
         }
     }
     
@@ -514,10 +522,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             case .Default:
                 // retry getting weather from services
                 if(!cityRequested.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(cityRequested, state: "")
+                    self.performNewWeatherServiceCallWithCity(cityRequested, state: "", locationId: "")
                 }
                 else if(!self.currentCity!.isEmpty) {
-                    self.performNewWeatherServiceCallWithCity(self.currentCity!, state: self.currentState!)
+                    self.performNewWeatherServiceCallWithCity(self.currentCity!, state: self.currentState!, locationId: "")
                 }
             case .Cancel:
                 println("cancel")

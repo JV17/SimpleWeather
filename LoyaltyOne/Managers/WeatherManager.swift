@@ -57,17 +57,34 @@ class WeatherManager: NSObject {
     //MARK:
     //MARK: Weather Manager requests
     
-    func requestWeatherForCity(city: String, state: String) {
-        
-        if(city.isEmpty) {
-            // telling the delegate we have received an error
-            let error = NSError(domain: "Weather Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "Weather services are inaccessible without a city"])
-            self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
-            return
+    func requestWeatherForCity(city: String, state: String, locationId: String, forCity: Bool) {
+    
+        var strURL = String()
+        var requestURL = String()
+
+        if(forCity) {
+            
+            if(city.isEmpty) {
+                // telling the delegate we have received an error
+                let error = NSError(domain: "Weather Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "Weather services are inaccessible without a City or State"])
+                self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
+                return
+            }
+            
+            strURL = Constants.WeatherUnderground.weatherURL + "/q/" + state + "/" + city + ".json"
+            requestURL = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
         }
-        
-        let strURL: String = Constants.WeatherUnderground.weatherURL + state + "/" + city + ".json"
-        let requestURL: String = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        else {
+            
+            if(locationId.isEmpty) {
+                // telling the delegate we have received an error
+                let error = NSError(domain: "Weather Services Error.", code: 404, userInfo: [NSLocalizedDescriptionKey : "Weather services are inaccessible without a Location ID"])
+                self.delegate?.weatherRequestFinishedWithError(self, error: error, errorMessage: error.localizedDescription, cityRequested: !city.isEmpty ? city : "Toronto")
+                return
+            }
+            
+            requestURL = Constants.WeatherUnderground.weatherURL + locationId + ".json"
+        }
         
         self.request.GET(requestURL, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
@@ -147,6 +164,8 @@ class WeatherManager: NSObject {
 
                     self.citiesJSON = JSON(data: data)
                     
+                    println(self.citiesJSON)
+                    
                     // we need to avoid delays from our download task
                     dispatch_async(Constants.MultiThreading.mainQueue) {
                         self.delegate?.citiesRequestFinishedWithJSON(self, citiesJSON: self.citiesJSON!)
@@ -169,11 +188,6 @@ class WeatherManager: NSObject {
     
     func checkForValidWeatherDataWithCity(city: String, state: String) {
 
-        // we need to check if we have weather data
-        if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity(city, state: state)
-        }
-        
         // we received a json with error
         if ((self.weatherJSON!["error"].string) != nil) {
             // error handling
@@ -193,11 +207,6 @@ class WeatherManager: NSObject {
     }
     
     func saveCurrentWeatherConditionFromJSON(weatherJSON: JSON) {
-        
-        // we need to check if we have weather data
-        if((self.weatherJSON?.isEmpty) == nil) {
-            self.requestWeatherForCity("", state: "")
-        }
         
         if (!weatherJSON.isEmpty) {
             // getting current condition from json

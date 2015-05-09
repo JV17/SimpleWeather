@@ -49,8 +49,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         return tmpDic
     }()
     
-    var autoCompleteCities: Array<String> = {
-        var tmpArr: Array<String> = Array<String>()
+    var autoCompleteCities: Array<Array<String>> = {
+        var tmpArr: Array<Array<String>> = Array<Array<String>>()
         return tmpArr
     }()
     
@@ -131,7 +131,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         cell.textLabel?.textColor = appHelper.colorWithHexString("F7F7F7")
         
         if(self.autoCompleteCities.count > 0) {
-            cell.textLabel?.text = self.autoCompleteCities[indexPath.row]
+            cell.textLabel?.text = self.autoCompleteCities[indexPath.row][0]
         }
         
         return cell
@@ -141,8 +141,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // selected row code
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        self.textField.text = self.autoCompleteCities[indexPath.row]
-        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[indexPath.row])
+        self.textField.text = self.autoCompleteCities[indexPath.row][0]
+        self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[indexPath.row][1])
         
         // dismiss keyboard and table view
         self.textField.resignFirstResponder()
@@ -195,8 +195,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         
         // if there is only 1 city left in our auto complete array then auto selected
         if(self.autoCompleteCities.count > 0) {
-            textField.text = self.autoCompleteCities[0]
-            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[0])
+            textField.text = self.autoCompleteCities[0][0]
+            self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: self.autoCompleteCities[0][1])
         }
         else if(!textField.text.isEmpty) {
             self.delegate?.autocompleteFinishedWithSelectedCity(self, selectedCity: textField.text)
@@ -343,14 +343,17 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         
         dispatch_async(dispatch_get_main_queue()) {
             
-            // cleaning any previous cities
             self.autoCompleteCities.removeAll(keepCapacity: false)
             
             var x: Int = 0
             // loops over all the cities in JSON
             for (; x < citiesJSON["RESULTS"].count; x++) {
                 let city: String = citiesJSON["RESULTS"][x]["name"].stringValue
-                self.autoCompleteCities.append(city)
+                let locationId: String = citiesJSON["RESULTS"][x]["l"].stringValue
+                var values: Array<String> = Array<String>()
+                values.append(city)
+                values.append(locationId)
+                self.autoCompleteCities.insert(values, atIndex: x)
             }
             
             self.tableView.reloadData()
