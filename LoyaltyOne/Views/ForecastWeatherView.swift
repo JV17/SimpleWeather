@@ -115,11 +115,11 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                     let temp = forecastJSON["forecast"]["simpleforecast"]["forecastday"][x]["high"]["celsius"].numberValue
                     let condition = forecastJSON["forecast"]["simpleforecast"]["forecastday"][x]["conditions"].stringValue
 
-                    println()
-                    println("*********************")
-                    println(day)
-                    println(temp)
-                    println(condition)
+//                    println()
+//                    println("*********************")
+//                    println(day)
+//                    println(temp)
+//                    println(condition)
                     
                     // creating all labels and images
                     tempsArray.append(temp)

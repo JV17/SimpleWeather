@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jorge Valbuena. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 
@@ -13,9 +14,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     //MARK:
     //MARK: Properties
-    
     var currentCity: String = String()
     var currentState: String = String()
+    var currentTime: String = String()
+    var timeZone: String = String()
     var locationID: String = String()
     var backgroundImage: UIImage?
     var isAutocompleteViewAnimating = Bool()
@@ -86,6 +88,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
         return tmpLabel
     }()
+
+    lazy var timer: NSTimer = {
+        var tmpTimer: NSTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
+        
+        return tmpTimer
+    }()
     
     lazy var autocompleteBtn: UIButton = {
         var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.view.frame)-60, 10, 50, 50))
@@ -141,11 +149,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             dispatch_async(Constants.MultiThreading.backgroundQueue, {
                 self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: true)
             })
+            self.timer.invalidate()
         }
         else if(!locationId.isEmpty) {
             dispatch_async(Constants.MultiThreading.backgroundQueue, {
                 self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: false)
             })
+            self.timer.invalidate()
         }
         
     }
@@ -172,7 +182,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.view.addSubview(self.cityLabel)
         
         // setting time label
-        self.timeLabel.text = self.getCurrentTime()
         self.view.addSubview(self.timeLabel)
     }
     
@@ -277,8 +286,62 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         let date = NSDate()
         let formatter = NSDateFormatter()
         formatter.timeStyle = .ShortStyle
-        
+
         return formatter.stringFromDate(date)
+    }
+    
+    func getTimeFromString(timeStr: String, timeZoneStr: String) -> String {
+        
+        if(!timeStr.isEmpty && !timeZoneStr.isEmpty) {
+            let tZone = NSTimeZone(abbreviation: timeZoneStr)
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.timeZone = tZone
+            dateFormatter.dateFormat = "EEE',' d MMM yyyy HH':'mm':'ss Z"
+            let date: NSDate = dateFormatter.dateFromString(timeStr)!
+            
+            println("coming timezone: \(timeZoneStr)")
+            println("coming date: \(timeStr)")
+            println("date: \(date)")
+            
+            let formatter = NSDateFormatter()
+            formatter.timeZone = tZone
+            formatter.timeStyle = .ShortStyle
+            
+            return formatter.stringFromDate(date)
+        }
+        
+        return ""
+    }
+    
+    
+    func updateTimeLabel() {
+        
+        let currentTime = self.getTimeFromString(self.currentTime, timeZoneStr: self.timeZone)
+        
+        if(currentTime != self.timeLabel.text) {
+            self.timeLabel.text = currentTime
+        }
+        
+        // time animation
+//        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseIn, animations: {
+//            
+//            self.timeLabel.alpha = 0.0
+//            
+//            }, completion: { finished in
+//                
+//                // completion handling
+//                self.timeLabel.text = currentTime
+//                
+//                // fade in animation
+//                UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseIn, animations: {
+//                    
+//                   self.timeLabel.alpha = 1.0
+//                    
+//                    }, completion: { finished in
+//                        // completion handling
+//                })
+//        })
     }
     
     func showAutocompleteView(button: UIButton) {
@@ -406,6 +469,8 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let currentTemp = weatherJSON["current_observation"]["temp_c"].numberValue
             self.currentCity = weatherJSON["current_observation"]["display_location"]["city"].stringValue
             self.currentState = weatherJSON["current_observation"]["display_location"]["state_name"].stringValue
+            self.currentTime = weatherJSON["current_observation"]["local_time_rfc822"].stringValue
+            self.timeZone = weatherJSON["current_observation"]["local_tz_short"].stringValue
             
             // loading forescast data
             if(self.locationID.isEmpty) {
@@ -444,6 +509,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             
             // updating city label animated
             self.updateCityLabelAnimated(self.currentCity)
+            
+            // firing timer
+            self.timer.fire()
+            self.updateTimeLabel()
         }
     }
     
