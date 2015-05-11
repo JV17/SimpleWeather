@@ -48,8 +48,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             }
 
             // avoiding delays from block
-            dispatch_async(dispatch_get_main_queue()) {
+            dispatch_async(Constants.MultiThreading.mainQueue) {
                 
+                // if we have a location then get the info else display an error
                 if(placemarks.count > 0) {
                     let pm = placemarks[0] as! CLPlacemark
                     self.displayLocationInfo(pm)
@@ -68,6 +69,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        // error handling when location fails
         println("Error: " + error.localizedDescription)
         self.delegate?.locationFinishedWithError(self, error: error, errorMessage: error.localizedDescription)
     }
@@ -102,6 +104,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return
         }
         
+        // getting address from location
         let placeDic = placemark.addressDictionary
         let city = placeDic[kABPersonAddressCityKey as String] as! String
         let state = placeDic[kABPersonAddressStateKey as String] as! String
@@ -111,7 +114,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func stopUpdationgLocation() {
-        dispatch_async(dispatch_get_main_queue()) {
+        // stop updating location
+        dispatch_async(Constants.MultiThreading.mainQueue) {
             self.locationManager.stopUpdatingLocation()
             self.alreadyUpdatedLocation = true
         }

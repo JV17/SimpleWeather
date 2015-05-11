@@ -69,6 +69,7 @@ class WeatherManager: NSObject {
         var strURL = String()
         var requestURL = String()
 
+        // setting the url request
         if(forCity) {
             strURL = Constants.WeatherUnderground.weatherURL + "/q/" + state + "/" + city + ".json"
             requestURL = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -77,11 +78,13 @@ class WeatherManager: NSObject {
             requestURL = Constants.WeatherUnderground.weatherURL + locationId + ".json"
         }
         
+        // setting the GET request
         self.request.GET(requestURL, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 dispatch_async(Constants.MultiThreading.backgroundQueue, {
-                    
+
+                    // extracting the data from NSData
                     self.weatherJSON = JSON(data: data)
                     
                     // we need to avoid delays from our download task
@@ -112,6 +115,7 @@ class WeatherManager: NSObject {
         var strURL = String()
         var requestURL = String()
         
+        // setting the url request
         if(forCity) {
             strURL = Constants.WeatherUnderground.weatherForecastURL + "/q/" + state + "/" + city + ".json"
             requestURL = strURL.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -120,11 +124,13 @@ class WeatherManager: NSObject {
             requestURL = Constants.WeatherUnderground.weatherForecastURL + locationId + ".json"
         }
         
+        // setting the GET request
         self.request.GET(requestURL, parameters: nil, success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
                 
                 dispatch_async(Constants.MultiThreading.backgroundQueue, {
                     
+                    // extracting the data from NSData
                     self.forecastJSON = JSON(data: data)
                     
                     // we need to avoid delays from our download task
@@ -152,11 +158,13 @@ class WeatherManager: NSObject {
             return
         }
         
+        // setting the GET request
         self.request.GET(Constants.WeatherUnderground.citiesURL, parameters: ["query" : searchString], success: {(response: HTTPResponse) in
             if let data = response.responseObject as? NSData {
 
                 dispatch_async(Constants.MultiThreading.backgroundQueue, {
 
+                    // extracting the data from NSData
                     self.citiesJSON = JSON(data: data)
                     
                     // we need to avoid delays from our download task
@@ -233,6 +241,7 @@ class WeatherManager: NSObject {
     }
     
     func numberFormatterWithNumber(number: NSNumber) -> String {
+        // formatting weather temp to display number without decimals
         let formatter = NSNumberFormatter()
         formatter.roundingMode = NSNumberFormatterRoundingMode.RoundDown
         formatter.positiveFormat = "0"
@@ -299,96 +308,66 @@ class WeatherManager: NSObject {
         if(condition == "Light Drizzle" || condition == "Light Rain" || condition == "Light Freezing Drizzle" ||
             condition == "Light Freezing Rain" || condition == "Light Rain Showers" || condition == "Light Rain Mist")
         {
-            
             image = UIImage(named: "little_rain-50")
-            
         }
         else if(condition == "Heavy Rain" || condition == "Heavy Drizzle" || condition == "Heavy Freezing Drizzle" ||
             condition == "Heavy Freezing Rain" || condition == "Heavy Rain Showers" || condition == "Heavy Rain Mist")
         {
-            
             image = UIImage(named: "rain-50")
-            
         }
         else if(condition == "Patches of Fog" || condition == "Shallow Fog" || condition == "Partial Fog" || condition == "Light Fog" ||
             condition == "Heavy Fog" || condition == "Heavy Fog Patches" || condition == "Light Fog Patches")
         {
-            
             if(self.appHelper.isCurrentTimeDayTime())
             {
-                
                 image = UIImage(named: "fog_day-50")
-                
             }
             else
             {
-                
                 image = UIImage(named: "fog_night-50")
-                
             }
-            
         }
         else if(condition == "Clear" || condition == "Overcast" || condition == "Scattered Clouds")
         {
-            
             if(self.appHelper.isCurrentTimeDayTime())
             {
-                
                 image = UIImage(named: "summer-50")
-                
             }
             else
             {
-                
                 image = UIImage(named: "moon-50")
-                
             }
         }
         else if(condition == "Partly Cloudy" || condition == "Mostly Cloudy" || condition == "Scattered Clouds" || condition == "Funnel Cloud")
         {
-            
             if(self.appHelper.isCurrentTimeDayTime())
             {
-                
                 image = UIImage(named: "partly_cloudy_day-50")
-                
             }
             else
             {
-                
                 image = UIImage(named: "partly_cloudy_night-50")
-                
             }
-            
         }
         else if(condition == "Heavy Snow" || condition == "Heavy Snow Grains" || condition == "Heavy Ice Crystals" || condition == "Heavy Ice Pellets" ||
             condition == "Heavy Blowing Snow" || condition == "Heavy Low Drifting Snow" || condition == "Heavy Snow Showers" || condition == "Heavy Snow Blowing Snow Mist")
         {
-            
                 image = UIImage(named: "snow-50")
-            
         }
         else if(condition == "Light Snow" || condition == "Light Snow Grains" || condition == "Light Ice Crystals" || condition == "Light Ice Pellets" ||
             condition == "Light Blowing Snow" || condition == "Light Low Drifting Snow" || condition == "Light Snow Showers" || condition == "Light Snow Blowing Snow Mist")
         {
-            
             image = UIImage(named: "light_snow-50")
-            
         }
         else
         {
-            
             if(self.appHelper.isCurrentTimeDayTime())
             {
-                
                 image = UIImage(named: "summer-50")
-                
             }
             else
             {
-                
                 image = UIImage(named: "moon-50")
-                
             }
         }
         
