@@ -238,10 +238,7 @@
 		3C2937AB1AF3F6E900399A21 = {
 			isa = PBXGroup;
 			children = (
-				3C3A316D1AFD7691004FC17F /* AddressBook.framework */,
-				3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */,
-				3CEC02661AF6BB2E00CC5ADD /* CoreLocation.framework */,
-				3C2937D91AF4008A00399A21 /* Podfile */,
+				3CC3C8201B006EAF00C9AD7F /* Resources */,
 				3C2937B61AF3F6E900399A21 /* LoyaltyOne */,
 				3C2937CC1AF3F6E900399A21 /* LoyaltyOneTests */,
 				3C2937B51AF3F6E900399A21 /* Products */,
@@ -260,19 +257,17 @@
 		3C2937B61AF3F6E900399A21 /* LoyaltyOne */ = {
 			isa = PBXGroup;
 			children = (
-				3C1026F51AF8549C00C771A7 /* Reachability */,
+				3CC3C81F1B006E3800C9AD7F /* Frameworks */,
 				3CEC02681AF6C3AB00CC5ADD /* Managers */,
 				3CF7C3961AF5A97E00AD0F6E /* Views */,
-				3CF7C3911AF5594700AD0F6E /* SwiftyJSON */,
-				3CF7C3881AF5575B00AD0F6E /* SwiftHTTP */,
 				3C2937EB1AF4078300399A21 /* Images */,
 				3C2937E61AF4061100399A21 /* Utils */,
 				3C2937B91AF3F6E900399A21 /* AppDelegate.swift */,
 				3C2937BB1AF3F6E900399A21 /* MainViewController.swift */,
 				3C1026FB1AF855D900C771A7 /* Bridging-Header.h */,
 				3C2937BD1AF3F6E900399A21 /* Main.storyboard */,
-				3C2937C01AF3F6E900399A21 /* Images.xcassets */,
 				3C2937C21AF3F6E900399A21 /* LaunchScreen.xib */,
+				3C2937C01AF3F6E900399A21 /* Images.xcassets */,
 				3C2937B71AF3F6E900399A21 /* Supporting Files */,
 			);
 			path = LoyaltyOne;
@@ -332,6 +327,27 @@
 				3C2937FF1AF4197000399A21 /* Lato-Regular.otf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		3CC3C81F1B006E3800C9AD7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3C1026F51AF8549C00C771A7 /* Reachability */,
+				3CF7C3911AF5594700AD0F6E /* SwiftyJSON */,
+				3CF7C3881AF5575B00AD0F6E /* SwiftHTTP */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3CC3C8201B006EAF00C9AD7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3C2937D91AF4008A00399A21 /* Podfile */,
+				3CEC02661AF6BB2E00CC5ADD /* CoreLocation.framework */,
+				3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */,
+				3C3A316D1AFD7691004FC17F /* AddressBook.framework */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		3CEC02681AF6C3AB00CC5ADD /* Managers */ = {
