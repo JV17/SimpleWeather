@@ -84,7 +84,7 @@ class WeatherManager: NSObject {
                     
                     self.weatherJSON = JSON(data: data)
                     
-                    // println(self.weatherJSON)
+                    println(self.weatherJSON)
                     
                     // we need to avoid delays from our download task
                     dispatch_async(Constants.MultiThreading.mainQueue) {

@@ -20,6 +20,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     var timeZone: String = String()
     var locationID: String = String()
     var backgroundImage: UIImage?
+    var timer: NSTimer?
     var isAutocompleteViewAnimating = Bool()
 
     //MARK:
@@ -89,12 +90,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return tmpLabel
     }()
 
-    lazy var timer: NSTimer = {
-        var tmpTimer: NSTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
-        
-        return tmpTimer
-    }()
-    
     lazy var autocompleteBtn: UIButton = {
         var tmpBtn: UIButton = UIButton(frame: CGRectMake(CGRectGetMaxX(self.view.frame)-60, 10, 50, 50))
         tmpBtn.backgroundColor = UIColor.clearColor()
@@ -149,15 +144,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             dispatch_async(Constants.MultiThreading.backgroundQueue, {
                 self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: true)
             })
-            self.timer.invalidate()
         }
         else if(!locationId.isEmpty) {
             dispatch_async(Constants.MultiThreading.backgroundQueue, {
                 self.weatherManager.requestWeatherForCity(city, state: state, locationId: locationId, forCity: false)
             })
-            self.timer.invalidate()
         }
-        
     }
     
     func performNewWeatherForecastServiceCallWithCity(city: String, state: String, locationId: String) {
@@ -298,12 +290,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             let dateFormatter = NSDateFormatter()
             dateFormatter.timeZone = tZone
             dateFormatter.dateFormat = "EEE',' d MMM yyyy HH':'mm':'ss Z"
-            let date: NSDate = dateFormatter.dateFromString(timeStr)!
-            
-            println("coming timezone: \(timeZoneStr)")
-            println("coming date: \(timeStr)")
-            println("date: \(date)")
-            
+            let oldDate: NSDate = dateFormatter.dateFromString(timeStr)!
+            let currentDate: NSDate = NSDate()
+            let timeInterval = currentDate.timeIntervalSinceDate(oldDate)
+            let date: NSDate = NSDate(timeInterval: timeInterval, sinceDate: oldDate)
+        
             let formatter = NSDateFormatter()
             formatter.timeZone = tZone
             formatter.timeStyle = .ShortStyle
@@ -322,26 +313,6 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         if(currentTime != self.timeLabel.text) {
             self.timeLabel.text = currentTime
         }
-        
-        // time animation
-//        UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseIn, animations: {
-//            
-//            self.timeLabel.alpha = 0.0
-//            
-//            }, completion: { finished in
-//                
-//                // completion handling
-//                self.timeLabel.text = currentTime
-//                
-//                // fade in animation
-//                UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveEaseIn, animations: {
-//                    
-//                   self.timeLabel.alpha = 1.0
-//                    
-//                    }, completion: { finished in
-//                        // completion handling
-//                })
-//        })
     }
     
     func showAutocompleteView(button: UIButton) {
@@ -413,16 +384,20 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
             
             self.cityLabel.alpha = 0.0
+            self.timeLabel.alpha = 0.0
             
             }, completion: { finished in
 
                 // completion handling
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
+                self.timer!.fire()
                 self.cityLabel.text = city
                 
                 // fade in animation
                 UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
                     
                     self.cityLabel.alpha = 1.0
+                    self.timeLabel.alpha = 1.0
                     
                     }, completion: { finished in
                         // completion handling
@@ -507,12 +482,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                                                          lowTemp: self.weatherManager.numberFormatterWithNumber(newLow),
                                                          currentTemp: self.weatherManager.numberFormatterWithNumber(currentTemp))
             
+            // firing timer
+            if (self.timer == nil) {
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
+                self.timer!.fire()
+            }
+            else {
+                self.timer!.invalidate()
+                self.timer = nil
+            }
+            
             // updating city label animated
             self.updateCityLabelAnimated(self.currentCity)
-            
-            // firing timer
-            self.timer.fire()
-            self.updateTimeLabel()
         }
     }
     
