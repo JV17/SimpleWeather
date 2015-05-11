@@ -57,6 +57,8 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         tmpTableView.separatorStyle = .None
         tmpTableView.bounces = true
         tmpTableView.scrollEnabled = true
+        tmpTableView.showsHorizontalScrollIndicator = false
+        tmpTableView.showsVerticalScrollIndicator = false
         tmpTableView.tableHeaderView = UIView(frame: CGRectZero)
         tmpTableView.tableFooterView = UIView(frame: CGRectZero)
         tmpTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "forecastTableViewCell")
