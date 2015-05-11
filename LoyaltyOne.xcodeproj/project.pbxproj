@@ -25,8 +25,6 @@
 		3C1026F41AF7BAC500C771A7 /* little_rain-48@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1026F31AF7BAC500C771A7 /* little_rain-48@2x.png */; };
 		3C1026F81AF854C200C771A7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1026F71AF854C200C771A7 /* Reachability.m */; };
 		3C1026FA1AF8550B00C771A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */; };
-		3C2035231AF9325D00C99CAE /* countries.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035211AF9325D00C99CAE /* countries.txt */; };
-		3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035221AF9325D00C99CAE /* country-codes.txt */; };
 		3C20352A1AF95B8600C99CAE /* fog_night-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035251AF95B8600C99CAE /* fog_night-50@2x.png */; };
 		3C20352B1AF95B8600C99CAE /* light_snow-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035261AF95B8600C99CAE /* light_snow-50@2x.png */; };
 		3C20352C1AF95B8600C99CAE /* moon-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2035271AF95B8600C99CAE /* moon-50@2x.png */; };
@@ -103,8 +101,6 @@
 		3C1026F71AF854C200C771A7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Reachability/Reachability.m; sourceTree = "<group>"; };
 		3C1026F91AF8550B00C771A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3C1026FB1AF855D900C771A7 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		3C2035211AF9325D00C99CAE /* countries.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = countries.txt; path = Resources/countries.txt; sourceTree = "<group>"; };
-		3C2035221AF9325D00C99CAE /* country-codes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "country-codes.txt"; path = "Resources/country-codes.txt"; sourceTree = "<group>"; };
 		3C2035251AF95B8600C99CAE /* fog_night-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fog_night-50@2x.png"; path = "Images/fog_night-50@2x.png"; sourceTree = "<group>"; };
 		3C2035261AF95B8600C99CAE /* light_snow-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "light_snow-50@2x.png"; path = "Images/light_snow-50@2x.png"; sourceTree = "<group>"; };
 		3C2035271AF95B8600C99CAE /* moon-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "moon-50@2x.png"; path = "Images/moon-50@2x.png"; sourceTree = "<group>"; };
@@ -285,7 +281,6 @@
 		3C2937B71AF3F6E900399A21 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3C9442E81AF44920000B9429 /* Resources */,
 				3C2937FC1AF4196400399A21 /* Fonts */,
 				3C2937B81AF3F6E900399A21 /* Info.plist */,
 			);
@@ -337,15 +332,6 @@
 				3C2937FF1AF4197000399A21 /* Lato-Regular.otf */,
 			);
 			name = Fonts;
-			sourceTree = "<group>";
-		};
-		3C9442E81AF44920000B9429 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				3C2035211AF9325D00C99CAE /* countries.txt */,
-				3C2035221AF9325D00C99CAE /* country-codes.txt */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		3CEC02681AF6C3AB00CC5ADD /* Managers */ = {
@@ -495,13 +481,11 @@
 				3C20352E1AF95B8600C99CAE /* snow-50@2x.png in Resources */,
 				3C1026E01AF7B9B700C771A7 /* partly_cloudy_day-48@2x.png in Resources */,
 				3C2035441AF991EC00C99CAE /* background4@2x.jpg in Resources */,
-				3C2035231AF9325D00C99CAE /* countries.txt in Resources */,
 				3C20352C1AF95B8600C99CAE /* moon-50@2x.png in Resources */,
 				3CEA7F061AF72D68000B7671 /* expand_arrow@2x.png in Resources */,
 				3C1026D71AF7B9AD00C771A7 /* downpour-50@2x.png in Resources */,
 				3C2035481AF991EC00C99CAE /* background8@2x.jpg in Resources */,
 				3C1026DE1AF7B9B700C771A7 /* fog_day-50@2x.png in Resources */,
-				3C2035241AF9325D00C99CAE /* country-codes.txt in Resources */,
 				3C1026DF1AF7B9B700C771A7 /* little_rain-50@2x.png in Resources */,
 				3C20354F1AF991F600C99CAE /* background2@2x.jpg in Resources */,
 				3C1026E91AF7B9C100C771A7 /* rain-48@2x.png in Resources */,
