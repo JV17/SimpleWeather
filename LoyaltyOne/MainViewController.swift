@@ -411,9 +411,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func locationFinishedUpdatingWithCity(locationManager: LocationManager, city: String, postalCode: String, state: String, country: String, countryCode: String) {
         // get user location
-        
-        println("state: " + state)
-        
+                
         // making service call with location data
         self.performNewWeatherServiceCallWithCity(city, state: country, locationId: "")
         self.currentCity = city
