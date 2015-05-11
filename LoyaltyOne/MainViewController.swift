@@ -315,6 +315,31 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    func updateTimeLabelAnimated() {
+        
+        // city animation
+        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
+            
+            self.timeLabel.alpha = 0.0
+            
+            }, completion: { finished in
+                
+                // completion handling
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
+                self.timer!.fire()
+                
+                // fade in animation
+                UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
+                    
+                    self.timeLabel.alpha = 1.0
+                    
+                    }, completion: { finished in
+                        // completion handling
+                })
+        })
+
+    }
+    
     func showAutocompleteView(button: UIButton) {
         
         if(self.isAutocompleteViewAnimating) {
@@ -384,20 +409,16 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
             
             self.cityLabel.alpha = 0.0
-            self.timeLabel.alpha = 0.0
             
             }, completion: { finished in
 
                 // completion handling
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("updateTimeLabel"), userInfo: nil, repeats: true)
-                self.timer!.fire()
                 self.cityLabel.text = city
                 
                 // fade in animation
                 UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseIn, animations: {
                     
                     self.cityLabel.alpha = 1.0
-                    self.timeLabel.alpha = 1.0
                     
                     }, completion: { finished in
                         // completion handling
@@ -488,6 +509,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             else {
                 self.timer!.invalidate()
                 self.timer = nil
+                self.updateTimeLabelAnimated()
             }
             
             // updating city label animated
