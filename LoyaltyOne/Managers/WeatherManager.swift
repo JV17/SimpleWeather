@@ -84,8 +84,6 @@ class WeatherManager: NSObject {
                     
                     self.weatherJSON = JSON(data: data)
                     
-                    println(self.weatherJSON)
-                    
                     // we need to avoid delays from our download task
                     dispatch_async(Constants.MultiThreading.mainQueue) {
                         self.checkForValidWeatherDataWithCity(city, state: state, locationId: locationId)
@@ -129,8 +127,6 @@ class WeatherManager: NSObject {
                     
                     self.forecastJSON = JSON(data: data)
                     
-                    // println(self.forecastJSON)
-                    
                     // we need to avoid delays from our download task
                     dispatch_async(Constants.MultiThreading.mainQueue) {
                         self.delegate?.forecastWeatherRequestFinishedWithJSON(self, forecastJSON: self.forecastJSON!)
@@ -162,8 +158,6 @@ class WeatherManager: NSObject {
                 dispatch_async(Constants.MultiThreading.backgroundQueue, {
 
                     self.citiesJSON = JSON(data: data)
-                    
-                    // println(self.citiesJSON)
                     
                     // we need to avoid delays from our download task
                     dispatch_async(Constants.MultiThreading.mainQueue) {
@@ -302,48 +296,99 @@ class WeatherManager: NSObject {
         
         var image: UIImage?
         
-        if(condition == "Light Drizzle" || condition == "Light Rain" || condition == "Light Freezing Drizzle" || condition == "Light Freezing Rain" || condition == "Light Rain Showers" || condition == "Light Rain Mist") {
+        if(condition == "Light Drizzle" || condition == "Light Rain" || condition == "Light Freezing Drizzle" ||
+            condition == "Light Freezing Rain" || condition == "Light Rain Showers" || condition == "Light Rain Mist")
+        {
+            
             image = UIImage(named: "little_rain-50")
+            
         }
-        else if(condition == "Heavy Rain" || condition == "Heavy Drizzle" || condition == "Heavy Freezing Drizzle" || condition == "Heavy Freezing Rain" || condition == "Heavy Rain Showers" || condition == "Heavy Rain Mist") {
+        else if(condition == "Heavy Rain" || condition == "Heavy Drizzle" || condition == "Heavy Freezing Drizzle" ||
+            condition == "Heavy Freezing Rain" || condition == "Heavy Rain Showers" || condition == "Heavy Rain Mist")
+        {
+            
             image = UIImage(named: "rain-50")
+            
         }
-        else if(condition == "Patches of Fog" || condition == "Shallow Fog" || condition == "Partial Fog" || condition == "Light Fog" || condition == "Heavy Fog" || condition == "Heavy Fog Patches" || condition == "Light Fog Patches") {
-            if(self.appHelper.isCurrentTimeDayTime()) {
+        else if(condition == "Patches of Fog" || condition == "Shallow Fog" || condition == "Partial Fog" || condition == "Light Fog" ||
+            condition == "Heavy Fog" || condition == "Heavy Fog Patches" || condition == "Light Fog Patches")
+        {
+            
+            if(self.appHelper.isCurrentTimeDayTime())
+            {
+                
                 image = UIImage(named: "fog_day-50")
+                
             }
-            else {
+            else
+            {
+                
                 image = UIImage(named: "fog_night-50")
+                
             }
+            
         }
-        else if(condition == "Clear" || condition == "Overcast" || condition == "Scattered Clouds") {
-            if(self.appHelper.isCurrentTimeDayTime()) {
+        else if(condition == "Clear" || condition == "Overcast" || condition == "Scattered Clouds")
+        {
+            
+            if(self.appHelper.isCurrentTimeDayTime())
+            {
+                
                 image = UIImage(named: "summer-50")
+                
             }
-            else {
+            else
+            {
+                
                 image = UIImage(named: "moon-50")
+                
             }
         }
-        else if(condition == "Partly Cloudy" || condition == "Mostly Cloudy" || condition == "Scattered Clouds" || condition == "Funnel Cloud") {
-            if(self.appHelper.isCurrentTimeDayTime()) {
+        else if(condition == "Partly Cloudy" || condition == "Mostly Cloudy" || condition == "Scattered Clouds" || condition == "Funnel Cloud")
+        {
+            
+            if(self.appHelper.isCurrentTimeDayTime())
+            {
+                
                 image = UIImage(named: "partly_cloudy_day-50")
+                
             }
-            else {
+            else
+            {
+                
                 image = UIImage(named: "partly_cloudy_night-50")
+                
             }
+            
         }
-        else if(condition == "Heavy Snow" || condition == "Heavy Snow Grains" || condition == "Heavy Ice Crystals" || condition == "Heavy Ice Pellets" || condition == "Heavy Blowing Snow" || condition == "Heavy Low Drifting Snow" || condition == "Heavy Snow Showers" || condition == "Heavy Snow Blowing Snow Mist") {
+        else if(condition == "Heavy Snow" || condition == "Heavy Snow Grains" || condition == "Heavy Ice Crystals" || condition == "Heavy Ice Pellets" ||
+            condition == "Heavy Blowing Snow" || condition == "Heavy Low Drifting Snow" || condition == "Heavy Snow Showers" || condition == "Heavy Snow Blowing Snow Mist")
+        {
+            
                 image = UIImage(named: "snow-50")
+            
         }
-        else if(condition == "Light Snow" || condition == "Light Snow Grains" || condition == "Light Ice Crystals" || condition == "Light Ice Pellets" || condition == "Light Blowing Snow" || condition == "Light Low Drifting Snow" || condition == "Light Snow Showers" || condition == "Light Snow Blowing Snow Mist") {
+        else if(condition == "Light Snow" || condition == "Light Snow Grains" || condition == "Light Ice Crystals" || condition == "Light Ice Pellets" ||
+            condition == "Light Blowing Snow" || condition == "Light Low Drifting Snow" || condition == "Light Snow Showers" || condition == "Light Snow Blowing Snow Mist")
+        {
+            
             image = UIImage(named: "light_snow-50")
+            
         }
-        else {
-            if(self.appHelper.isCurrentTimeDayTime()) {
+        else
+        {
+            
+            if(self.appHelper.isCurrentTimeDayTime())
+            {
+                
                 image = UIImage(named: "summer-50")
+                
             }
-            else {
+            else
+            {
+                
                 image = UIImage(named: "moon-50")
+                
             }
         }
         
