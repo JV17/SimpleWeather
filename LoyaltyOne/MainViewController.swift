@@ -233,7 +233,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             return
         }
         
+        // getting new image name
         let newImageName = "background" + "\(imageNum)"
+        
+        // we need to make sure our image fits perfectly on the screen
         self.backgroundImage = appHelper.reSizeBackgroundImageIfNeeded(UIImage(named: newImageName)!, newSize: self.appHelper.screenSize.size)
         
         if((self.fromBackgroundImageView.window) != nil) {
@@ -285,16 +288,21 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     func getTimeFromString(timeStr: String, timeZoneStr: String) -> String {
         
         if(!timeStr.isEmpty && !timeZoneStr.isEmpty) {
+            // creating a time zone from the abbreviation of services
             let tZone = NSTimeZone(abbreviation: timeZoneStr)
             
+            // setting the date formatter with date format
             let dateFormatter = NSDateFormatter()
             dateFormatter.timeZone = tZone
             dateFormatter.dateFormat = "EEE',' d MMM yyyy HH':'mm':'ss Z"
+            
+            // we need to compare the city date with the current date in time
             let oldDate: NSDate = dateFormatter.dateFromString(timeStr)!
             let currentDate: NSDate = NSDate()
             let timeInterval = currentDate.timeIntervalSinceDate(oldDate)
             let date: NSDate = NSDate(timeInterval: timeInterval, sinceDate: oldDate)
         
+            // formatting the new updated date for display with short style
             let formatter = NSDateFormatter()
             formatter.timeZone = tZone
             formatter.timeStyle = .ShortStyle
@@ -308,8 +316,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     
     func updateTimeLabel() {
         
+        // getting current time
         let currentTime = self.getTimeFromString(self.currentTime, timeZoneStr: self.timeZone)
         
+        // if the time is different then update
         if(currentTime != self.timeLabel.text) {
             self.timeLabel.text = currentTime
         }
@@ -474,6 +484,7 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
                 self.performNewWeatherForecastServiceCallWithCity("", state: "", locationId: self.locationID)
             }
             
+            // random number for low and high temps
             var newMax: Float = max.floatValue
             var newLow: Float = low.floatValue
             let ran = Float(rand() % 4)

@@ -12,7 +12,6 @@ class AppHelper: NSObject {
     
     let screenSize = UIScreen.mainScreen().bounds
     
-
     func applyBlurToView(view: UIView, withBlurEffectStyle:UIBlurEffectStyle) {
 
         //only apply the blur if the user hasn't disabled transparency effects
@@ -68,6 +67,12 @@ class AppHelper: NSObject {
         return scaledImage
     }
     
+    func stringContainsKeyword(text: NSString, keyword: String) -> Bool
+    {
+        // string search
+        return text.rangeOfString(keyword, options:NSStringCompareOptions.CaseInsensitiveSearch).location != NSNotFound
+    }
+
     
     func applyGradientFromColors(colors: Array<AnyObject>, view: UIView) {
         let gradient : CAGradientLayer = CAGradientLayer()

@@ -98,7 +98,8 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             
             // check if we have enough data for the 7 days forecast
             if(forecastJSON["forecast"]["simpleforecast"]["forecastday"].count > 0) {
-                            
+                
+                // clearing all old data if we have any
                 if(daysLabels.count > 0) {
                         self.removeAllSubViewsFromForecastView()
                         self.daysLabels.removeAll()
@@ -109,6 +110,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                 
                 var tempsArray = Array<NSNumber>()
                 
+                // looping over the 7 days forecast data in json
                 var x: Int = 0
                 for(; x < Constants.ForecastView.numDays; x++) {
                     
@@ -130,6 +132,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
                     self.dividersViews.append(self.createViews(Constants.ForecastView.dividersFrame))
                 }
                 
+                // saving temp array to user defaults
                 NSUserDefaults.standardUserDefaults().setObject(tempsArray, forKey: Constants.UserDefaults.forecastViewTemps)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 
@@ -152,6 +155,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     //MARK: TableView delegate and datasource
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        // we need to transform the cell before it appears on screen since our table view is horizontal
         cell.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI/2))
     }
     
@@ -165,6 +169,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.userInteractionEnabled = false
         
+        // adding data to cell view
         if(self.daysLabels.count > 0) {
             cell.addSubview(self.daysLabels[indexPath.row])
             cell.addSubview(self.iconsImageViews[indexPath.row])
@@ -184,6 +189,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // number of sections
         return 1
     }
     
@@ -252,7 +258,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func getDayFromUnixTimestamp(unixTimestamp: String) -> String {
-        
+        // converting unix time stamp to the proper day of the week
         let timestampVal = ((unixTimestamp as NSString).doubleValue)
         let timestamp = timestampVal as NSTimeInterval
         let date = NSDate(timeIntervalSince1970: timestamp)
@@ -288,10 +294,13 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             tempLabel.removeFromSuperview()
         }
         
+        // clear all temps data
         self.tempsLabels.removeAll(keepCapacity: false)
         
+        // get the new temps data from defaults
         let tempsArray: Array<NSNumber> = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.forecastViewTemps) as! Array<NSNumber>
         
+        // loading new data
         for temp in tempsArray {
             self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToCelcius(temp) + "º", frame: Constants.ForecastView.tempsFrame))
         }
@@ -306,10 +315,13 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             tempLabel.removeFromSuperview()
         }
 
+        // clear all temps data
         self.tempsLabels.removeAll(keepCapacity: false)
         
+        // get the new temps data from defaults
         let tempsArray: Array<NSNumber> = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaults.forecastViewTemps) as! Array<NSNumber>
         
+        // loading new data
         for temp in tempsArray {
             self.tempsLabels.append(self.createLabelsWithText(self.weatherManager.tempToFahrenheit(temp) + "º", frame: Constants.ForecastView.tempsFrame))
         }
@@ -345,11 +357,12 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func removeAllSubViewsFromForecastView() {
-        
+        // check if we dont have any data to be clear
         if(self.daysLabels.count == 0 || self.iconsImageViews.count == 0 || self.tempsLabels.count == 0 || self.dividersViews.count == 0) {
             return
         }
         
+        // clearing all content data from out table view labels, images, temps and dividers
         for label in self.daysLabels {
             label.removeFromSuperview()
         }
@@ -376,6 +389,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             return
         }
         
+        // keep a reference of super view (WeatherView) forecast button
         if(self.referenceToForecastBtn == nil) {
             self.referenceToForecastBtn = button
         }
@@ -406,6 +420,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
             return
         }
         
+        // keep a reference of super view (WeatherView) forecast button
         if(self.referenceToForecastBtn == nil) {
             self.referenceToForecastBtn = button
         }

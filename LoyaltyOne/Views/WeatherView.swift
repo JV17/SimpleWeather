@@ -234,6 +234,7 @@ class WeatherView: UIView {
         self.addSubview(self.fahranheitButton)
         self.addSubview(self.forecastButton)
 
+        // adding swipe recognizers to forecast view up and down
         let swipeUp = UISwipeGestureRecognizer(target: self, action: "showAndHideForecastViewFromGestureRecognizer:")
         swipeUp.direction = UISwipeGestureRecognizerDirection.Up
         self.addGestureRecognizer(swipeUp)
@@ -253,6 +254,7 @@ class WeatherView: UIView {
             self.addSubview(self.forecastView)
         }
         
+        // loading forecast view with json data
         self.forecastView.commonInitWithJSON(forecastJSON)
     }
     

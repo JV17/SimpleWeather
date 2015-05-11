@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension String {
-    
+    // capitalize first letter of string
     var capitalizeFirst:String {
         var result = self
         result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).capitalizedString)

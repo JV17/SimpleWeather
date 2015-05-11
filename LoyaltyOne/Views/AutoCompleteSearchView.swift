@@ -182,12 +182,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
             self.weatherManager.requestCitiesFromString(subString)
         })
     }
-    
-    func containsKeyword(text: NSString, keyword: String) -> Bool
-    {
-        return text.rangeOfString(keyword, options:NSStringCompareOptions.CaseInsensitiveSearch).location != NSNotFound
-    }
-    
+        
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         // dismissing keyboard
@@ -197,9 +192,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         if(self.autoCompleteCities.count > 0) {
             textField.text = self.autoCompleteCities[0][0]
             self.delegate?.autocompleteFinishedWithLocationId(self, locationId: self.autoCompleteCities[0][1])
-        }
-        else if(!textField.text.isEmpty) {
-            self.delegate?.autocompleteFinishedWithLocationId(self, locationId: textField.text)
         }
         
         return true
@@ -283,46 +275,6 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     //MARK:
     //MARK: View helper functions
     
-    func getCountriesWithCountryCodes() {
-        // getting the files from our main bundle
-        let countryCodesFilePath = NSBundle.mainBundle().pathForResource("country-codes", ofType: "txt")
-        let countriesFilePath = NSBundle.mainBundle().pathForResource("countries", ofType: "txt")
-        
-        // getting the content from the files
-        if let countryCodesString = String(contentsOfFile: countryCodesFilePath!, encoding: NSUTF8StringEncoding, error: nil) {
-            if let countriesString = String(contentsOfFile: countriesFilePath!, encoding: NSUTF8StringEncoding, error: nil) {
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    // getting the country codes and contries content
-                    let indexes = countryCodesString.componentsSeparatedByString("\n")
-                    let values = countriesString.componentsSeparatedByString("\n")
-                    
-                    // creating a dictionary with all the country codes and countries
-                    for(var x: Int = 0; x < indexes.count; x++) {
-                        self.countriesDic[indexes[x]] = (values[x].lowercaseString)
-                    }
-                }
-            }
-        }
-    }
-    
-    func getCanadianCities() {
-        
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            
-            let path = NSBundle.mainBundle().pathForResource("canadian_cities_ provinces", ofType: "txt")
-            
-            if let content = String(contentsOfFile:path!, encoding: NSUTF8StringEncoding, error: nil) {
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.cities = content.componentsSeparatedByString("\n")
-                }
-                
-            }
-        }
-    }
-    
     func postNotifications() {
         // keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
@@ -341,12 +293,12 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
         
-        dispatch_async(dispatch_get_main_queue()) {
-            
+        dispatch_async(Constants.MultiThreading.mainQueue) {
+            // clearing old array
             self.autoCompleteCities.removeAll(keepCapacity: false)
             
             var x: Int = 0
-            // loops over all the cities in JSON
+            // loops over all the cities in JSON and adding them to our array
             for (; x < citiesJSON["RESULTS"].count; x++) {
                 let city: String = citiesJSON["RESULTS"][x]["name"].stringValue
                 let locationId: String = citiesJSON["RESULTS"][x]["l"].stringValue
