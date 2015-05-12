@@ -59,7 +59,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     }()
     
     lazy var weatherView: WeatherView = {
-        var tmpView: WeatherView = WeatherView(frame: CGRectMake(0, CGRectGetHeight(self.view.frame)-Constants.WeatherView.height, self.appHelper.screenSize.width, Constants.WeatherView.height))
+        var tmpView: WeatherView = WeatherView(frame: CGRectMake(0,
+                                                                 CGRectGetHeight(self.view.frame)-Constants.WeatherView.height,
+                                                                 self.appHelper.screenSize.width,
+                                                                 Constants.WeatherView.height))
         
         return tmpView
     }()
@@ -114,6 +117,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         super.didReceiveMemoryWarning()
     }
     
+    /**
+        Common initializer, sets all necessaries properties/objects at the init time.
+    
+        :returns: n/a.
+    */
     func commonInit() {
         
         self.weatherManager.delegate = self
@@ -137,6 +145,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Controller helper functions
     
+    /**
+        Performs a new request (service call) for weather with city, state or location id.
+        
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
+        
+        :returns: n/a.
+    */
     func performNewWeatherServiceCallWithCity(city: String, state: String, locationId: String) {
         
         // making a new services call for city
@@ -152,6 +169,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    /**
+        Performs a new request (service call) for weather forecast with city, state or location id.
+        
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
+        
+        :returns: n/a.
+    */
     func performNewWeatherForecastServiceCallWithCity(city: String, state: String, locationId: String) {
 
         // making a new services call for city
@@ -167,6 +193,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    /**
+        Sets the city label and time label.
+    
+        :returns: n/a.
+    */
     func setCityTimeLabels() {
 
         // setting city label
@@ -177,6 +208,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.view.addSubview(self.timeLabel)
     }
     
+    /**
+        Sets the the background view with a blurred view and saves background information to 
+        user defaults.
+        
+        :returns: n/a.
+    */
     func setupBackgroundImage() {
        
         // we need to check if we have a correct image size to use as our background image
@@ -197,6 +234,12 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    /**
+        Gets the appropriate background image for the background view and perform 
+        the change of background views animations (fade in/out).
+        
+        :returns: n/a.
+    */
     func updateBackgroundImage() {
         
         // we check which background image we currently have
@@ -275,6 +318,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    /**
+        Gets current system/local time.
+    
+        :returns: system/local time as a String.
+    */
     func getCurrentTime() -> String {
         
         // we get current timestamp
@@ -285,6 +333,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return formatter.stringFromDate(date)
     }
     
+    /**
+        Gets time from passing String as holding an NSDate format and abbreviation time zone
+        of passing time.
+        
+        :param: time String holding NSDate format.
+        :param: time zone String holding abbreviation time zone.
+        
+        :returns: current time from NSDate as a String.
+    */
     func getTimeFromString(timeStr: String, timeZoneStr: String) -> String {
         
         if(!timeStr.isEmpty && !timeZoneStr.isEmpty) {
@@ -313,7 +370,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         return ""
     }
     
-    
+    /**
+        Updates time label depending if time has changed.
+        
+        :returns: n/a.
+    */
     func updateTimeLabel() {
         
         // getting current time
@@ -325,6 +386,11 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    /**
+        Updates time label with animations.
+        
+        :returns: n/a.
+    */
     func updateTimeLabelAnimated() {
         
         // city animation
@@ -350,6 +416,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
     }
     
+    /**
+        Shows auto complete view and auto complete button with animations.
+    
+        :param: auto complete button as a UIButton (sender).
+        
+        :returns: n/a.
+    */
     func showAutocompleteView(button: UIButton) {
         
         if(self.isAutocompleteViewAnimating) {
@@ -370,7 +443,10 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
 
                 // show autocomplete from offset
                 let oldFrame: CGRect = self.autocompleteView.frame
-                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x, CGRectGetMaxY(self.timeLabel.frame)+30, oldFrame.size.width, oldFrame.size.height)
+                self.autocompleteView.frame = CGRectMake(oldFrame.origin.x,
+                                                         CGRectGetMaxY(self.timeLabel.frame)+30,
+                                                         oldFrame.size.width,
+                                                         oldFrame.size.height)
                 
                 // auto complete button animations
                 let transfrom: CGFloat = (CGFloat(M_PI*3)/4)
@@ -409,6 +485,13 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    /**
+        Updates city label with animations.
+        
+        :param: city as a String.
+        
+        :returns: n/a.
+    */
     func updateCityLabelAnimated(city: String) {
         
         if(city.isEmpty) {
@@ -440,6 +523,20 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Location Manager delegate
     
+    /**
+        Location Manager delegate which tells us when the location request has finished updating
+        with LocationManager, city, postal code, state, country. country code
+        and saves the current city infomartion in user defaults.
+        
+        :param: LocationManager object.
+        :param: city as a String.
+        :param: postal code as a String.
+        :param: state as a String.
+        :param: country as a String.
+        :param: contry code as a String.
+    
+        :returns: n/a.
+    */
     func locationFinishedUpdatingWithCity(locationManager: LocationManager, city: String, postalCode: String, state: String, country: String, countryCode: String) {
         // get user location
                 
@@ -454,6 +551,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    /**
+        Location Manager delegate which tells us when the location request has finished with an Error.
+    
+        :param: LocationManager object.
+        :param: error as an NSError.
+        :param: error message as a String.
+    
+        :returns: n/a.
+    */
     func locationFinishedWithError(locationMAnager: LocationManager, error: NSError, errorMessage: String) {
         // error handling
         self.showLocationAlertControllerWithError(error, errorMessage: errorMessage)
@@ -463,6 +569,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Weather Helper delegate
     
+    /**
+        Weather Manager delegate which tells us when the weather request has finished updating with JSON data.
+        
+        :param: WeatherManager object.
+        :param: weather JSON as a JSON.
+    
+        :returns: n/a.
+    */
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {
         
         if(!weatherJSON.isEmpty) {
@@ -528,20 +642,59 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         }
     }
     
+    /**
+        Weather Manager delegate which tells us when the weather request has finished updating with an Error
+        and shows a popup error message.
+        
+        :param: WeatherManager object.
+        :param: error as an NSError.
+        :param: server error boolean.
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
+        
+        :returns: n/a.
+    */
     func weatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, serverError: Bool, city: String, state: String, locationId: String) {
         // error handling
         println("Error: \(error)")
         self.showWeatherAlertControllerWithError(error, serverError: serverError, city: city, state: state, locationId: locationId)
     }
     
+    /**
+        Weather Manager delegate which tells us when the cities request has finished updating with JSON data.
+        (currently empty since native swift doesn't allow optional protocols)
+        
+        :param: WeatherManager object.
+        :param: cities JSON as a JSON.
+        
+        :returns: n/a.
+    */
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
         // empty delegate
     }
     
+    /**
+        Weather Manager delegate which tells us when the cities request has finished updating with an Error.
+        (currently empty since native swift doesn't allow optional protocols)
+        
+        :param: WeatherManager object.
+        :param: error as an NSError.
+    
+        :returns: n/a.
+    */
     func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
         // empty delegate
     }
 
+    /**
+        Weather Manager delegate which tells us when the weather forecast request has finished updating with JSON data.
+        
+        :param: WeatherManager object.
+        :param: forecast JSON as a JSON.
+        
+        :returns: n/a.
+    */
     func forecastWeatherRequestFinishedWithJSON(weatherManager: WeatherManager, forecastJSON: JSON) {
         // forecast finished with JSON
         if(!forecastJSON.isEmpty) {
@@ -550,7 +703,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
             }
         }
     }
+
+    /**
+        Weather Manager delegate which tells us when the weather forecast request has finished updating with an Error.
+        
+        :param: WeatherManager object.
+        :param: error as an NSError.
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
     
+        :returns: n/a.
+    */
     func forecastWeatherRequestFinishedWithError(weatherManager: WeatherManager, error: NSError, city: String, state: String, locationId: String) {
         // error handling
         println("Error: \(error)")
@@ -560,6 +724,14 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Autocomplete Search View delegate
     
+    /**
+        Autocomplete Search View delegate which tells us when the utocomplete search has finished searching with a location id.
+        
+        :param: AutoCompleteSearchView object.
+        :param: location id as a String.
+        
+        :returns: n/a.
+    */
     func autocompleteFinishedWithLocationId(autocompleteView: AutoCompleteSearchView, locationId: String) {
         // make a new service call with the new city
         if(!locationId.isEmpty) {
@@ -572,6 +744,15 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
     //MARK:
     //MARK: Error handling
     
+    /**
+        Shows location alert controller displaying an error message and trys to get the location again
+        from the user if the user tells it to.
+
+        :param: error as an NSError.
+        :param: error message as a String.
+
+        :returns: n/a.
+    */
     func showLocationAlertControllerWithError(error: NSError, errorMessage: String) {
         
         let alert = UIAlertController(title: "Location Service Error", message: "\(errorMessage)", preferredStyle: UIAlertControllerStyle.Alert)
@@ -607,6 +788,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
+    /**
+        Shows weather alert controller displaying an error message and trys to get the weather again
+        from the services if the user tells it to.
+        
+        :param: error as an NSError.
+        :param: server error boolean.
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
+    
+        :returns: n/a.
+    */
     func showWeatherAlertControllerWithError(error: NSError, serverError: Bool, city: String, state: String, locationId: String) {
         
         let alert = UIAlertController(title: "Weather Services Error", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
@@ -667,6 +860,18 @@ class MainViewController: UIViewController, WeatherDataSource, AutoCompleteDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    /**
+        Shows weather forecast alert controller displaying an error message and trys to get the weather forecast
+        again from the services if the user tells it to.
+        
+        :param: error as an NSError.
+        :param: server error boolean.
+        :param: city as a String.
+        :param: state as a String.
+        :param: location id as a String.
+        
+        :returns: n/a.
+    */
     func showWeatherForecastAlertControllerWithError(error: NSError, city: String, state: String, locationId: String) {
         
         let alert = UIAlertController(title: "Weather Service Error", message: "\(error.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
