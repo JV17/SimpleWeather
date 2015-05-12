@@ -176,11 +176,12 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         // auto complete logic
         let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
-        if((textField.text as NSString).length == 2 || (textField.text as NSString).length == 4 || (textField.text as NSString).length == 6) {
+        if((textField.text as NSString).length > 2) {
             self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: true)
         }
         else if((textField.text as NSString).length > 3) {
-            self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: false)
+            // TODO: improve algorithm for city search and avoiding many service calls
+            // self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: false)
         }
 
         return true
@@ -353,7 +354,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
                 values.append(locationId)
                 self.autoCompleteCities.insert(values, atIndex: x)
             }
-                        
+            
             self.tableView.reloadData()
         }
     }
