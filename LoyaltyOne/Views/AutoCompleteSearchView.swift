@@ -54,6 +54,11 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         return tmpArr
     }()
     
+    var oldAutoCompleteCities: Array<Array<String>> = {
+        var tmpArr: Array<Array<String>> = Array<Array<String>>()
+        return tmpArr
+    }()
+    
     lazy var textField: UITextField = {
         var tmpTextField: UITextField = UITextField(frame: CGRectMake(0, 0, self.frame.width, 52))
         
@@ -169,18 +174,58 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
         // auto complete logic
-        if((textField.text as NSString).length > 1) {
-            let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            self.searchAutocompleteEntriesWithSubstring(subString)
+        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        if((textField.text as NSString).length == 2 || (textField.text as NSString).length == 4 || (textField.text as NSString).length == 6) {
+            self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: true)
         }
+        else if((textField.text as NSString).length > 3) {
+            self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: false)
+        }
+
         return true
     }
     
-    func searchAutocompleteEntriesWithSubstring(subString: String) {
-        // making api calls for cities
-        dispatch_async(Constants.MultiThreading.backgroundQueue, {
-            self.weatherManager.requestCitiesFromString(subString)
-        })
+    func searchAutocompleteEntriesWithSubstring(subString: String, withServiceCall: Bool) {
+        
+        if(withServiceCall) {
+            // making api calls for cities
+            dispatch_async(Constants.MultiThreading.backgroundQueue, {
+                self.weatherManager.requestCitiesFromString(subString)
+            })
+        }
+        else {
+            // performing search and table view updates in the main thread
+            dispatch_async(Constants.MultiThreading.mainQueue) {
+               
+                // extracting old cities from current auto complete array
+                if(self.autoCompleteCities.count > self.oldAutoCompleteCities.count) {
+                    self.oldAutoCompleteCities = self.autoCompleteCities
+                }
+                
+                // clearing old array
+                self.autoCompleteCities.removeAll(keepCapacity: false)
+                
+                // loops over all the old cities in our auto complete array
+                var x: Int = 0
+                for(; x < self.oldAutoCompleteCities.count; x++) {
+                    
+                    // getting the city to search for
+                    let city = self.oldAutoCompleteCities[x][0]
+                    
+                    if(self.appHelper.stringContainsKeyword(city, keyword: subString)) {
+                        // getting the values from the old array
+                        let locationId = self.oldAutoCompleteCities[x][1]
+                        var values: Array<String> = Array<String>()
+                        values.append(city)
+                        values.append(locationId)
+                        self.autoCompleteCities.append(values)
+                    }
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
     }
         
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -293,6 +338,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     
     func citiesRequestFinishedWithJSON(weatherManager: WeatherManager, citiesJSON: JSON) {
         
+        // perform task in the main thread
         dispatch_async(Constants.MultiThreading.mainQueue) {
             // clearing old array
             self.autoCompleteCities.removeAll(keepCapacity: false)
@@ -307,10 +353,9 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
                 values.append(locationId)
                 self.autoCompleteCities.insert(values, atIndex: x)
             }
-            
+                        
             self.tableView.reloadData()
         }
-
     }
 
     func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
