@@ -108,7 +108,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let placeDic = placemark.addressDictionary
         let city = placeDic[kABPersonAddressCityKey as String] as! String
         let state = placeDic[kABPersonAddressStateKey as String] as! String
-                
+        
         self.delegate?.locationFinishedUpdatingWithCity(self, city: placemark.locality, postalCode: placemark.postalCode, state: placemark.administrativeArea, country: placemark.country, countryCode: placemark.ISOcountryCode)
         
     }
