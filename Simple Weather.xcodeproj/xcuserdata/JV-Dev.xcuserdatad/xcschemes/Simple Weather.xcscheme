@@ -15,23 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-               BuildableName = "LoyaltyOne.app"
-               BlueprintName = "LoyaltyOne"
-               ReferencedContainer = "container:LoyaltyOne.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3C2937C81AF3F6E900399A21"
-               BuildableName = "LoyaltyOneTests.xctest"
-               BlueprintName = "LoyaltyOneTests"
-               ReferencedContainer = "container:LoyaltyOne.xcodeproj">
+               BuildableName = "Simple Weather.app"
+               BlueprintName = "Simple Weather"
+               ReferencedContainer = "container:Simple Weather.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -42,24 +28,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3C2937C81AF3F6E900399A21"
-               BuildableName = "LoyaltyOneTests.xctest"
-               BlueprintName = "LoyaltyOneTests"
-               ReferencedContainer = "container:LoyaltyOne.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "LoyaltyOne.app"
-            BlueprintName = "LoyaltyOne"
-            ReferencedContainer = "container:LoyaltyOne.xcodeproj">
+            BuildableName = "Simple Weather.app"
+            BlueprintName = "Simple Weather"
+            ReferencedContainer = "container:Simple Weather.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -77,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "LoyaltyOne.app"
-            BlueprintName = "LoyaltyOne"
-            ReferencedContainer = "container:LoyaltyOne.xcodeproj">
+            BuildableName = "Simple Weather.app"
+            BlueprintName = "Simple Weather"
+            ReferencedContainer = "container:Simple Weather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -96,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "LoyaltyOne.app"
-            BlueprintName = "LoyaltyOne"
-            ReferencedContainer = "container:LoyaltyOne.xcodeproj">
+            BuildableName = "Simple Weather.app"
+            BlueprintName = "Simple Weather"
+            ReferencedContainer = "container:Simple Weather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

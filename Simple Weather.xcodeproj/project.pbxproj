@@ -116,14 +116,14 @@
 		3C20354B1AF991F600C99CAE /* background1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background1@2x.jpg"; path = "Images/background1@2x.jpg"; sourceTree = "<group>"; };
 		3C20354C1AF991F600C99CAE /* background2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background2@2x.jpg"; path = "Images/background2@2x.jpg"; sourceTree = "<group>"; };
 		3C20354D1AF991F600C99CAE /* background3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "background3@2x.jpg"; path = "Images/background3@2x.jpg"; sourceTree = "<group>"; };
-		3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoyaltyOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C2937B41AF3F6E900399A21 /* Simple Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Weather.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2937B81AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C2937B91AF3F6E900399A21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C2937BB1AF3F6E900399A21 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3C2937BE1AF3F6E900399A21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3C2937C01AF3F6E900399A21 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3C2937C31AF3F6E900399A21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoyaltyOneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C2937C91AF3F6E900399A21 /* Simple WeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple WeatherTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2937CE1AF3F6E900399A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C2937CF1AF3F6E900399A21 /* LoyaltyOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyOneTests.swift; sourceTree = "<group>"; };
 		3C2937D91AF4008A00399A21 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
@@ -248,8 +248,8 @@
 		3C2937B51AF3F6E900399A21 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */,
-				3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */,
+				3C2937B41AF3F6E900399A21 /* Simple Weather.app */,
+				3C2937C91AF3F6E900399A21 /* Simple WeatherTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -391,9 +391,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3C2937B31AF3F6E900399A21 /* LoyaltyOne */ = {
+		3C2937B31AF3F6E900399A21 /* Simple Weather */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOne" */;
+			buildConfigurationList = 3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "Simple Weather" */;
 			buildPhases = (
 				3C2937B01AF3F6E900399A21 /* Sources */,
 				3C2937B11AF3F6E900399A21 /* Frameworks */,
@@ -403,14 +403,14 @@
 			);
 			dependencies = (
 			);
-			name = LoyaltyOne;
+			name = "Simple Weather";
 			productName = LoyaltyOne;
-			productReference = 3C2937B41AF3F6E900399A21 /* LoyaltyOne.app */;
+			productReference = 3C2937B41AF3F6E900399A21 /* Simple Weather.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3C2937C81AF3F6E900399A21 /* LoyaltyOneTests */ = {
+		3C2937C81AF3F6E900399A21 /* Simple WeatherTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOneTests" */;
+			buildConfigurationList = 3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "Simple WeatherTests" */;
 			buildPhases = (
 				3C2937C51AF3F6E900399A21 /* Sources */,
 				3C2937C61AF3F6E900399A21 /* Frameworks */,
@@ -421,9 +421,9 @@
 			dependencies = (
 				3C2937CB1AF3F6E900399A21 /* PBXTargetDependency */,
 			);
-			name = LoyaltyOneTests;
+			name = "Simple WeatherTests";
 			productName = LoyaltyOneTests;
-			productReference = 3C2937C91AF3F6E900399A21 /* LoyaltyOneTests.xctest */;
+			productReference = 3C2937C91AF3F6E900399A21 /* Simple WeatherTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -444,7 +444,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "LoyaltyOne" */;
+			buildConfigurationList = 3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "Simple Weather" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -457,8 +457,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3C2937B31AF3F6E900399A21 /* LoyaltyOne */,
-				3C2937C81AF3F6E900399A21 /* LoyaltyOneTests */,
+				3C2937B31AF3F6E900399A21 /* Simple Weather */,
+				3C2937C81AF3F6E900399A21 /* Simple WeatherTests */,
 			);
 		};
 /* End PBXProject section */
@@ -558,7 +558,7 @@
 /* Begin PBXTargetDependency section */
 		3C2937CB1AF3F6E900399A21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3C2937B31AF3F6E900399A21 /* LoyaltyOne */;
+			target = 3C2937B31AF3F6E900399A21 /* Simple Weather */;
 			targetProxy = 3C2937CA1AF3F6E900399A21 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -670,7 +670,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoyaltyOne/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Simple Weather";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoyaltyOne/Bridging-Header.h";
 			};
 			name = Debug;
@@ -681,7 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoyaltyOne/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Simple Weather";
 				SWIFT_OBJC_BRIDGING_HEADER = "LoyaltyOne/Bridging-Header.h";
 			};
 			name = Release;
@@ -700,7 +700,7 @@
 				);
 				INFOPLIST_FILE = LoyaltyOneTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Simple WeatherTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoyaltyOne.app/LoyaltyOne";
 			};
 			name = Debug;
@@ -715,7 +715,7 @@
 				);
 				INFOPLIST_FILE = LoyaltyOneTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Simple WeatherTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoyaltyOne.app/LoyaltyOne";
 			};
 			name = Release;
@@ -723,7 +723,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "LoyaltyOne" */ = {
+		3C2937AF1AF3F6E900399A21 /* Build configuration list for PBXProject "Simple Weather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C2937D11AF3F6E900399A21 /* Debug */,
@@ -732,7 +732,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOne" */ = {
+		3C2937D31AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "Simple Weather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C2937D41AF3F6E900399A21 /* Debug */,
@@ -741,7 +741,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "LoyaltyOneTests" */ = {
+		3C2937D61AF3F6E900399A21 /* Build configuration list for PBXNativeTarget "Simple WeatherTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C2937D71AF3F6E900399A21 /* Debug */,
