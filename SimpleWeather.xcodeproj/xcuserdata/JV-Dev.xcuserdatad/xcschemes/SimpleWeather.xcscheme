@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-               BuildableName = "Simple Weather.app"
-               BlueprintName = "Simple Weather"
-               ReferencedContainer = "container:Simple Weather.xcodeproj">
+               BuildableName = "SimpleWeather.app"
+               BlueprintName = "SimpleWeather"
+               ReferencedContainer = "container:SimpleWeather.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "Simple Weather.app"
-            BlueprintName = "Simple Weather"
-            ReferencedContainer = "container:Simple Weather.xcodeproj">
+            BuildableName = "SimpleWeather.app"
+            BlueprintName = "SimpleWeather"
+            ReferencedContainer = "container:SimpleWeather.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "Simple Weather.app"
-            BlueprintName = "Simple Weather"
-            ReferencedContainer = "container:Simple Weather.xcodeproj">
+            BuildableName = "SimpleWeather.app"
+            BlueprintName = "SimpleWeather"
+            ReferencedContainer = "container:SimpleWeather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3C2937B31AF3F6E900399A21"
-            BuildableName = "Simple Weather.app"
-            BlueprintName = "Simple Weather"
-            ReferencedContainer = "container:Simple Weather.xcodeproj">
+            BuildableName = "SimpleWeather.app"
+            BlueprintName = "SimpleWeather"
+            ReferencedContainer = "container:SimpleWeather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
