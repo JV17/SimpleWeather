@@ -37,26 +37,26 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     //MARK:
     //MARK: Location Manager delegate
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         // this send a request to apple servers and we get back the placemarks if they found a matching address in their server
-        CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: { (placemarks, error) -> Void in
+        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler: { (placemarks, error) -> Void in
             
             if(error != nil) {
-                println("Error:" + error.localizedDescription)
-                self.delegate?.locationFinishedWithError(self, error: error, errorMessage: error.localizedDescription)
+                print("Error:" + error!.localizedDescription)
+                self.delegate?.locationFinishedWithError(self, error: error!, errorMessage: error!.localizedDescription)
             }
 
             // avoiding delays from block
             dispatch_async(Constants.MultiThreading.mainQueue) {
                 
                 // if we have a location then get the info else display an error
-                if(placemarks.count > 0) {
-                    let pm = placemarks[0] as! CLPlacemark
+                if let firstPlacemark = placemarks?[0] {
+                    let pm = firstPlacemark 
                     self.displayLocationInfo(pm)
                 }
                 else {
-                    println("Error with data")
+                    print("Error with data")
                     let error: NSError = NSError(domain: "Location Services", code: 1, userInfo: nil)
                     self.delegate?.locationFinishedWithError(self, error: error, errorMessage: "Error with the location services information, please try again.")
                 }
@@ -68,9 +68,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         })
     }
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         // error handling when location fails
-        println("Error: " + error.localizedDescription)
+        print("Error: " + error.localizedDescription)
         self.delegate?.locationFinishedWithError(self, error: error, errorMessage: error.localizedDescription)
     }
     
@@ -104,12 +104,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        // getting address from location
-        let placeDic = placemark.addressDictionary
-        let city = placeDic[kABPersonAddressCityKey as String] as! String
-        let state = placeDic[kABPersonAddressStateKey as String] as! String
-        
-        self.delegate?.locationFinishedUpdatingWithCity(self, city: placemark.locality, postalCode: placemark.postalCode, state: placemark.administrativeArea, country: placemark.country, countryCode: placemark.ISOcountryCode)
+        self.delegate?.locationFinishedUpdatingWithCity(self, city: placemark.locality!, postalCode: placemark.postalCode!, state: placemark.administrativeArea!, country: placemark.country!, countryCode: placemark.ISOcountryCode!)
         
     }
     

@@ -106,7 +106,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
         self.commonInit()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -128,7 +128,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         // table view cell setup
-        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("autoCompleteTableViewCell") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("autoCompleteTableViewCell")!
         
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
@@ -174,12 +174,12 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
         // auto complete logic
-        let subString = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        let subString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
-        if((textField.text as NSString).length > 2) {
+        if((textField.text! as NSString).length > 2) {
             self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: true)
         }
-        else if((textField.text as NSString).length > 3) {
+        else if((textField.text! as NSString).length > 3) {
             // TODO: improve algorithm for city search and avoiding many service calls
             // self.searchAutocompleteEntriesWithSubstring(subString, withServiceCall: false)
         }
@@ -296,7 +296,8 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
     func keyboardWillShow(notification: NSNotification) {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+
+            // let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
             
             // calculating new frame for table view
             let oldCGPoint = self.tableView.frame.origin
@@ -361,7 +362,7 @@ class AutoCompleteSearchView: UIView, UITextFieldDelegate, UITableViewDelegate, 
 
     func citiesRequestFinishedWithError(weatherManage: WeatherManager, error: NSError) {
         // error handling
-        println("Cities request ERROR: \(error)")
+        print("Cities request ERROR: \(error)")
     }
     
     func weatherRequestFinishedWithJSON(weatherManager: WeatherManager, weatherJSON: JSON) {

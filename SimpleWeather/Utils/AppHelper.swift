@@ -54,15 +54,15 @@ class AppHelper: NSObject {
         let bitsPerComponent = CGImageGetBitsPerComponent(image)
         let bytesPerRow = CGImageGetBytesPerRow(image)
         let colorSpace = CGImageGetColorSpace(image)
-        let bitmapInfo = CGImageGetBitmapInfo(image)
+        let bitmapInfo = CGImageGetBitmapInfo(image).rawValue
         
         let context = CGBitmapContextCreate(nil, width, height, bitsPerComponent, bytesPerRow, colorSpace, bitmapInfo)
         
-        CGContextSetInterpolationQuality(context, kCGInterpolationHigh)
+        CGContextSetInterpolationQuality(context, CGInterpolationQuality.High)
         
         CGContextDrawImage(context, CGRect(origin: CGPointZero, size: CGSize(width: CGFloat(width), height: CGFloat(height))), image)
         
-        let scaledImage = UIImage(CGImage: CGBitmapContextCreateImage(context))!
+        let scaledImage = UIImage(CGImage: CGBitmapContextCreateImage(context)!)
         
         return scaledImage
     }
@@ -89,10 +89,10 @@ class AppHelper: NSObject {
         
         if (cString.hasPrefix("#"))
         {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+            cString = cString.substringFromIndex(cString.startIndex.advancedBy(1))
         }
         
-        if (count(cString) != 6)
+        if (cString.characters.count != 6)
         {
             return UIColor.grayColor()
         }
@@ -111,7 +111,7 @@ class AppHelper: NSObject {
     func removeProvinceFromCityName(cityName: String) -> String {
         
         if(!cityName.isEmpty) {
-            let cityArr = split(cityName) {$0 == ","}
+            let cityArr = cityName.characters.split {$0 == ","}.map { String($0) }
             
             if(cityArr.count > 0) {
                 return cityArr[0] as String
@@ -136,7 +136,7 @@ class AppHelper: NSObject {
         // we get current timestamp
         let date = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.CalendarUnitHour, fromDate: date)
+        let components = calendar.components(.Hour, fromDate: date)
         let hour = components.hour
         
         if(hour >= 19) {
@@ -150,12 +150,12 @@ class AppHelper: NSObject {
         
         for family in UIFont.familyNames() {
             // prints the family font
-            println("Family :\(family)")
-            for name in UIFont.fontNamesForFamilyName(family as! String) {
+            print("Family :\(family)")
+            for name in UIFont.fontNamesForFamilyName(family ) {
                 // prints the family name
-                println("\t\(name)")
+                print("\t\(name)")
             }
-            println()
+            print("")
         }
     }
 

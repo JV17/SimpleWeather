@@ -34,11 +34,11 @@ struct Constants {
     
     struct MultiThreading {
         // priorities
-        static let quality_class_interactive = Int(QOS_CLASS_USER_INTERACTIVE.value)
-        static let quality_class_initiated = Int(QOS_CLASS_USER_INITIATED.value)
-        static let quality_class_default = Int(QOS_CLASS_DEFAULT.value)
-        static let quality_class_utility = Int(QOS_CLASS_UTILITY.value)
-        static let quality_class_background = Int(QOS_CLASS_BACKGROUND.value)
+        static let quality_class_interactive = Int(QOS_CLASS_USER_INTERACTIVE.rawValue)
+        static let quality_class_initiated = Int(QOS_CLASS_USER_INITIATED.rawValue)
+        static let quality_class_default = Int(QOS_CLASS_DEFAULT.rawValue)
+        static let quality_class_utility = Int(QOS_CLASS_UTILITY.rawValue)
+        static let quality_class_background = Int(QOS_CLASS_BACKGROUND.rawValue)
         static let quality_class_min = Int(QOS_MIN_RELATIVE_PRIORITY)
         
         // dispatchs

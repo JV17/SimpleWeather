@@ -84,7 +84,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         super.init(frame: frame)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -162,7 +162,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         // setting up table view cell
-        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("forecastTableViewCell") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("forecastTableViewCell")!
         
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
@@ -205,7 +205,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // header for tableview
-        return UIView.new()
+        return UIView.init()
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -215,7 +215,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         // footer for tableview
-        return UIView.new()
+        return UIView.init()
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -263,7 +263,7 @@ class ForecastWeatherView: UIView, UITableViewDelegate, UITableViewDataSource {
         let timestamp = timestampVal as NSTimeInterval
         let date = NSDate(timeIntervalSince1970: timestamp)
         let calendar = NSCalendar.currentCalendar()
-        let components: NSDateComponents = calendar.components(NSCalendarUnit.CalendarUnitWeekday | NSCalendarUnit.CalendarUnitDay, fromDate: date)
+        let components: NSDateComponents = calendar.components([NSCalendarUnit.Weekday, NSCalendarUnit.Day], fromDate: date)
         let day = components.weekday
         
         // getting the date of the week

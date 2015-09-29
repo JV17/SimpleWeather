@@ -62,12 +62,14 @@
 		3CEC026E1AF6C40000CC5ADD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026C1AF6C40000CC5ADD /* Extensions.swift */; };
 		3CEC02701AF6C44F00CC5ADD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEC026F1AF6C44F00CC5ADD /* LocationManager.swift */; };
 		3CF432BC1AF9AEE300A40E76 /* ForecastWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF432BB1AF9AEE300A40E76 /* ForecastWeatherView.swift */; };
-		3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */; };
-		3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */; };
-		3CF7C38F1AF5578400AD0F6E /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38B1AF5578400AD0F6E /* HTTPTask.swift */; };
-		3CF7C3901AF5578400AD0F6E /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C38C1AF5578400AD0F6E /* HTTPUpload.swift */; };
 		3CF7C3931AF5595800AD0F6E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3921AF5595800AD0F6E /* SwiftyJSON.swift */; };
 		3CF7C3981AF5A9C800AD0F6E /* AutoCompleteSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */; };
+		3CFAA1131BB8E7D100D13549 /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA10D1BB8E7D100D13549 /* HTTPRequestSerializer.swift */; settings = {ASSET_TAGS = (); }; };
+		3CFAA1141BB8E7D100D13549 /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA10E1BB8E7D100D13549 /* HTTPResponseSerializer.swift */; settings = {ASSET_TAGS = (); }; };
+		3CFAA1151BB8E7D100D13549 /* HTTPSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA10F1BB8E7D100D13549 /* HTTPSecurity.swift */; settings = {ASSET_TAGS = (); }; };
+		3CFAA1161BB8E7D100D13549 /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA1101BB8E7D100D13549 /* HTTPStatusCode.swift */; settings = {ASSET_TAGS = (); }; };
+		3CFAA1171BB8E7D100D13549 /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA1111BB8E7D100D13549 /* HTTPTask.swift */; settings = {ASSET_TAGS = (); }; };
+		3CFAA1181BB8E7D100D13549 /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAA1121BB8E7D100D13549 /* HTTPUpload.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,12 +144,14 @@
 		3CEC026C1AF6C40000CC5ADD /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Utils/Extensions.swift; sourceTree = "<group>"; };
 		3CEC026F1AF6C44F00CC5ADD /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Managers/LocationManager.swift; sourceTree = "<group>"; };
 		3CF432BB1AF9AEE300A40E76 /* ForecastWeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForecastWeatherView.swift; path = Views/ForecastWeatherView.swift; sourceTree = "<group>"; };
-		3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPRequestSerializer.swift; path = SwiftHTTP/HTTPRequestSerializer.swift; sourceTree = "<group>"; };
-		3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPResponseSerializer.swift; path = SwiftHTTP/HTTPResponseSerializer.swift; sourceTree = "<group>"; };
-		3CF7C38B1AF5578400AD0F6E /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPTask.swift; path = SwiftHTTP/HTTPTask.swift; sourceTree = "<group>"; };
-		3CF7C38C1AF5578400AD0F6E /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPUpload.swift; path = SwiftHTTP/HTTPUpload.swift; sourceTree = "<group>"; };
 		3CF7C3921AF5595800AD0F6E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = SwiftyJSON/SwiftyJSON.swift; sourceTree = "<group>"; };
 		3CF7C3971AF5A9C800AD0F6E /* AutoCompleteSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AutoCompleteSearchView.swift; path = Views/AutoCompleteSearchView.swift; sourceTree = "<group>"; };
+		3CFAA10D1BB8E7D100D13549 /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPRequestSerializer.swift; path = SwiftHTTP/HTTPRequestSerializer.swift; sourceTree = "<group>"; };
+		3CFAA10E1BB8E7D100D13549 /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPResponseSerializer.swift; path = SwiftHTTP/HTTPResponseSerializer.swift; sourceTree = "<group>"; };
+		3CFAA10F1BB8E7D100D13549 /* HTTPSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPSecurity.swift; path = SwiftHTTP/HTTPSecurity.swift; sourceTree = "<group>"; };
+		3CFAA1101BB8E7D100D13549 /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPStatusCode.swift; path = SwiftHTTP/HTTPStatusCode.swift; sourceTree = "<group>"; };
+		3CFAA1111BB8E7D100D13549 /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPTask.swift; path = SwiftHTTP/HTTPTask.swift; sourceTree = "<group>"; };
+		3CFAA1121BB8E7D100D13549 /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPUpload.swift; path = SwiftHTTP/HTTPUpload.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,10 +367,12 @@
 		3CF7C3881AF5575B00AD0F6E /* SwiftHTTP */ = {
 			isa = PBXGroup;
 			children = (
-				3CF7C3891AF5578400AD0F6E /* HTTPRequestSerializer.swift */,
-				3CF7C38A1AF5578400AD0F6E /* HTTPResponseSerializer.swift */,
-				3CF7C38B1AF5578400AD0F6E /* HTTPTask.swift */,
-				3CF7C38C1AF5578400AD0F6E /* HTTPUpload.swift */,
+				3CFAA10D1BB8E7D100D13549 /* HTTPRequestSerializer.swift */,
+				3CFAA10E1BB8E7D100D13549 /* HTTPResponseSerializer.swift */,
+				3CFAA10F1BB8E7D100D13549 /* HTTPSecurity.swift */,
+				3CFAA1101BB8E7D100D13549 /* HTTPStatusCode.swift */,
+				3CFAA1111BB8E7D100D13549 /* HTTPTask.swift */,
+				3CFAA1121BB8E7D100D13549 /* HTTPUpload.swift */,
 			);
 			name = SwiftHTTP;
 			sourceTree = "<group>";
@@ -433,7 +439,9 @@
 		3C2937AC1AF3F6E900399A21 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Jorge Valbuena";
 				TargetAttributes = {
 					3C2937B31AF3F6E900399A21 = {
@@ -527,21 +535,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CFAA1171BB8E7D100D13549 /* HTTPTask.swift in Sources */,
 				3C7030BF1AF671A00075E648 /* WeatherView.swift in Sources */,
-				3CF7C38F1AF5578400AD0F6E /* HTTPTask.swift in Sources */,
 				3C2937BC1AF3F6E900399A21 /* MainViewController.swift in Sources */,
-				3CF7C3901AF5578400AD0F6E /* HTTPUpload.swift in Sources */,
 				3C1026F81AF854C200C771A7 /* Reachability.m in Sources */,
 				3CF7C3931AF5595800AD0F6E /* SwiftyJSON.swift in Sources */,
-				3CF7C38D1AF5578400AD0F6E /* HTTPRequestSerializer.swift in Sources */,
 				3CF432BC1AF9AEE300A40E76 /* ForecastWeatherView.swift in Sources */,
 				3CEC026A1AF6C3F600CC5ADD /* WeatherManager.swift in Sources */,
+				3CFAA1141BB8E7D100D13549 /* HTTPResponseSerializer.swift in Sources */,
+				3CFAA1151BB8E7D100D13549 /* HTTPSecurity.swift in Sources */,
 				3C2937EA1AF4077C00399A21 /* AppHelper.swift in Sources */,
 				3CEC026E1AF6C40000CC5ADD /* Extensions.swift in Sources */,
 				3CF7C3981AF5A9C800AD0F6E /* AutoCompleteSearchView.swift in Sources */,
 				3CEC02701AF6C44F00CC5ADD /* LocationManager.swift in Sources */,
 				3C2937BA1AF3F6E900399A21 /* AppDelegate.swift in Sources */,
-				3CF7C38E1AF5578400AD0F6E /* HTTPResponseSerializer.swift in Sources */,
+				3CFAA1131BB8E7D100D13549 /* HTTPRequestSerializer.swift in Sources */,
+				3CFAA1161BB8E7D100D13549 /* HTTPStatusCode.swift in Sources */,
+				3CFAA1181BB8E7D100D13549 /* HTTPUpload.swift in Sources */,
 				3CEC026D1AF6C40000CC5ADD /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -605,6 +615,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -671,6 +682,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/SimpleWeather/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "JVDev.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleWeather;
 				SWIFT_OBJC_BRIDGING_HEADER = "SimpleWeather/Bridging-Header.h";
 			};
@@ -682,6 +694,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/SimpleWeather/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "JVDev.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleWeather;
 				SWIFT_OBJC_BRIDGING_HEADER = "SimpleWeather/Bridging-Header.h";
 			};
@@ -701,6 +714,7 @@
 				);
 				INFOPLIST_FILE = SimpleWeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "JVDev.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleWeatherTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleWeather.app/SimpleWeather";
 			};
@@ -716,6 +730,7 @@
 				);
 				INFOPLIST_FILE = SimpleWeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "JVDev.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleWeatherTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleWeather.app/SimpleWeather";
 			};
